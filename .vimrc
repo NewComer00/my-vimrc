@@ -1,6 +1,11 @@
 " *************************************************************************
 " my scripts
 " *************************************************************************
+set hlsearch
+
+set number
+set relativenumber
+
 set nowrap
 
 set tabstop=4
@@ -63,6 +68,7 @@ Bundle 'https://hub.fastgit.org/luochen1990/rainbow'
 Bundle 'https://hub.fastgit.org/ctrlpvim/ctrlp.vim'
 Bundle 'https://hub.fastgit.org/FelikZ/ctrlp-py-matcher'
 Bundle 'https://hub.fastgit.org/tpope/vim-fugitive'
+Bundle 'https://hub.fastgit.org/airblade/vim-rooter'
 filetype plugin indent on
 
 " *************************************************************************
