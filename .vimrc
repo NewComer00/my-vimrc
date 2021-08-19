@@ -69,6 +69,7 @@ Bundle 'https://hub.fastgit.org/ctrlpvim/ctrlp.vim'
 Bundle 'https://hub.fastgit.org/FelikZ/ctrlp-py-matcher'
 Bundle 'https://hub.fastgit.org/tpope/vim-fugitive'
 Bundle 'https://hub.fastgit.org/airblade/vim-rooter'
+Bundle 'https://hub.fastgit.org/junegunn/vim-peekaboo'
 filetype plugin indent on
 
 " *************************************************************************
