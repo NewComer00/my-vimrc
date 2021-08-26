@@ -39,6 +39,10 @@ set undofile
 inoremap <leader>p <esc>:set paste!<cr>i
 nnoremap <leader>p :set paste!<cr>
 
+" toggle list char
+inoremap <leader>l <esc>:set list!<cr>i
+nnoremap <leader>l :set list!<cr>
+
 " *************************************************************************
 " vundle
 " *************************************************************************
