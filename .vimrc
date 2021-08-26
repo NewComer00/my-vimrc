@@ -26,6 +26,7 @@ set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
 set list
 
 " Let's save undo info!
+" from https://vi.stackexchange.com/a/53
 if !isdirectory($HOME."/.vim")
     call mkdir($HOME."/.vim", "", 0770)
 endif
