@@ -137,6 +137,15 @@ if executable("ag")
 endif
 
 " *************************************************************************
+" file types
+" *************************************************************************
+" scons
+augroup scons_ft
+  au!
+  autocmd BufNewFile,BufRead SConstruct set filetype=python
+augroup END
+
+" *************************************************************************
 " hotkeys
 " *************************************************************************
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
