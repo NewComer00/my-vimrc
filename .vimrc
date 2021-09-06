@@ -36,14 +36,6 @@ endif
 set undodir=~/.vim/undo-dir
 set undofile
 
-" toggle paste mode
-inoremap <leader>p <esc>:set paste!<cr>i
-nnoremap <leader>p :set paste!<cr>
-
-" toggle list char
-inoremap <leader>l <esc>:set list!<cr>i
-nnoremap <leader>l :set list!<cr>
-
 " *************************************************************************
 " vundle
 " *************************************************************************
@@ -153,3 +145,11 @@ nnoremap <silent> <F3> :VimShellPop<CR>
 nnoremap <silent> <F4> :AirlineToggle<CR>
 nnoremap <silent> <F5> :UndotreeToggle<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
+
+" toggle paste mode
+inoremap <leader>p <esc>:set paste!<cr>i
+nnoremap <leader>p :set paste!<cr>
+
+" toggle list char
+inoremap <leader>l <esc>:set list!<cr>i
+nnoremap <leader>l :set list!<cr>
