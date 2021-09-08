@@ -67,6 +67,8 @@ Bundle 'https://hub.fastgit.org/FelikZ/ctrlp-py-matcher'
 Bundle 'https://hub.fastgit.org/tpope/vim-fugitive'
 Bundle 'https://hub.fastgit.org/airblade/vim-rooter'
 Bundle 'https://hub.fastgit.org/junegunn/vim-peekaboo'
+Bundle 'https://hub.fastgit.org/preservim/nerdcommenter'
+Bundle 'https://hub.fastgit.org/severin-lemaignan/vim-minimap'
 filetype plugin indent on
 
 " *************************************************************************
@@ -144,6 +146,7 @@ nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> :VimShellPop<CR>
 nnoremap <silent> <F4> :AirlineToggle<CR>
 nnoremap <silent> <F5> :UndotreeToggle<CR>
+nnoremap <silent> <F6> :MinimapToggle<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 " toggle paste mode
