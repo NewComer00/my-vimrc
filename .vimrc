@@ -41,8 +41,8 @@ set undofile
 " *************************************************************************
 set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 Bundle 'https://hub.fastgit.org/VundleVim/Vundle.vim'
 Bundle 'https://hub.fastgit.org/flazz/vim-colorschemes'
 Bundle 'https://hub.fastgit.org/preservim/nerdtree'
@@ -69,6 +69,7 @@ Bundle 'https://hub.fastgit.org/airblade/vim-rooter'
 Bundle 'https://hub.fastgit.org/junegunn/vim-peekaboo'
 Bundle 'https://hub.fastgit.org/preservim/nerdcommenter'
 Bundle 'https://hub.fastgit.org/severin-lemaignan/vim-minimap'
+call vundle#end()
 filetype plugin indent on
 
 " *************************************************************************
