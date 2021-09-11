@@ -43,7 +43,7 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-Bundle 'https://hub.fastgit.org/gmarik/vundle'
+Bundle 'https://hub.fastgit.org/VundleVim/Vundle.vim'
 Bundle 'https://hub.fastgit.org/flazz/vim-colorschemes'
 Bundle 'https://hub.fastgit.org/preservim/nerdtree'
 Bundle 'https://hub.fastgit.org/itchyny/vim-cursorword.git'
