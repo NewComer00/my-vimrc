@@ -3,8 +3,10 @@
 " *************************************************************************
 set encoding=utf8
 
-set hlsearch
+set t_Co=256
 syntax on
+
+set hlsearch
 
 set number
 set relativenumber
@@ -110,9 +112,9 @@ let g:jedi#show_call_signatures = "2"
 " rainbow/luochen1990
 let g:rainbow_active = 1
 let g:rainbow_conf = {
-\	'separately': {
-\	'nerdtree': 0,
-\	}
+\   'separately': {
+\   'nerdtree': 0,
+\   }
 \}
 
 " ctrlpvim/ctrlp
