@@ -4,6 +4,7 @@
 set encoding=utf8
 
 set hlsearch
+syntax on
 
 set number
 set relativenumber
@@ -56,7 +57,6 @@ Bundle 'https://hub.fastgit.org/Shougo/vimproc.vim'
 Bundle 'https://hub.fastgit.org/Shougo/vimshell.vim'
 Bundle 'https://hub.fastgit.org/supermomonga/vimshell-inline-history.vim'
 Bundle 'https://hub.fastgit.org/othree/xml.vim'
-Bundle 'https://hub.fastgit.org/preservim/vimux'
 Bundle 'https://hub.fastgit.org/mbbill/undotree'
 Bundle 'https://hub.fastgit.org/preservim/tagbar'
 Bundle 'https://hub.fastgit.org/tell-k/vim-autopep8'
