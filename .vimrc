@@ -98,6 +98,11 @@ if executable("ag")
     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 endif
 
+" vim-scripts/YankRing.vim
+" to avoid <C-p> collision with the ctrlp plugin
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
+
 " *************************************************************************
 " my scripts
 " *************************************************************************
