@@ -73,6 +73,7 @@ Bundle 'https://hub.fastgit.org/airblade/vim-rooter'
 Bundle 'https://hub.fastgit.org/junegunn/vim-peekaboo'
 Bundle 'https://hub.fastgit.org/preservim/nerdcommenter'
 Bundle 'https://hub.fastgit.org/severin-lemaignan/vim-minimap'
+Bundle 'https://hub.fastgit.org/vim-scripts/YankRing.vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -153,6 +154,7 @@ nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :MinimapToggle<CR>
+nnoremap <silent> <F10> :YRShow<CR>
 
 " toggle paste mode
 inoremap <leader>p <esc>:set paste!<cr>i
