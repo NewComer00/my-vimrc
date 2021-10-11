@@ -1,48 +1,5 @@
 " *************************************************************************
-" my scripts
-" *************************************************************************
-set encoding=utf8
-
-set t_Co=256
-syntax on
-
-set hlsearch
-
-set number
-set relativenumber
-
-set nowrap
-
-set tabstop=4
-set shiftwidth=4
-set autoindent
-
-set wildmode=longest,full
-set wildmenu
-
-set mouse=a
-
-set splitbelow
-
-set dictionary+=/usr/share/dict/words
-set complete+=k
-
-set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
-set list
-
-" Let's save undo info!
-" from https://vi.stackexchange.com/a/53
-if !isdirectory($HOME."/.vim")
-    call mkdir($HOME."/.vim", "", 0770)
-endif
-if !isdirectory($HOME."/.vim/undo-dir")
-    call mkdir($HOME."/.vim/undo-dir", "", 0700)
-endif
-set undodir=~/.vim/undo-dir
-set undofile
-
-" *************************************************************************
-" vundle
+" vundle plugins
 " *************************************************************************
 set nocompatible
 filetype off
@@ -78,7 +35,7 @@ call vundle#end()
 filetype plugin indent on
 
 " *************************************************************************
-" plugin config
+" plugin configs
 " *************************************************************************
 " flazz/vim-colorschemes
 colorscheme molokai
@@ -137,6 +94,64 @@ if executable("ag")
 endif
 
 " *************************************************************************
+" my scripts
+" *************************************************************************
+set encoding=utf8
+
+set t_Co=256
+syntax on
+
+set hlsearch
+
+set number
+set relativenumber
+
+set nowrap
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+set autoindent
+
+set wildmode=longest,full
+set wildmenu
+
+set mouse=a
+
+set splitbelow
+
+set dictionary+=/usr/share/dict/words
+set complete+=k
+
+set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+set list
+
+" Let's save undo info!
+" from https://vi.stackexchange.com/a/53
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+set undodir=~/.vim/undo-dir
+set undofile
+
+" *************************************************************************
+" my functions
+" *************************************************************************
+" allow toggling between local and default mode
+" https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
+function! TabToggle()
+  if &expandtab
+    set noexpandtab
+  else
+    set expandtab
+  endif
+endfunction
+
+"*************************************************************************
 " file types
 " *************************************************************************
 " scons
@@ -163,3 +178,7 @@ nnoremap <leader>p :set paste!<cr>
 " toggle list char
 inoremap <leader>l <esc>:set list!<cr>i
 nnoremap <leader>l :set list!<cr>
+
+" toggle tab/spaces
+inoremap <leader>t <esc>:call TabToggle()<cr>i
+nnoremap <leader>t :call TabToggle()<cr>
