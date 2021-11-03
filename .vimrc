@@ -175,7 +175,7 @@ nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> :VimShellPop<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
-nnoremap <silent> <F6> :YRShow<CR>
+nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :MinimapToggle<CR>
 
