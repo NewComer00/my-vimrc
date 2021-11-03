@@ -175,9 +175,9 @@ nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> :VimShellPop<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
+nnoremap <silent> <F6> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :MinimapToggle<CR>
-nnoremap <silent> <F10> :YRShow<CR>
 
 " toggle paste mode
 inoremap <leader>p <esc>:set paste!<cr>i
