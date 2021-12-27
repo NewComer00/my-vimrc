@@ -36,6 +36,7 @@ Bundle 'https://hub.fastgit.org/junegunn/vim-peekaboo'
 Bundle 'https://hub.fastgit.org/preservim/nerdcommenter'
 Bundle 'https://hub.fastgit.org/severin-lemaignan/vim-minimap'
 Bundle 'https://hub.fastgit.org/vim-scripts/YankRing.vim'
+Bundle 'https://hub.fastgit.org/farmergreg/vim-lastplace'
 call vundle#end()
 filetype plugin indent on
 
