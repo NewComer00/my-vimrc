@@ -6,37 +6,38 @@ set encoding=utf8
 " *************************************************************************
 " vundle plugins
 " *************************************************************************
+let $GIT_SITE = 'https://hub.fastgit.xyz/'
+
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Bundle 'https://hub.fastgit.org/VundleVim/Vundle.vim'
-Bundle 'https://hub.fastgit.org/flazz/vim-colorschemes'
-Bundle 'https://hub.fastgit.org/preservim/nerdtree'
-Bundle 'https://hub.fastgit.org/itchyny/vim-cursorword.git'
-Bundle 'https://hub.fastgit.org/ntpeters/vim-better-whitespace'
-Bundle 'https://hub.fastgit.org/vim-airline/vim-airline'
-Bundle 'https://hub.fastgit.org/mileszs/ack.vim'
-Bundle 'https://hub.fastgit.org/Shougo/vimproc.vim'
-Bundle 'https://hub.fastgit.org/Shougo/vimshell.vim'
-Bundle 'https://hub.fastgit.org/supermomonga/vimshell-inline-history.vim'
-Bundle 'https://hub.fastgit.org/othree/xml.vim'
-Bundle 'https://hub.fastgit.org/mbbill/undotree'
-Bundle 'https://hub.fastgit.org/preservim/tagbar'
-Bundle 'https://hub.fastgit.org/tell-k/vim-autopep8'
-Bundle 'https://hub.fastgit.org/davidhalter/jedi-vim'
-Bundle 'https://hub.fastgit.org/jiangmiao/auto-pairs'
-Bundle 'https://hub.fastgit.org/tpope/vim-surround'
-Bundle 'https://hub.fastgit.org/luochen1990/rainbow'
-Bundle 'https://hub.fastgit.org/ctrlpvim/ctrlp.vim'
-Bundle 'https://hub.fastgit.org/FelikZ/ctrlp-py-matcher'
-Bundle 'https://hub.fastgit.org/tpope/vim-fugitive'
-Bundle 'https://hub.fastgit.org/airblade/vim-rooter'
-Bundle 'https://hub.fastgit.org/junegunn/vim-peekaboo'
-Bundle 'https://hub.fastgit.org/preservim/nerdcommenter'
-Bundle 'https://hub.fastgit.org/severin-lemaignan/vim-minimap'
-Bundle 'https://hub.fastgit.org/vim-scripts/YankRing.vim'
-Bundle 'https://hub.fastgit.org/farmergreg/vim-lastplace'
+Bundle $GIT_SITE.'VundleVim/Vundle.vim'
+Bundle $GIT_SITE.'flazz/vim-colorschemes'
+Bundle $GIT_SITE.'preservim/nerdtree'
+Bundle $GIT_SITE.'itchyny/vim-cursorword.git'
+Bundle $GIT_SITE.'ntpeters/vim-better-whitespace'
+Bundle $GIT_SITE.'vim-airline/vim-airline'
+Bundle $GIT_SITE.'mileszs/ack.vim'
+Bundle $GIT_SITE.'Shougo/vimproc.vim'
+Bundle $GIT_SITE.'Shougo/vimshell.vim'
+Bundle $GIT_SITE.'supermomonga/vimshell-inline-history.vim'
+Bundle $GIT_SITE.'othree/xml.vim'
+Bundle $GIT_SITE.'mbbill/undotree'
+Bundle $GIT_SITE.'preservim/tagbar'
+Bundle $GIT_SITE.'tell-k/vim-autopep8'
+Bundle $GIT_SITE.'jiangmiao/auto-pairs'
+Bundle $GIT_SITE.'tpope/vim-surround'
+Bundle $GIT_SITE.'luochen1990/rainbow'
+Bundle $GIT_SITE.'ctrlpvim/ctrlp.vim'
+Bundle $GIT_SITE.'FelikZ/ctrlp-py-matcher'
+Bundle $GIT_SITE.'tpope/vim-fugitive'
+Bundle $GIT_SITE.'airblade/vim-rooter'
+Bundle $GIT_SITE.'junegunn/vim-peekaboo'
+Bundle $GIT_SITE.'preservim/nerdcommenter'
+Bundle $GIT_SITE.'severin-lemaignan/vim-minimap'
+Bundle $GIT_SITE.'vim-scripts/YankRing.vim'
+Bundle $GIT_SITE.'farmergreg/vim-lastplace'
 call vundle#end()
 filetype plugin indent on
 
@@ -103,6 +104,11 @@ endif
 " to avoid <C-p> collision with the ctrlp plugin
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
+" save yankring history in this dir
+if !isdirectory($HOME."/.vim/yankring-dir")
+    call mkdir($HOME."/.vim/yankring-dir", "", 0700)
+endif
+let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
 
 " *************************************************************************
 " my scripts
@@ -140,9 +146,6 @@ set list
 
 " Let's save undo info!
 " from https://vi.stackexchange.com/a/53
-if !isdirectory($HOME."/.vim")
-    call mkdir($HOME."/.vim", "", 0770)
-endif
 if !isdirectory($HOME."/.vim/undo-dir")
     call mkdir($HOME."/.vim/undo-dir", "", 0700)
 endif
