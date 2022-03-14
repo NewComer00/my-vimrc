@@ -115,6 +115,10 @@ let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
 " *************************************************************************
 set novisualbell
 
+" to deal with REPLACE MODE problem on windows cmd or windows terminal
+" https://superuser.com/a/1525060
+set t_u7=
+
 set t_Co=256
 syntax on
 
@@ -141,7 +145,13 @@ set splitbelow
 set dictionary+=/usr/share/dict/words
 set complete+=k
 
-set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+" to be compatable with older version
+" https://stackoverflow.com/a/36374234/15283141
+if has("patch-7.4.710")
+    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+else
+    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<
+endif
 set list
 
 " Let's save undo info!
