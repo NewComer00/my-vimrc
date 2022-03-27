@@ -113,6 +113,10 @@ let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
 " *************************************************************************
 " my scripts
 " *************************************************************************
+" to enable backspace key
+" https://vi.stackexchange.com/a/2163
+set backspace=indent,eol,start
+
 set novisualbell
 
 " to deal with REPLACE MODE problem on windows cmd or windows terminal
