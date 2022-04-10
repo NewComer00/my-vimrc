@@ -25,7 +25,6 @@ Bundle $GIT_SITE.'supermomonga/vimshell-inline-history.vim'
 Bundle $GIT_SITE.'othree/xml.vim'
 Bundle $GIT_SITE.'mbbill/undotree'
 Bundle $GIT_SITE.'preservim/tagbar'
-Bundle $GIT_SITE.'tell-k/vim-autopep8'
 Bundle $GIT_SITE.'jiangmiao/auto-pairs'
 Bundle $GIT_SITE.'tpope/vim-surround'
 Bundle $GIT_SITE.'luochen1990/rainbow'
@@ -38,6 +37,9 @@ Bundle $GIT_SITE.'preservim/nerdcommenter'
 Bundle $GIT_SITE.'severin-lemaignan/vim-minimap'
 Bundle $GIT_SITE.'vim-scripts/YankRing.vim'
 Bundle $GIT_SITE.'farmergreg/vim-lastplace'
+Bundle $GIT_SITE.'google/vim-maktaba'
+Bundle $GIT_SITE.'google/vim-codefmt'
+Bundle $GIT_SITE.'google/vim-glaive'
 call vundle#end()
 filetype plugin indent on
 
@@ -109,6 +111,9 @@ if !isdirectory($HOME."/.vim/yankring-dir")
     call mkdir($HOME."/.vim/yankring-dir", "", 0700)
 endif
 let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
+
+" google/vim-codefmt
+call glaive#Install()
 
 " *************************************************************************
 " my scripts
@@ -200,13 +205,19 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :MinimapToggle<CR>
 
 " toggle paste mode
-inoremap <leader>p <esc>:set paste!<cr>i
-nnoremap <leader>p :set paste!<cr>
+inoremap <leader>p <Esc>:set paste!<CR>a
+nnoremap <leader>p :set paste!<CR>
 
 " toggle list char
-inoremap <leader>l <esc>:set list!<cr>i
-nnoremap <leader>l :set list!<cr>
+inoremap <leader>l <Esc>:set list!<CR>a
+nnoremap <leader>l :set list!<CR>
 
 " toggle tab/spaces
-inoremap <leader>t <esc>:call TabToggle()<cr>i
-nnoremap <leader>t :call TabToggle()<cr>
+inoremap <leader>t <Esc>:call TabToggle()<CR>a
+nnoremap <leader>t :call TabToggle()<CR>
+
+" google auto format
+inoremap <leader>f <Esc>:FormatLines<CR>a
+nnoremap <leader>f :FormatLines<CR>
+inoremap <leader>F <Esc>:FormatCode<CR>a
+nnoremap <leader>F :FormatCode<CR>
