@@ -112,9 +112,11 @@ if !isdirectory($HOME."/.vim/yankring-dir")
 endif
 let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
 
-" google/vim-codefmt
+" google/vim-maktaba
 " work-around for windows
 call maktaba#syscall#SetUsableShellRegex('\v^/bin/sh|cmd|cmd\.exe|command\.com$')
+
+" google/vim-codefmt
 call glaive#Install()
 
 " *************************************************************************
