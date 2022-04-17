@@ -113,6 +113,8 @@ endif
 let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
 
 " google/vim-codefmt
+" work-around for windows
+call maktaba#syscall#SetUsableShellRegex('\v^/bin/sh|cmd|cmd\.exe|command\.com$')
 call glaive#Install()
 
 " *************************************************************************
