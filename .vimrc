@@ -225,3 +225,7 @@ inoremap <leader>f <Esc>:FormatLines<CR>a
 nnoremap <leader>f :FormatLines<CR>
 inoremap <leader>F <Esc>:FormatCode<CR>a
 nnoremap <leader>F :FormatCode<CR>
+
+" strip trailing whitespaces
+inoremap <leader>s <Esc>:StripWhitespace<CR>a
+nnoremap <leader>s :StripWhitespace<CR>
