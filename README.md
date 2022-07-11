@@ -60,9 +60,9 @@ Tagbar插件需要提供```ctags```程序方可工作，```ctags```程序可通�
 
 ## 配置我的NeoVim
 ![Neovim](https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png)  
-**Neovim编辑器是对传统Vim编辑器的新重构**。Neovim拥有着强大的：
-- **可扩展性**——几乎所有主流语言都可轻松访问Neovim的API，因此大家很容易地编写它的插件。Neovim对lua语言的内建支持使得插件可以飞速运行，这让**流畅的**代码补全和语法高亮等功能成为可能。
-- **可用性**——Neovim修缮了Vim过时的默认配置，并添加了现代编辑器的新功能，如现代GUI、异步加载和终端模拟器等。
+**Neovim编辑器是对传统Vim编辑器的重构**。Neovim拥有着强大的：
+- **可扩展性**——几乎所有主流语言都可以轻松访问Neovim的API，因此大家能够很容易地编写它的插件。Neovim对lua语言的内建支持使得插件可以飞速运行，这让**流畅的**代码补全和语法高亮等功能成为可能。
+- **可用性**——Neovim修缮了Vim过时的默认配置（Neovim定制了一套自己的新默认配置），并添加了现代编辑器的新功能，如现代GUI、异步加载和终端模拟器等。
 
 ### 安装Neovim
 本仓库的Neovim配置文件需要比较新的NeoVim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。  
