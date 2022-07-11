@@ -34,7 +34,6 @@ Bundle $GIT_SITE.'tpope/vim-fugitive'
 Bundle $GIT_SITE.'airblade/vim-rooter'
 Bundle $GIT_SITE.'junegunn/vim-peekaboo'
 Bundle $GIT_SITE.'preservim/nerdcommenter'
-Bundle $GIT_SITE.'severin-lemaignan/vim-minimap'
 Bundle $GIT_SITE.'vim-scripts/YankRing.vim'
 Bundle $GIT_SITE.'farmergreg/vim-lastplace'
 Bundle $GIT_SITE.'google/vim-maktaba'
@@ -206,7 +205,6 @@ nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
-nnoremap <silent> <F9> :MinimapToggle<CR>
 
 " toggle paste mode
 inoremap <leader>p <Esc>:set paste!<CR>a
