@@ -47,6 +47,10 @@ Plug GITHUB_SITE.'preservim/nerdcommenter'
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
 
+" finders
+Plug GITHUB_SITE.'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug GITHUB_SITE.'ibhagwan/fzf-lua', {'branch': 'main'}
+
 " LSP related
 Plug GITHUB_SITE.'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 Plug GITHUB_SITE.'hrsh7th/nvim-cmp' " Autocompletion plugin
@@ -116,10 +120,6 @@ EOF
 lua << EOF
 require("toggleterm").setup()
 EOF
-autocmd TermEnter term://*toggleterm#*
-      \ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 " [preservim/tagbar]
 let g:tagbar_position = 'vertical leftabove'
@@ -156,6 +156,12 @@ cmp.event:on(
 'confirm_done',
 cmp_autopairs.on_confirm_done()
 )
+EOF
+
+" [ibhagwan/fzf-lua]
+" https://github.com/ibhagwan/fzf-lua
+lua << EOF
+require('fzf-lua').setup {}
 EOF
 
 " [neovim/nvim-lspconfig] auto-completion settings
@@ -314,6 +320,7 @@ nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
+nnoremap <silent> <F9> :FzfLua<CR>
 
 inoremap <silent> <F2> <Esc>:NvimTreeToggle<CR>
 inoremap <silent> <F3> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
@@ -321,8 +328,10 @@ inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
 inoremap <silent> <F5> <Esc>:AirlineToggle<CR>
 inoremap <silent> <F7> <Esc>:YRShow<CR>
 inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
+nnoremap <silent> <F9> :FzfLua<CR>
 
 tnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+tnoremap <silent> <F9> <Esc>
 
 " toggle list char and indentation mark
 inoremap <leader>l <Esc>:set list!<Bar>IndentBlanklineToggle<CR>a
@@ -344,3 +353,10 @@ nnoremap <leader>F :lua vim.lsp.buf.formatting()<CR>
 " strip trailing whitespaces
 inoremap <leader>s <Esc>:StripWhitespace<CR>a
 nnoremap <leader>s :StripWhitespace<CR>
+
+" search the word under the cursor
+inoremap <leader>a <Esc>:FzfLua grep_cword<CR>
+nnoremap <leader>a :FzfLua grep_cword<CR>
+" search the given word
+inoremap <leader>A <Esc>:FzfLua grep<CR>
+nnoremap <leader>A :FzfLua grep<CR>

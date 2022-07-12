@@ -52,25 +52,20 @@ colorscheme molokai
 let NERDTreeWinPos="right"
 let NERDTreeShowHidden=1
 let NERDTreeMouseMode=2
-"autocmd VimEnter * NERDTreeFocus
 
 " Shougo/vimshell.vim
-let g:vimshell_enable_start_insert=0
+let g:vimshell_enable_start_insert=1
 let g:vimshell_popup_height=30
-"autocmd VimEnter * VimShellPop
-"autocmd VimEnter * wincmd p | wincmd h
 
 " preservim/tagbar
 let g:tagbar_position = 'vertical leftabove'
 let g:tagbar_width = max([25, winwidth(0) / 5])
-"autocmd VimEnter * if argc() == 0 || (argc() == 1 && !isdirectory(argv()[0])) | TagbarToggle | endif
 
 " mileszs/ack.vim
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
 
 " davidhalter/jedi-vim
 let g:jedi#show_call_signatures = "2"
@@ -205,6 +200,15 @@ nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
+nnoremap <silent> <F9> :CtrlP<CR>
+
+inoremap <silent> <F2> <Esc>:NERDTreeToggle<CR>
+inoremap <silent> <F3> <Esc>:VimShellPop<CR>
+inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
+inoremap <silent> <F5> <Esc>:AirlineToggle<CR>
+inoremap <silent> <F7> <Esc>:YRShow<CR>
+inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
+inoremap <silent> <F9> <Esc>:CtrlP<CR>
 
 " toggle paste mode
 inoremap <leader>p <Esc>:set paste!<CR>a
@@ -227,3 +231,10 @@ nnoremap <leader>F :FormatCode<CR>
 " strip trailing whitespaces
 inoremap <leader>s <Esc>:StripWhitespace<CR>a
 nnoremap <leader>s :StripWhitespace<CR>
+
+" search the word under the cursor
+inoremap <leader>a :Ack!<CR>
+nnoremap <leader>a :Ack!<CR>
+" search the given word
+inoremap <leader>A :Ack!<Space>
+nnoremap <leader>A :Ack!<Space>
