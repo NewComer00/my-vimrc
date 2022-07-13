@@ -12,33 +12,48 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+
+" plugin manager
 Bundle $GIT_SITE.'VundleVim/Vundle.vim'
+
+" color schemes
 Bundle $GIT_SITE.'flazz/vim-colorschemes'
+
+" mostly used
 Bundle $GIT_SITE.'preservim/nerdtree'
-Bundle $GIT_SITE.'itchyny/vim-cursorword.git'
-Bundle $GIT_SITE.'ntpeters/vim-better-whitespace'
 Bundle $GIT_SITE.'vim-airline/vim-airline'
-Bundle $GIT_SITE.'mileszs/ack.vim'
 Bundle $GIT_SITE.'Shougo/vimproc.vim'
 Bundle $GIT_SITE.'Shougo/vimshell.vim'
 Bundle $GIT_SITE.'supermomonga/vimshell-inline-history.vim'
-Bundle $GIT_SITE.'othree/xml.vim'
 Bundle $GIT_SITE.'mbbill/undotree'
 Bundle $GIT_SITE.'preservim/tagbar'
+
+" more convenience
+Bundle $GIT_SITE.'luochen1990/rainbow'
+Bundle $GIT_SITE.'itchyny/vim-cursorword.git'
+Bundle $GIT_SITE.'ntpeters/vim-better-whitespace'
 Bundle $GIT_SITE.'jiangmiao/auto-pairs'
 Bundle $GIT_SITE.'tpope/vim-surround'
-Bundle $GIT_SITE.'luochen1990/rainbow'
-Bundle $GIT_SITE.'ctrlpvim/ctrlp.vim'
-Bundle $GIT_SITE.'FelikZ/ctrlp-py-matcher'
-Bundle $GIT_SITE.'tpope/vim-fugitive'
 Bundle $GIT_SITE.'airblade/vim-rooter'
 Bundle $GIT_SITE.'junegunn/vim-peekaboo'
 Bundle $GIT_SITE.'preservim/nerdcommenter'
 Bundle $GIT_SITE.'vim-scripts/YankRing.vim'
 Bundle $GIT_SITE.'farmergreg/vim-lastplace'
+Bundle $GIT_SITE.'tpope/vim-fugitive'
+
+" finders
+Bundle $GIT_SITE.'ctrlpvim/ctrlp.vim'
+Bundle $GIT_SITE.'FelikZ/ctrlp-py-matcher'
+Bundle $GIT_SITE.'mileszs/ack.vim'
+
+" code formatters
 Bundle $GIT_SITE.'google/vim-maktaba'
 Bundle $GIT_SITE.'google/vim-codefmt'
 Bundle $GIT_SITE.'google/vim-glaive'
+
+" language related
+Bundle $GIT_SITE.'othree/xml.vim'
+
 call vundle#end()
 filetype plugin indent on
 
