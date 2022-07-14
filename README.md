@@ -1,6 +1,23 @@
 # my-vimrc
 我的Vim和Neovim配置  
-My Vim &amp; NeoVim config
+My Vim &amp; Neovim config
+
+* [环境需求](#环境需求)
+* [主要功能](#主要功能)
+* [配置我的Vim](#配置我的vim)
+* [配置我的Neovim](#配置我的neovim)
+	* [安装Neovim](#安装neovim)
+	* [配置Neovim](#配置neovim)
+* [主要快捷键](#主要快捷键)
+	* [描述约定](#描述约定)
+	* [键位与功能](#%EF%B8%8F键位与功能)
+* [辅助快捷键](#辅助快捷键)
+	* [描述约定](#描述约定)
+	* [键位与功能](#%EF%B8%8F键位与功能)
+* [【Neovim】代码补全、内容跳转等](#neovim代码补全内容跳转等)
+	* [LSP 语言服务器协议](#lsp-语言服务器协议)
+	* [安装本地LSP服务器并配置Neovim LSP客户端](#🆅-安装本地lsp服务器并配置neovim-lsp客户端)
+	* [相关快捷键](#%EF%B8%8F相关快捷键)
 
 ## 环境需求
 如果你习惯使用Vim，需要保证版本号```Vim >= 7.3```；  
@@ -27,14 +44,14 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ⚠️注意：  
 某些插件需要进行额外的操作才能正常工作（如```<F3>```对应的```Shougo/vimshell.vim```插件），请根据插件提示操作。  
 
-## 配置我的NeoVim
+## 配置我的Neovim
 ![Neovim](https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png)  
 **Neovim编辑器是对传统Vim编辑器的重构**。Neovim拥有着强大的：
 - **可扩展性**——几乎所有主流语言都可以轻松访问Neovim的API，因此大家能够很容易地编写它的插件。Neovim对lua语言的内建支持使得插件可以飞速运行，这让**流畅的**代码补全和语法高亮等功能成为可能。
 - **可用性**——Neovim修缮了Vim过时的默认配置（Neovim定制了一套自己的新默认配置），并添加了现代编辑器的新功能，如现代GUI、异步加载和终端模拟器等。
 
 ### 安装Neovim
-本仓库的Neovim配置文件需要比较新的NeoVim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。  
+本仓库的Neovim配置文件需要比较新的Neovim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。  
 对于Linux系统，下载并执行安装程序。
 ```
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
