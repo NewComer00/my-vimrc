@@ -68,8 +68,27 @@ call plug#end()
 " [neovim/nvim-lspconfig]
 " https://github.com/neovim/nvim-lspconfig
 lua << EOF
--- register your LSP server here, for example:
--- require'lspconfig'.pylsp.setup {}
+-- register your installed LSP server here
+MY_LSP_SERVER_LIST = {
+    -- for example:
+    -- "pylsp",
+    -- "clangd",
+}
+-- find out LSP server for each language :
+-- https://github.com/williamboman/nvim-lsp-installer#available-lsps
+
+-- my custom config function,
+-- only take effect on buffers with an active language server
+MY_CUSTOM_ON_ATTACH = function(client)
+    -- hotkeys for LSP service
+    vim.keymap.set('n','gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
+    vim.keymap.set('n','gd','<cmd>lua vim.lsp.buf.definition()<CR>')
+    vim.keymap.set('n','K','<cmd>lua vim.lsp.buf.hover()<CR>')
+    vim.keymap.set('n','gr','<cmd>lua vim.lsp.buf.references()<CR>')
+    vim.keymap.set('n','gs','<cmd>lua vim.lsp.buf.signature_help()<CR>')
+    vim.keymap.set('n','gi','<cmd>lua vim.lsp.buf.implementation()<CR>')
+    vim.keymap.set('n','gt','<cmd>lua vim.lsp.buf.type_definition()<CR>')
+end
 EOF
 
 " *************************************************************************
@@ -174,13 +193,12 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
---local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
---for _, lsp in ipairs(servers) do
---  lspconfig[lsp].setup {
---    -- on_attach = my_custom_on_attach,
---    capabilities = capabilities,
---  }
---end
+for _, lsp in ipairs(MY_LSP_SERVER_LIST) do
+    lspconfig[lsp].setup {
+        on_attach = MY_CUSTOM_ON_ATTACH,
+        capabilities = capabilities,
+    }
+end
 
 -- luasnip setup
 local luasnip = require 'luasnip'
