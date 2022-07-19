@@ -376,5 +376,5 @@ nnoremap <leader>s :StripWhitespace<CR>
 inoremap <leader>a <Esc>:FzfLua grep_cword<CR>
 nnoremap <leader>a :FzfLua grep_cword<CR>
 " search the given word
-inoremap <leader>A <Esc>:FzfLua grep<CR>
-nnoremap <leader>A :FzfLua grep<CR>
+inoremap <leader>A <Esc>:FzfLua live_grep<CR>
+nnoremap <leader>A :FzfLua live_grep<CR>
