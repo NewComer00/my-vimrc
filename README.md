@@ -56,15 +56,24 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 - **可用性**——Neovim修缮了Vim过时的默认配置（Neovim定制了一套自己的新默认配置），并添加了现代编辑器的新功能，如现代GUI、异步加载和终端模拟器等。
 
 ### 安装Neovim
-本仓库的Neovim配置文件需要比较新的Neovim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。对于Linux系统，下载Neovim的可执行文件，下载后应当可以直接运行Neovim。
+本仓库的Neovim配置文件需要比较新的Neovim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。对于Linux系统，执行如下操作来下载Neovim的可执行文件，下载后应当可以直接运行Neovim。
 ```
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 ./nvim.appimage
 ```
-此时Neovim应当开始运行。```nvim.appimage```是Neovim的启动程序，可以将其改名为```nvim```放置在```/usr/bin/```目录下（需要sudo权限。```/usr/bin/```目录应当存在于```$PATH```中，操作后所有用户均可使用nvim命令），或改名为```nvim```放置在```~/.local/bin/```目录下（无需sudo权限。```~/.local/bin/```应当存在于```$PATH```中，操作后仅当前用户可使用nvim命令）。  
+此时Neovim应当开始运行。  
 
-💡如果安装失败，可以手动从安装包里解压Neovim相关文件到本地。
+```nvim.appimage```是Neovim的启动程序，可以将其改名为```nvim```放置在```/usr/bin/```目录下（需要sudo权限。```/usr/bin/```目录应当存在于```$PATH```中，操作后所有用户均可使用nvim命令）。
+```
+chmod +x nvim.appimage
+sudo mv ./nvim.appimage /usr/bin/nvim
+```
+或改名为```nvim```放置在```~/.local/bin/```目录下（无需sudo权限。```~/.local/bin/```应当存在于```$PATH```中，操作后仅当前用户可使用nvim命令）。
+```
+mv ./nvim.appimage ~/.local/bin/nvim
+```
+💡如果```nvim.appimage```执行失败（在确认文件已经**完整下载**后，仍然执行失败），可以手动从安装包里解压Neovim相关文件到本地。
 ```
 ./nvim.appimage --appimage-extract
 ./squashfs-root/AppRun --version
