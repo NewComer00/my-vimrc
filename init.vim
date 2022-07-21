@@ -154,6 +154,9 @@ require("indent_blankline").setup {}
 EOF
 
 " [vim-scripts/YankRing.vim]
+" make it compatible for neovim
+" https://github.com/neovim/neovim/issues/2642#issuecomment-218232937
+let g:yankring_clipboard_monitor = 0
 " to avoid <C-p> collision with the ctrlp plugin
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
