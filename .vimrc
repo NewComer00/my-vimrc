@@ -6,7 +6,8 @@ set encoding=utf8
 " *************************************************************************
 " vundle plugins
 " *************************************************************************
-let $GIT_SITE = 'https://hub.fastgit.xyz/'
+let $GIT_SITE = 'https://github.com/'
+"let $GIT_SITE = 'https://hub.fastgit.xyz/'
 
 set nocompatible
 filetype off
