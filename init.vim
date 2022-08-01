@@ -110,6 +110,11 @@ require("nvim-tree").setup {
         -- show windows on the right side
         side = "right",
     },
+    git = {
+        enable = true,
+        -- always show files and dirs listed in .gitignore
+        ignore = false,
+    },
     renderer = {
         icons = {
             -- only show folder arrow symbols
@@ -130,6 +135,12 @@ require("nvim-tree").setup {
         indent_markers = {
             enable = true,
         },
+    },
+    -- update cwd when open a new file
+    update_cwd = true,
+    update_focused_file = {
+        enable = true,
+        update_cwd = true
     },
 }
 EOF
@@ -183,7 +194,12 @@ EOF
 " [ibhagwan/fzf-lua]
 " https://github.com/ibhagwan/fzf-lua
 lua << EOF
-require('fzf-lua').setup {}
+-- by default, using fzf binary downloaded by [junegunn/fzf]
+local default_fzf_bin = vim.api.nvim_exec(
+    [[echo expand(stdpath('data').'/plugged/fzf/bin/fzf')]], true)
+require('fzf-lua').setup {
+    fzf_bin = default_fzf_bin,
+}
 EOF
 
 " [neovim/nvim-lspconfig] auto-completion settings
