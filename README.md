@@ -43,11 +43,13 @@ cp ./.vimrc ~/.vimrc
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ```
 
-下载完毕后，进入Vim，输入命令```:PluginInstall```安装插件。  
+下载完毕后，进入Vim。此时Vim会报告一系列插件未找到的错误，这是正常现象。按下```<C-c>（即常说的Ctrl+C）```忽略这些错误，接着输入命令```:PluginInstall```来下载安装这些插件。  
 主要功能插件的快捷键是```<F2> ~ <F5>```，```<F7> ~ <F8>```。安装完毕后重新进入Vim，即可按动快捷键查看插件是否工作正常。
 
 ⚠️注意：  
-某些插件需要进行额外的操作才能正常工作（如```<F3>```对应的```Shougo/vimshell.vim```插件），请根据插件提示操作。  
+1. 如果插件下载安装进度过慢或显示某些插件安装失败，请按下```<C-c>```停止安装，然后尝试重新输入命令```:PluginInstall```来下载安装这些插件。
+2. 如果仍然失败，请尝试```nano ~/.vimrc```更改配置文件中的```GIT_SITE```变量值，使用被注释掉的备选github加速网站。改完后打开Vim，输入命令```:PluginInstall```来下载安装插件。
+3. 某些插件需要进行额外的操作才能正常工作（如```<F3>```对应的```Shougo/vimshell.vim```插件），请根据插件提示操作。```Shougo/vimshell.vim```插件需要```cd ~/.vim/bundle/vimproc.vim && make```编译库后才能正常工作。
 
 ## 配置我的Neovim
 ![Neovim](https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png)  
@@ -97,8 +99,12 @@ nvim
 mkdir -p ~/.config/nvim/
 cp ./init.vim ~/.config/nvim/init.vim
 ```
-在终端输入```nvim```进入Neovim，此时将自动开始下载插件管理器```plug.vim```。下载成功后输入命令```:PlugInstall```安装所有插件。  
+在终端输入```nvim```进入Neovim，此时将自动开始下载插件管理器```plug.vim```。下载完毕后Neovim会报告一系列插件未找到的错误，这是正常现象。按下```<C-c>```忽略这些错误，接着输入命令```:PlugInstall```安装所有插件。  
 主要功能插件的快捷键是```<F2> ~ <F5>```，```<F7> ~ <F8>```。安装完毕后重新进入Neovim，即可按动快捷键查看插件是否工作正常。
+
+⚠️注意：  
+1. 如果插件下载安装进度过慢或显示某些插件安装失败，请退出Neovim，然后尝试重新打开Neovim输入命令```:PlugInstall```来下载安装这些插件。
+2. 如果仍然失败，请尝试```nano ~/.config/nvim/init.vim```更改配置文件中的```GITHUB_RAW```与```GITHUB_SITE```变量值，使用被注释掉的备选github加速网站。改完后打开Neovim，输入命令```:PlugClean```和```:PlugInstall```来重新下载安装插件。
 
 ## 主要快捷键
 ### ✅描述约定
