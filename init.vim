@@ -11,10 +11,10 @@ set encoding=utf8
 " nvim plugins
 " *************************************************************************
 
-let GITHUB_RAW = 'https://raw.githubusercontent.com/'
-let GITHUB_SITE = 'https://github.com/'
-"let GITHUB_RAW = 'https://raw.fastgit.org/'
-"let GITHUB_SITE = 'https://hub.fastgit.xyz/'
+let GITHUB_RAW = 'https://raw.fastgit.org/'
+let GITHUB_SITE = 'https://hub.fastgit.xyz/'
+"let GITHUB_RAW = 'https://raw.githubusercontent.com/'
+"let GITHUB_SITE = 'https://github.com/'
 
 " download the plugin manager if not installed
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'

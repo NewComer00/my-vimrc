@@ -6,8 +6,9 @@ set encoding=utf8
 " *************************************************************************
 " vundle plugins
 " *************************************************************************
-let $GIT_SITE = 'https://github.com/'
-"let $GIT_SITE = 'https://hub.fastgit.xyz/'
+
+let $GITHUB_SITE = 'https://hub.fastgit.xyz/'
+"let $GITHUB_SITE = 'https://github.com/'
 
 set nocompatible
 filetype off
@@ -15,45 +16,45 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " plugin manager
-Bundle $GIT_SITE.'VundleVim/Vundle.vim'
+Bundle $GITHUB_SITE.'VundleVim/Vundle.vim'
 
 " color schemes
-Bundle $GIT_SITE.'flazz/vim-colorschemes'
+Bundle $GITHUB_SITE.'flazz/vim-colorschemes'
 
 " mostly used
-Bundle $GIT_SITE.'preservim/nerdtree'
-Bundle $GIT_SITE.'vim-airline/vim-airline'
-Bundle $GIT_SITE.'Shougo/vimproc.vim'
-Bundle $GIT_SITE.'Shougo/vimshell.vim'
-Bundle $GIT_SITE.'supermomonga/vimshell-inline-history.vim'
-Bundle $GIT_SITE.'mbbill/undotree'
-Bundle $GIT_SITE.'preservim/tagbar'
+Bundle $GITHUB_SITE.'preservim/nerdtree'
+Bundle $GITHUB_SITE.'vim-airline/vim-airline'
+Bundle $GITHUB_SITE.'Shougo/vimproc.vim'
+Bundle $GITHUB_SITE.'Shougo/vimshell.vim'
+Bundle $GITHUB_SITE.'supermomonga/vimshell-inline-history.vim'
+Bundle $GITHUB_SITE.'mbbill/undotree'
+Bundle $GITHUB_SITE.'preservim/tagbar'
 
 " more convenience
-Bundle $GIT_SITE.'luochen1990/rainbow'
-Bundle $GIT_SITE.'itchyny/vim-cursorword.git'
-Bundle $GIT_SITE.'ntpeters/vim-better-whitespace'
-Bundle $GIT_SITE.'jiangmiao/auto-pairs'
-Bundle $GIT_SITE.'tpope/vim-surround'
-Bundle $GIT_SITE.'airblade/vim-rooter'
-Bundle $GIT_SITE.'junegunn/vim-peekaboo'
-Bundle $GIT_SITE.'preservim/nerdcommenter'
-Bundle $GIT_SITE.'vim-scripts/YankRing.vim'
-Bundle $GIT_SITE.'farmergreg/vim-lastplace'
-Bundle $GIT_SITE.'tpope/vim-fugitive'
+Bundle $GITHUB_SITE.'luochen1990/rainbow'
+Bundle $GITHUB_SITE.'itchyny/vim-cursorword.git'
+Bundle $GITHUB_SITE.'ntpeters/vim-better-whitespace'
+Bundle $GITHUB_SITE.'jiangmiao/auto-pairs'
+Bundle $GITHUB_SITE.'tpope/vim-surround'
+Bundle $GITHUB_SITE.'airblade/vim-rooter'
+Bundle $GITHUB_SITE.'junegunn/vim-peekaboo'
+Bundle $GITHUB_SITE.'preservim/nerdcommenter'
+Bundle $GITHUB_SITE.'vim-scripts/YankRing.vim'
+Bundle $GITHUB_SITE.'farmergreg/vim-lastplace'
+Bundle $GITHUB_SITE.'tpope/vim-fugitive'
 
 " finders
-Bundle $GIT_SITE.'ctrlpvim/ctrlp.vim'
-Bundle $GIT_SITE.'FelikZ/ctrlp-py-matcher'
-Bundle $GIT_SITE.'mileszs/ack.vim'
+Bundle $GITHUB_SITE.'ctrlpvim/ctrlp.vim'
+Bundle $GITHUB_SITE.'FelikZ/ctrlp-py-matcher'
+Bundle $GITHUB_SITE.'mileszs/ack.vim'
 
 " code formatters
-Bundle $GIT_SITE.'google/vim-maktaba'
-Bundle $GIT_SITE.'google/vim-codefmt'
-Bundle $GIT_SITE.'google/vim-glaive'
+Bundle $GITHUB_SITE.'google/vim-maktaba'
+Bundle $GITHUB_SITE.'google/vim-codefmt'
+Bundle $GITHUB_SITE.'google/vim-glaive'
 
 " language related
-Bundle $GIT_SITE.'othree/xml.vim'
+Bundle $GITHUB_SITE.'othree/xml.vim'
 
 call vundle#end()
 filetype plugin indent on
