@@ -60,6 +60,7 @@ Plug GITHUB_SITE.'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
 Plug GITHUB_SITE.'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug GITHUB_SITE.'L3MON4D3/LuaSnip' " Snippets plugin
 Plug GITHUB_SITE.'ray-x/lsp_signature.nvim' " Function signature
+Plug GITHUB_SITE.'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim' " Toggle LSP diagnostics
 
 call plug#end()
 
@@ -272,6 +273,13 @@ lua << EOF
 require "lsp_signature".setup {}
 EOF
 
+" [WhoIsSethDaniel/toggle-lsp-diagnostics.nvim]
+" https://github.com/WhoIsSethDaniel/toggle-lsp-diagnostics.nvim
+lua << EOF
+-- turn off lsp diagnostics by default
+require'toggle_lsp_diagnostics'.init({ start_on = false })
+EOF
+
 " *************************************************************************
 " my scripts
 " *************************************************************************
@@ -399,3 +407,7 @@ nnoremap <leader>a :FzfLua grep_cword<CR>
 " search the given word
 inoremap <leader>A <Esc>:FzfLua live_grep<CR>
 nnoremap <leader>A :FzfLua live_grep<CR>
+
+" toggle LSP diagnostics
+inoremap <leader>d <Esc>:ToggleDiag<CR>a
+nnoremap <leader>d :ToggleDiag<CR>
