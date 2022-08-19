@@ -26,7 +26,7 @@ endif
 
 call plug#begin()
 
-" color schemes
+" color scheme
 Plug GITHUB_SITE.'rafamadriz/neon'
 
 " mostly used
@@ -49,7 +49,7 @@ Plug GITHUB_SITE.'preservim/nerdcommenter'
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
 
-" finders
+" finder
 Plug GITHUB_SITE.'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug GITHUB_SITE.'ibhagwan/fzf-lua', {'branch': 'main'}
 
@@ -61,6 +61,9 @@ Plug GITHUB_SITE.'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug GITHUB_SITE.'L3MON4D3/LuaSnip' " Snippets plugin
 Plug GITHUB_SITE.'ray-x/lsp_signature.nvim' " Function signature
 Plug GITHUB_SITE.'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim' " Toggle LSP diagnostics
+
+" debugger
+Plug GITHUB_SITE.'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
 call plug#end()
 
@@ -280,6 +283,25 @@ lua << EOF
 require'toggle_lsp_diagnostics'.init({ start_on = false })
 EOF
 
+" [sakhnik/nvim-gdb]
+" https://github.com/sakhnik/nvim-gdb
+" disable default keymaps
+let g:nvimgdb_disable_start_keymaps = 1
+" set debugger keymaps
+function! NvimGdbNoTKeymaps()
+  tnoremap <silent> <buffer> <esc> <c-\><c-n>
+endfunction
+let g:nvimgdb_config_override = {
+  \ 'key_next': 'n',
+  \ 'key_step': 's',
+  \ 'key_finish': 'f',
+  \ 'key_continue': 'c',
+  \ 'key_until': 'u',
+  \ 'key_breakpoint': 'b',
+  \ 'key_quit': 'q',
+  \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
+  \ }
+
 " *************************************************************************
 " my scripts
 " *************************************************************************
@@ -346,6 +368,50 @@ function! TabToggle()
     endif
 endfunction
 
+" my wrapper for [sakhnik/nvim-gdb]
+function! GdbStartAuto()
+    let current_file_path = expand('%:p')
+    let current_file_type = &filetype
+    let debugger_info = [
+    \   {'name':'gdb',      'filetype':['cpp','c','objcpp'],    'cmd':'GdbStart gdb -q'},
+    \   {'name':'lldb',     'filetype':['cpp','c','objcpp'],    'cmd':'GdbStartLLDB lldb'},
+    \   {'name':'pdb',      'filetype':['python'],              'cmd':'GdbStartPDB python3 -m pdb '.current_file_path},
+    \   {'name':'bashdb',   'filetype':['sh'],                  'cmd':'GdbStartBashDB bashdb '.current_file_path},
+    \   ]
+
+    " first try to open the related debugger by current filetype
+    let counter = 0
+    for debugger in debugger_info
+        if index(debugger['filetype'], current_file_type) >= 0
+            exec(debugger['cmd'])
+            break
+        else
+            let counter += 1
+        endif
+    endfor
+
+    " if no suitable debugger for the filetype,
+    " let the user decide which debugger to use
+    if counter >= len(debugger_info)
+        echo 'Available debuggers:'
+        let debugger_number = 1
+        for debugger in debugger_info
+            echo '  '.string(debugger_number).'.'.debugger['name'].' '
+            let debugger_number += 1
+        endfor
+        echo '  '.string(debugger_number).'.quit'
+
+        let choosen_number = input('Select a debugger: ')
+        let idx = choosen_number - 1
+        redraw " flush the old output
+        if idx >= 0 && idx < len(debugger_info)
+            exec(debugger_info[idx]['cmd'])
+        else
+            echo 'quit'
+        endif
+    endif
+endfunction
+
 "*************************************************************************
 " file types
 " *************************************************************************
@@ -365,6 +431,7 @@ nnoremap <silent> <F2> :NvimTreeToggle<CR>
 nnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
+nnoremap <silent> <F6> :call GdbStartAuto()<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :FzfLua<CR>
@@ -373,12 +440,28 @@ inoremap <silent> <F2> <Esc>:NvimTreeToggle<CR>
 inoremap <silent> <F3> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
 inoremap <silent> <F5> <Esc>:AirlineToggle<CR>
+inoremap <silent> <F6> <Esc>:call GdbStartAuto()<CR>
 inoremap <silent> <F7> <Esc>:YRShow<CR>
 inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
-nnoremap <silent> <F9> :FzfLua<CR>
+inoremap <silent> <F9> <Esc>:FzfLua<CR>
+
+cnoremap <silent> <F6> <C-c>
 
 tnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 tnoremap <silent> <F9> <Esc>
+
+" enable autocomplete in command mode
+cnoremap <C-n> <C-f>a<C-n>
+cnoremap <C-p> <C-f>a<C-p>
+
+" use <Esc> to quit terminal mode
+tnoremap <Esc> <C-\><C-n>
+
+" quickly open this config file
+nnoremap <leader>ve :e $MYVIMRC<CR>
+" quickly save and source this config file
+nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+inoremap <leader>vs <Esc>:wa<Bar>so $MYVIMRC<CR>a
 
 " toggle list char and indentation mark
 inoremap <leader>l <Esc>:set list!<Bar>IndentBlanklineToggle<CR>a

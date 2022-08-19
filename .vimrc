@@ -227,6 +227,12 @@ inoremap <silent> <F7> <Esc>:YRShow<CR>
 inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
 inoremap <silent> <F9> <Esc>:CtrlP<CR>
 
+" quickly edit this config file
+nnoremap <leader>ve :e $MYVIMRC<CR>
+" quickly save and source this config file
+nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+inoremap <leader>vs <Esc>:wa<Bar>so $MYVIMRC<CR>a
+
 " toggle paste mode
 inoremap <leader>p <Esc>:set paste!<CR>a
 nnoremap <leader>p :set paste!<CR>
