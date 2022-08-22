@@ -77,8 +77,8 @@ lua << EOF
 -- register your installed LSP server here
 MY_LSP_SERVER_LIST = {
     -- for example:
-    "pylsp",
-    "clangd",
+    -- "pylsp",
+    -- "clangd",
 }
 -- find out LSP server for each language :
 -- https://github.com/williamboman/nvim-lsp-installer#available-lsps
