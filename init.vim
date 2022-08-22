@@ -30,7 +30,7 @@ call plug#begin()
 Plug GITHUB_SITE.'rafamadriz/neon'
 
 " mostly used
-Plug GITHUB_SITE.'kyazdani42/nvim-tree.lua'
+Plug GITHUB_SITE.'preservim/nerdtree'
 Plug GITHUB_SITE.'vim-airline/vim-airline'
 Plug GITHUB_SITE.'akinsho/toggleterm.nvim'
 Plug GITHUB_SITE.'mbbill/undotree'
@@ -77,8 +77,8 @@ lua << EOF
 -- register your installed LSP server here
 MY_LSP_SERVER_LIST = {
     -- for example:
-    -- "pylsp",
-    -- "clangd",
+    "pylsp",
+    "clangd",
 }
 -- find out LSP server for each language :
 -- https://github.com/williamboman/nvim-lsp-installer#available-lsps
@@ -108,48 +108,10 @@ let g:neon_italic_function = 1
 let g:neon_transparent = 1
 colorscheme neon
 
-" [kyazdani42/nvim-tree.lua]
-" https://github.com/kyazdani42/nvim-tree.lua
-lua << EOF
-require("nvim-tree").setup {
-    view = {
-        -- show windows on the right side
-        side = "right",
-    },
-    git = {
-        enable = true,
-        -- always show files and dirs listed in .gitignore
-        ignore = false,
-    },
-    renderer = {
-        icons = {
-            -- only show folder arrow symbols
-            show = {
-                file = false,
-                folder = false,
-                folder_arrow = true,
-                git = false,
-            },
-            -- specify the folder arrow symbols
-            glyphs = {
-                folder = {
-                    arrow_closed = '+',
-                    arrow_open = '-',
-                },
-            },
-        },
-        indent_markers = {
-            enable = true,
-        },
-    },
-    -- update cwd when open a new file
-    update_cwd = true,
-    update_focused_file = {
-        enable = true,
-        update_cwd = true
-    },
-}
-EOF
+" [preservim/nerdtree]
+let NERDTreeWinPos="right"
+let NERDTreeShowHidden=1
+let NERDTreeMouseMode=2
 
 " [akinsho/toggleterm.nvim]
 " https://github.com/akinsho/toggleterm.nvim
@@ -163,6 +125,11 @@ let g:tagbar_width = max([25, winwidth(0) / 5])
 
 " [rainbow/luochen1990]
 let g:rainbow_active = 1
+let g:rainbow_conf = {
+\   'separately': {
+\   'nerdtree': 0,
+\   }
+\}
 
 " [lukas-reineke/indent-blankline.nvim]
 " https://github.com/lukas-reineke/indent-blankline.nvim
@@ -299,6 +266,7 @@ let g:nvimgdb_config_override = {
   \ 'key_until': 'u',
   \ 'key_breakpoint': 'b',
   \ 'key_quit': 'q',
+  \ 'key_eval': 'e',
   \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
   \ }
 
@@ -427,7 +395,7 @@ augroup END
 " *************************************************************************
 
 " functional hotkeys for plugins
-nnoremap <silent> <F2> :NvimTreeToggle<CR>
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
