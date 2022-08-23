@@ -29,7 +29,9 @@ My Vim &amp; Neovim config
 如果你习惯使用Neovim，需要保证版本号```Neovim >= 0.7```。
 
 ## 主要功能
-目录文件树、命令行、文件历史版本管理、底部状态栏、粘贴板历史、代码标签树、文件和内容的模糊检索、代码格式化、代码补全与跳转（Neovim）等。
+目录文件树、命令行、文件历史版本管理、底部状态栏、粘贴板历史、代码标签树、文件和内容的模糊检索、代码格式化、代码补全与跳转（Neovim）、代码调试（Neovim）等。  
+
+本套配置中，Vim的定位是**增强版的文本编辑器，而非IDE**；Neovim可以**承担IDE的一部分功能，但也不能完全取代IDE**。  
 
 ## 配置我的Vim
 [![Vim Logo](https://github.com/vim/vim/raw/master/runtime/vimlogo.gif)](https://www.vim.org)  
