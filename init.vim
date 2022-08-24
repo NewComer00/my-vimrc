@@ -256,17 +256,18 @@ EOF
 let g:nvimgdb_disable_start_keymaps = 1
 " set debugger keymaps
 function! NvimGdbNoTKeymaps()
-  tnoremap <silent> <buffer> <esc> <c-\><c-n>
+  tnoremap <silent> <buffer> <esc> <c-\><c-n>G
 endfunction
+nnoremap <M-r> :GdbRun<CR>
 let g:nvimgdb_config_override = {
-  \ 'key_next': 'n',
-  \ 'key_step': 's',
-  \ 'key_finish': 'f',
-  \ 'key_continue': 'c',
-  \ 'key_until': 'u',
-  \ 'key_breakpoint': 'b',
-  \ 'key_quit': 'q',
-  \ 'key_eval': 'e',
+  \ 'key_next': '<M-n>',
+  \ 'key_step': '<M-s>',
+  \ 'key_finish': '<M-f>',
+  \ 'key_continue': '<M-c>',
+  \ 'key_until': '<M-u>',
+  \ 'key_breakpoint': '<M-b>',
+  \ 'key_quit': '<M-q>',
+  \ 'key_eval': '<M-p>',
   \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
   \ }
 
@@ -369,7 +370,11 @@ function! GdbStartAuto()
         endfor
         echo '  '.string(debugger_number).'.quit'
 
-        let choosen_number = input('Select a debugger: ')
+        "let choosen_number = input('Select a debugger: ')
+        " save one keystroke by using getchar() instead of input()
+        " TODO: assert len(debugger_info) < 9 when use getchar()
+        echo 'Select a debugger:'
+        let choosen_number = nr2char(getchar())
         let idx = choosen_number - 1
         redraw " flush the old output
         if idx >= 0 && idx < len(debugger_info)
