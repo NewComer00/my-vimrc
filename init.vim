@@ -37,6 +37,7 @@ Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar'
 
 " more convenience
+Plug GITHUB_SITE.'vim-airline/vim-airline-themes'
 Plug GITHUB_SITE.'luochen1990/rainbow'
 Plug GITHUB_SITE.'itchyny/vim-cursorword.git'
 Plug GITHUB_SITE.'ntpeters/vim-better-whitespace'
@@ -122,6 +123,9 @@ EOF
 " [preservim/tagbar]
 let g:tagbar_position = 'vertical leftabove'
 let g:tagbar_width = max([25, winwidth(0) / 5])
+
+" [vim-airline/vim-airline-themes]
+let g:airline_theme = 'deus'
 
 " [rainbow/luochen1990]
 let g:rainbow_active = 1
