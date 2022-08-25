@@ -268,10 +268,10 @@ let g:nvimgdb_config_override = {
   \ 'key_step': '<M-s>',
   \ 'key_finish': '<M-f>',
   \ 'key_continue': '<M-c>',
-  \ 'key_until': '<M-u>',
+  \ 'key_until': '<M-t>',
   \ 'key_breakpoint': '<M-b>',
   \ 'key_quit': '<M-q>',
-  \ 'key_eval': '<M-p>',
+  \ 'key_eval': '<M-e>',
   \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
   \ }
 
