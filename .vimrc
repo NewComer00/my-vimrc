@@ -147,6 +147,7 @@ set t_Co=256
 syntax on
 
 set hlsearch
+set incsearch
 
 set number
 set relativenumber
