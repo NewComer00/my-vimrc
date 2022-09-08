@@ -11,10 +11,11 @@ set encoding=utf8
 " nvim plugins
 " *************************************************************************
 
-let GITHUB_RAW = 'https://raw.fastgit.org/'
-let GITHUB_SITE = 'https://hub.fastgit.xyz/'
-"let GITHUB_RAW = 'https://raw.githubusercontent.com/'
+let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
+"let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
+let GITHUB_RAW = 'https://raw.fastgit.org/'
+"let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " download the plugin manager if not installed
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -49,6 +50,10 @@ Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'preservim/nerdcommenter'
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
+
+" git related
+Plug GITHUB_SITE.'tpope/vim-fugitive'
+Plug GITHUB_SITE.'junegunn/gv.vim'
 
 " finder
 Plug GITHUB_SITE.'junegunn/fzf', { 'do': { -> fzf#install() } }

@@ -7,7 +7,8 @@ set encoding=utf8
 " vundle plugins
 " *************************************************************************
 
-let $GITHUB_SITE = 'https://hub.fastgit.xyz/'
+let $GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
+"let $GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let $GITHUB_SITE = 'https://github.com/'
 
 set nocompatible
@@ -41,7 +42,10 @@ Bundle $GITHUB_SITE.'junegunn/vim-peekaboo'
 Bundle $GITHUB_SITE.'preservim/nerdcommenter'
 Bundle $GITHUB_SITE.'vim-scripts/YankRing.vim'
 Bundle $GITHUB_SITE.'farmergreg/vim-lastplace'
+
+" git related
 Bundle $GITHUB_SITE.'tpope/vim-fugitive'
+Bundle $GITHUB_SITE.'junegunn/gv.vim'
 
 " finders
 Bundle $GITHUB_SITE.'ctrlpvim/ctrlp.vim'
