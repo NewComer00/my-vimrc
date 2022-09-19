@@ -191,6 +191,9 @@ augroup END
 " https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim
 function! OpenShell()
     if v:version < 801
+        echo "Press any key to open a shell..."
+        echo "After the shell opened, press <C-d> or type 'exit' to quit the shell."
+        call getchar()
         sh
     else
         bo 10sp | term ++curwin
