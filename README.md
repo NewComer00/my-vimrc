@@ -64,7 +64,7 @@ git clone --depth 1 https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vu
 - **可用性**——Neovim修缮了Vim过时的默认配置（Neovim定制了一套自己的新默认配置），并添加了现代编辑器的新功能，如现代GUI、异步加载和终端模拟器等。
 
 ### 安装Neovim
-本仓库的Neovim配置文件需要比较新的Neovim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。对于Linux系统，执行如下操作来下载Neovim的可执行文件，下载后应当可以直接运行Neovim。
+本仓库的Neovim配置文件需要比较新的Neovim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。对于x86_64架构的Linux系统，执行如下操作来下载Neovim的可执行文件，下载后应当可以直接运行Neovim。
 ```
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
