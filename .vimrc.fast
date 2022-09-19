@@ -1,0 +1,260 @@
+" *************************************************************************
+" presettings
+" *************************************************************************
+set encoding=utf8
+
+" *************************************************************************
+" vundle plugins
+" *************************************************************************
+
+let $GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
+"let $GITHUB_SITE = 'https://hub.fastgit.xyz/'
+"let $GITHUB_SITE = 'https://github.com/'
+
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" plugin manager
+Bundle $GITHUB_SITE.'VundleVim/Vundle.vim'
+
+" color schemes
+Bundle $GITHUB_SITE.'flazz/vim-colorschemes'
+
+" mostly used
+Bundle $GITHUB_SITE.'justinmk/vim-dirvish'
+Bundle $GITHUB_SITE.'itchyny/lightline.vim'
+Bundle $GITHUB_SITE.'mbbill/undotree'
+Bundle $GITHUB_SITE.'preservim/tagbar'
+Bundle $GITHUB_SITE.'mileszs/ack.vim'
+
+" more convenience
+Bundle $GITHUB_SITE.'luochen1990/rainbow'
+Bundle $GITHUB_SITE.'jiangmiao/auto-pairs'
+Bundle $GITHUB_SITE.'airblade/vim-rooter'
+Bundle $GITHUB_SITE.'junegunn/vim-peekaboo'
+Bundle $GITHUB_SITE.'preservim/nerdcommenter'
+Bundle $GITHUB_SITE.'vim-scripts/YankRing.vim'
+Bundle $GITHUB_SITE.'farmergreg/vim-lastplace'
+
+call vundle#end()
+filetype plugin indent on
+
+" *************************************************************************
+" plugin configs
+" *************************************************************************
+" flazz/vim-colorschemes
+colorscheme molokai
+
+" justinmk/vim-dirvish
+let g:dirvish_mode = 2
+
+" preservim/tagbar
+let g:tagbar_position = 'vertical leftabove'
+let g:tagbar_width = max([25, winwidth(0) / 5])
+
+" mileszs/ack.vim
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" rainbow/luochen1990
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\   'separately': {
+\   'nerdtree': 0,
+\   }
+\}
+
+" vim-scripts/YankRing.vim
+" to avoid <C-p> collision with the ctrlp plugin
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
+" save yankring history in this dir
+if !isdirectory($HOME."/.vim/yankring-dir")
+    call mkdir($HOME."/.vim/yankring-dir", "", 0700)
+endif
+let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
+
+" *************************************************************************
+" my scripts
+" *************************************************************************
+" speed up vim scrolling
+" https://stackoverflow.com/questions/307148/vim-scrolling-slowly
+set ttyfast
+set lazyredraw
+set cul!
+
+" to enable backspace key
+" https://vi.stackexchange.com/a/2163
+set backspace=indent,eol,start
+
+set novisualbell
+
+" to deal with REPLACE MODE problem on windows cmd or windows terminal
+" https://superuser.com/a/1525060
+set t_u7=
+
+set t_Co=256
+syntax on
+
+set hlsearch
+set incsearch
+
+set number
+set relativenumber
+
+set nowrap
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+set autoindent
+
+set wildmode=longest,full
+set wildmenu
+
+set mouse=a
+
+set laststatus=2
+
+set splitbelow
+set splitright
+
+set dictionary+=/usr/share/dict/words
+set complete+=k
+
+" to be compatable with older version
+" https://stackoverflow.com/a/36374234/15283141
+if has("patch-7.4.710")
+    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+else
+    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<
+endif
+set list
+
+" Let's save undo info!
+" from https://vi.stackexchange.com/a/53
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+set undodir=~/.vim/undo-dir
+set undofile
+
+" *************************************************************************
+" my functions
+" *************************************************************************
+" toggle dirvish window
+" https://github.com/justinmk/vim-dirvish/issues/68
+function! s:dirvish_toggle() abort
+  let l:last_buffer = bufnr('$')
+  let l:i = 1
+  let l:dirvish_already_open = 0
+
+  while l:i <= l:last_buffer
+    if bufexists(l:i) && bufloaded(l:i) && getbufvar(l:i, '&filetype') ==? 'dirvish'
+      let l:dirvish_already_open = 1
+      execute ':'.l:i.'bd!'
+    endif
+    let l:i += 1
+  endwhile
+
+  if !l:dirvish_already_open
+    35vsp +Dirvish
+  endif
+endfunction
+
+function! s:dirvish_open() abort
+  let l:line = getline('.')
+  if l:line =~? '/$'
+    call dirvish#open('edit', 0)
+  else
+    call <SID>dirvish_toggle()
+    execute 'e '.l:line
+  endif
+endfunction
+
+augroup dirvish_commands
+  autocmd!
+  autocmd FileType dirvish nnoremap <silent> <buffer> <C-r> :<C-u>Dirvish %<CR>
+  autocmd FileType dirvish unmap <silent> <buffer> <CR>
+  autocmd FileType dirvish nnoremap <silent> <buffer> <CR> :<C-u> call <SID>dirvish_open()<CR>
+  autocmd FileType dirvish setlocal nonumber norelativenumber statusline=%F
+  "autocmd FileType dirvish silent! keeppatterns g@\v/\.[^\/]+/?$@d
+  "autocmd FileType dirvish execute ':sort r /[^\/]$/'
+augroup END
+
+
+" function to run a shell
+" https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim
+function! OpenShell()
+    if v:version < 801
+        sh
+    else
+        bo 10sp | term ++curwin
+        tnoremap <silent> <F3> <C-d>
+    endif
+endfunction
+
+" allow toggling between local and default mode
+" https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
+function! TabToggle()
+  if &expandtab
+    set noexpandtab
+  else
+    set expandtab
+  endif
+endfunction
+
+" *************************************************************************
+" hotkeys
+" *************************************************************************
+nnoremap <silent> <F2> :call <SID>dirvish_toggle()<CR>
+nnoremap <silent> <F3> :call OpenShell()<CR>
+nnoremap <silent> <F4> :UndotreeToggle<CR>
+nnoremap <silent> <F5> :call lightline#toggle()<CR>
+nnoremap <silent> <F7> :YRShow<CR>
+nnoremap <silent> <F8> :TagbarToggle<CR>
+nnoremap <F9> :AckFile!<Space>
+
+inoremap <silent> <F2> <Esc>:call <SID>dirvish_toggle()<CR>
+inoremap <silent> <F3> <Esc>:call OpenShell()<CR>
+inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
+inoremap <silent> <F5> <Esc>:call lightline#toggle()<CR>
+inoremap <silent> <F7> <Esc>:YRShow<CR>
+inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
+inoremap <F9> <Esc>:AckFile!<Space>
+
+cnoremap <silent> <F9> <C-c>
+
+" quickly edit this config file
+nnoremap <leader>ve :e $MYVIMRC<CR>
+" quickly save and source this config file
+nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+inoremap <leader>vs <Esc>:wa<Bar>so $MYVIMRC<CR>a
+
+" toggle paste mode
+inoremap <leader>p <Esc>:set paste!<CR>a
+nnoremap <leader>p :set paste!<CR>
+
+" toggle list char
+inoremap <leader>l <Esc>:set list!<CR>a
+nnoremap <leader>l :set list!<CR>
+
+" toggle tab/spaces
+inoremap <leader>t <Esc>:call TabToggle()<CR>a
+nnoremap <leader>t :call TabToggle()<CR>
+
+" strip trailing whitespaces
+" https://vi.stackexchange.com/a/2285
+inoremap <leader>s <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>a
+nnoremap <leader>s :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" search the word under the cursor
+inoremap <leader>a :Ack!<CR>
+nnoremap <leader>a :Ack!<CR>
+" search the given word
+inoremap <leader>A :Ack!<Space>
+nnoremap <leader>A :Ack!<Space>
