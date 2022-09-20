@@ -30,6 +30,7 @@ Bundle $GITHUB_SITE.'preservim/tagbar'
 Bundle $GITHUB_SITE.'mileszs/ack.vim'
 
 " more convenience
+Bundle $GITHUB_SITE.'delphinus/vim-auto-cursorline'
 Bundle $GITHUB_SITE.'luochen1990/rainbow'
 Bundle $GITHUB_SITE.'jiangmiao/auto-pairs'
 Bundle $GITHUB_SITE.'airblade/vim-rooter'
