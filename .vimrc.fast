@@ -189,6 +189,7 @@ augroup dirvish_commands
   autocmd FileType dirvish nnoremap <silent> <buffer> <C-r> :<C-u>Dirvish %<CR>
   autocmd FileType dirvish unmap <silent> <buffer> <CR>
   autocmd FileType dirvish nnoremap <silent> <buffer> <CR> :<C-u> call <SID>dirvish_open()<CR>
+  autocmd FileType dirvish nnoremap <silent> <buffer> <2-LeftMouse> :<C-u> call <SID>dirvish_open()<CR>
   autocmd FileType dirvish setlocal nonumber norelativenumber statusline=%F
   "autocmd FileType dirvish silent! keeppatterns g@\v/\.[^\/]+/?$@d
   "autocmd FileType dirvish execute ':sort r /[^\/]$/'
