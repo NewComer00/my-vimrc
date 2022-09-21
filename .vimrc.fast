@@ -118,6 +118,13 @@ set wildmode=longest,full
 set wildmenu
 
 set mouse=a
+" mouse will still work beyond the 223rd col if vim supports mouse-sgr
+" https://stackoverflow.com/a/19253251/15283141
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
 
 set laststatus=2
 
