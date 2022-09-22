@@ -2,51 +2,68 @@
 " presettings
 " *************************************************************************
 set encoding=utf8
+set nocompatible
 
 " *************************************************************************
 " vundle plugins
 " *************************************************************************
 
-let $GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
-"let $GITHUB_SITE = 'https://hub.fastgit.xyz/'
-"let $GITHUB_SITE = 'https://github.com/'
+let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
+"let GITHUB_SITE = 'https://hub.fastgit.xyz/'
+"let GITHUB_SITE = 'https://github.com/'
+let GITHUB_RAW = 'https://raw.fastgit.org/'
+"let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" download the plugin manager if not installed
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    echo 'Downloading plugin manager ...'
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs '
+                \ . GITHUB_RAW.'junegunn/vim-plug/master/plug.vim '
+                \ .'&& echo "Download successful." || echo "Download failed." '
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" plugin manager
-Bundle $GITHUB_SITE.'VundleVim/Vundle.vim'
+call plug#begin()
 
 " color schemes
-Bundle $GITHUB_SITE.'flazz/vim-colorschemes'
+Plug GITHUB_SITE.'flazz/vim-colorschemes'
 
 " mostly used
-Bundle $GITHUB_SITE.'justinmk/vim-dirvish'
-Bundle $GITHUB_SITE.'itchyny/lightline.vim'
-Bundle $GITHUB_SITE.'mbbill/undotree'
-Bundle $GITHUB_SITE.'preservim/tagbar'
-Bundle $GITHUB_SITE.'mileszs/ack.vim'
+Plug GITHUB_SITE.'justinmk/vim-dirvish'
+Plug GITHUB_SITE.'rbong/vim-crystalline', { 'branch': 'vim-7' }
+Plug GITHUB_SITE.'mbbill/undotree'
+Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
+Plug GITHUB_SITE.'mileszs/ack.vim'
 
 " more convenience
-Bundle $GITHUB_SITE.'delphinus/vim-auto-cursorline'
-Bundle $GITHUB_SITE.'luochen1990/rainbow'
-Bundle $GITHUB_SITE.'jiangmiao/auto-pairs'
-Bundle $GITHUB_SITE.'airblade/vim-rooter'
-Bundle $GITHUB_SITE.'junegunn/vim-peekaboo'
-Bundle $GITHUB_SITE.'preservim/nerdcommenter'
-Bundle $GITHUB_SITE.'vim-scripts/YankRing.vim'
-Bundle $GITHUB_SITE.'farmergreg/vim-lastplace'
+Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
+Plug GITHUB_SITE.'luochen1990/rainbow'
+Plug GITHUB_SITE.'jiangmiao/auto-pairs'
+Plug GITHUB_SITE.'airblade/vim-rooter'
+Plug GITHUB_SITE.'junegunn/vim-peekaboo'
+Plug GITHUB_SITE.'tpope/vim-commentary'
+Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
+Plug GITHUB_SITE.'farmergreg/vim-lastplace'
+Plug GITHUB_SITE.'tweekmonster/startuptime.vim'
 
-call vundle#end()
-filetype plugin indent on
+call plug#end()
 
 " *************************************************************************
 " plugin configs
 " *************************************************************************
 " flazz/vim-colorschemes
+syntax on
 colorscheme molokai
+
+function! StatusLine(...)
+  return crystalline#mode() . crystalline#right_mode_sep('Line')
+        \ . ' %f%h%w%m%r ' . crystalline#right_sep('Line', 'Fill') . '%='
+        \ . crystalline#left_sep('Line', 'Fill')
+        \ . ' %{&ft} [%{&fenc!=#""?&fenc:&enc}] [%{&ff}] Line:%l/%L Col:%c%V %P '
+endfunction
+let g:crystalline_statusline_fn = 'StatusLine'
+let g:crystalline_theme = 'jellybeans'
 
 " justinmk/vim-dirvish
 let g:dirvish_mode = 2
@@ -87,6 +104,13 @@ set ttyfast
 set lazyredraw
 set cul!
 
+" speed up syntax highlighting & regex performance
+" https://vi.stackexchange.com/a/21641
+" https://gist.github.com/glts/5646749
+if exists('&regexpengine')
+  set regexpengine=1
+endif
+
 " to enable backspace key
 " https://vi.stackexchange.com/a/2163
 set backspace=indent,eol,start
@@ -98,7 +122,6 @@ set novisualbell
 set t_u7=
 
 set t_Co=256
-syntax on
 
 set hlsearch
 set incsearch
