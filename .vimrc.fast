@@ -56,6 +56,7 @@ call plug#end()
 syntax on
 colorscheme molokai
 
+" rbong/vim-crystalline
 function! StatusLine(...)
   return crystalline#mode() . crystalline#right_mode_sep('Line')
         \ . ' %f%h%w%m%r ' . crystalline#right_sep('Line', 'Fill') . '%='
