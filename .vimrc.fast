@@ -4,6 +4,12 @@
 set encoding=utf8
 set nocompatible
 
+if has('win32')
+    let DATA_DIR = '$HOME/vimfiles'
+else
+    let DATA_DIR = '$HOME/.vim'
+endif
+
 " *************************************************************************
 " vundle plugins
 " *************************************************************************
@@ -15,12 +21,16 @@ let GITHUB_RAW = 'https://raw.fastgit.org/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " download the plugin manager if not installed
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
+if empty(glob(DATA_DIR . '/autoload/plug.vim'))
     echo 'Downloading plugin manager ...'
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs '
-                \ . GITHUB_RAW.'junegunn/vim-plug/master/plug.vim '
-                \ .'&& echo "Download successful." || echo "Download failed." '
+    if has('win32')
+        silent execute '!powershell "iwr -useb '.GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim |`'
+                    \ 'ni '.DATA_DIR.'/autoload/plug.vim -Force"'
+    else
+        silent execute '!curl -fLo '.DATA_DIR.'/autoload/plug.vim --create-dirs '
+                    \ . GITHUB_RAW.'junegunn/vim-plug/master/plug.vim '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
+    endif
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -91,10 +101,11 @@ let g:rainbow_conf = {
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
 " save yankring history in this dir
-if !isdirectory($HOME."/.vim/yankring-dir")
-    call mkdir($HOME."/.vim/yankring-dir", "", 0700)
+let yankring_dir = expand(DATA_DIR."/yankring-dir")
+if !isdirectory(yankring_dir)
+    call mkdir(yankring_dir, "", 0700)
 endif
-let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
+let g:yankring_history_dir = yankring_dir
 
 " *************************************************************************
 " my scripts
@@ -169,10 +180,11 @@ set list
 
 " Let's save undo info!
 " from https://vi.stackexchange.com/a/53
-if !isdirectory($HOME."/.vim/undo-dir")
-    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+let undodir_path=expand(DATA_DIR."/undo-dir")
+if !isdirectory(undodir_path)
+    call mkdir(undodir_path, "", 0700)
 endif
-set undodir=~/.vim/undo-dir
+let &undodir=undodir_path
 set undofile
 
 " *************************************************************************
