@@ -242,7 +242,14 @@ function! OpenShell()
         sh
     else
         bo 10sp | term ++curwin
-        tnoremap <silent> <F3> <C-d>
+
+        " enable the shortcut to close the shell
+        if has('win32')
+            tnoremap <silent> <F3> <C-End><C-Home>exit<CR>
+        else
+            tnoremap <silent> <F3> <C-a><C-k><C-d>
+        endif
+
     endif
 endfunction
 
