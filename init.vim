@@ -12,9 +12,11 @@ set encoding=utf8
 " *************************************************************************
 
 let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
+"let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
 let GITHUB_RAW = 'https://raw.fastgit.org/'
+"let GITHUB_RAW = 'https://ghproxy.com/https://raw.githubusercontent.com/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " download the plugin manager if not installed
