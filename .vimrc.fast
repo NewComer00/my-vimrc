@@ -42,7 +42,7 @@ call plug#begin()
 Plug GITHUB_SITE.'flazz/vim-colorschemes'
 
 " mostly used
-Plug GITHUB_SITE.'justinmk/vim-dirvish'
+Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug GITHUB_SITE.'rbong/vim-crystalline', { 'branch': 'vim-7' }
 Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
@@ -78,8 +78,10 @@ endfunction
 let g:crystalline_statusline_fn = 'StatusLine'
 let g:crystalline_theme = 'jellybeans'
 
-" justinmk/vim-dirvish
-let g:dirvish_mode = 2
+" preservim/nerdtree
+let NERDTreeWinPos="right"
+let NERDTreeShowHidden=1
+let NERDTreeMouseMode=2
 
 " preservim/tagbar
 let g:tagbar_position = 'vertical leftabove'
@@ -192,47 +194,6 @@ set undofile
 " *************************************************************************
 " my functions
 " *************************************************************************
-" toggle dirvish window
-" https://github.com/justinmk/vim-dirvish/issues/68
-function! s:dirvish_toggle() abort
-  let l:last_buffer = bufnr('$')
-  let l:i = 1
-  let l:dirvish_already_open = 0
-
-  while l:i <= l:last_buffer
-    if bufexists(l:i) && bufloaded(l:i) && getbufvar(l:i, '&filetype') ==? 'dirvish'
-      let l:dirvish_already_open = 1
-      execute ':'.l:i.'bd!'
-    endif
-    let l:i += 1
-  endwhile
-
-  if !l:dirvish_already_open
-    35vsp +Dirvish
-  endif
-endfunction
-
-function! s:dirvish_open() abort
-  let l:line = getline('.')
-  if l:line =~? '/$'
-    call dirvish#open('edit', 0)
-  else
-    call <SID>dirvish_toggle()
-    execute 'e '.l:line
-  endif
-endfunction
-
-augroup dirvish_commands
-  autocmd!
-  autocmd FileType dirvish nnoremap <silent> <buffer> <C-r> :<C-u>Dirvish %<CR>
-  autocmd FileType dirvish unmap <silent> <buffer> <CR>
-  autocmd FileType dirvish nnoremap <silent> <buffer> <CR> :<C-u> call <SID>dirvish_open()<CR>
-  autocmd FileType dirvish nnoremap <silent> <buffer> <2-LeftMouse> :<C-u> call <SID>dirvish_open()<CR>
-  autocmd FileType dirvish setlocal nonumber norelativenumber statusline=%F
-  "autocmd FileType dirvish silent! keeppatterns g@\v/\.[^\/]+/?$@d
-  "autocmd FileType dirvish execute ':sort r /[^\/]$/'
-augroup END
-
 
 " function to run a shell
 " https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim
@@ -268,14 +229,14 @@ endfunction
 " *************************************************************************
 " hotkeys
 " *************************************************************************
-nnoremap <silent> <F2> :call <SID>dirvish_toggle()<CR>
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> :call OpenShell()<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <F9> :AckFile!<Space>
 
-inoremap <silent> <F2> <Esc>:call <SID>dirvish_toggle()<CR>
+inoremap <silent> <F2> <Esc>:NERDTreeToggle<CR>
 inoremap <silent> <F3> <Esc>:call OpenShell()<CR>
 inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
 inoremap <silent> <F7> <Esc>:YRShow<CR>
