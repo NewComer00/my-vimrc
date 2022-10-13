@@ -33,11 +33,11 @@ call plug#begin()
 Plug GITHUB_SITE.'rafamadriz/neon'
 
 " mostly used
-Plug GITHUB_SITE.'preservim/nerdtree'
+Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug GITHUB_SITE.'vim-airline/vim-airline'
 Plug GITHUB_SITE.'akinsho/toggleterm.nvim'
 Plug GITHUB_SITE.'mbbill/undotree'
-Plug GITHUB_SITE.'preservim/tagbar'
+Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
 
 " more convenience
 Plug GITHUB_SITE.'vim-airline/vim-airline-themes'
@@ -151,6 +151,7 @@ EOF
 " [vim-scripts/YankRing.vim]
 " make it compatible for neovim
 " https://github.com/neovim/neovim/issues/2642#issuecomment-218232937
+let g:clipboard = {} " https://github.com/neovim/neovim/issues/9570
 let g:yankring_clipboard_monitor = 0
 " to avoid <C-p> collision with the ctrlp plugin
 let g:yankring_replace_n_pkey = '<m-p>'
