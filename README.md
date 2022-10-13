@@ -7,6 +7,8 @@ My Vim &amp; Neovim config
 * [环境需求](#环境需求)
 * [主要功能](#主要功能)
 * [配置我的Vim](#配置我的vim)
+	* [使用完全版配置.vimrc](#使用完全版配置vimrc)
+	* [使用精简版配置.vimrc.fast](#使用精简版配置vimrcfast)
 * [配置我的Neovim](#配置我的neovim)
 	* [安装Neovim](#安装neovim)
 	* [配置Neovim](#配置neovim)
@@ -38,7 +40,9 @@ My Vim &amp; Neovim config
 - 如果完全版的Vim配置```.vimrc```导致Vim启动减慢、使用卡顿，可以使用精简版的```.vimrc.fast```配置文件。精简版的配置保留了大部分主要功能，并使用了更加轻量的插件。
 
 ## 配置我的Vim
-[![Vim Logo](https://github.com/vim/vim/raw/master/runtime/vimlogo.gif)](https://www.vim.org)  
+[![Vim Logo](https://github.com/vim/vim/raw/master/runtime/vimlogo.gif)](https://www.vim.org)
+
+### 使用完全版配置.vimrc
 切换路径至本仓库目录下，复制本仓库的```.vimrc```作为用户的Vim默认配置文件。
 ```
 cp ./.vimrc ~/.vimrc
@@ -56,6 +60,19 @@ git clone --depth 1 https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vu
 1. 如果插件下载安装进度过慢或显示某些插件安装失败，请按下```<C-c>```停止安装，然后尝试重新输入命令```:PluginInstall```来下载安装这些插件。
 2. 配置文件默认使用加速网站来加快对github的访问，如需更换回原始的github网址，请更改配置文件中的```GITHUB_SITE```变量值，将被注释掉的```GITHUB_SITE```变量值还原。
 3. 某些插件需要进行额外的操作才能正常工作（如```<F3>```对应的```Shougo/vimshell.vim```插件），请根据插件提示操作。```Shougo/vimshell.vim```插件需要```cd ~/.vim/bundle/vimproc.vim && make```编译库后才能正常工作。
+
+### 使用精简版配置.vimrc.fast
+**精简版的配置目标是——首先保证Vim的启动速度和使用流畅性，其次添加方便用户的功能**。精简版配置删去了一些不必要的插件，并且使用了更加轻量的插件。使用精简版配置后，Vim将保持飞快的启动速度。  
+切换路径至本仓库目录下，复制本仓库的```.vimrc.fast```作为用户的Vim默认配置文件。
+```
+cp ./.vimrc.fast ~/.vimrc
+```
+配置中使用了vim-plug作为Vim的插件管理器。首次运行配置过的Vim时，Vim会自动下载并安装插件管理器，并自动安装一系列插件。  
+主要功能插件的快捷键是```<F2> ~ <F4>```，```<F7> ~ <F9>```。安装完毕后重新进入Vim，即可按动快捷键查看插件是否工作正常。
+
+⚠️注意：  
+1. 如果插件下载安装进度过慢或显示某些插件安装失败，请退出Vim，然后尝试重新打开Vim输入命令```:PlugInstall```来下载安装这些插件。
+2. 配置文件默认使用加速网站来加快对github的访问，如需更换回原始的github网址，请更改配置文件中的```GITHUB_RAW```与```GITHUB_SITE```变量值，将被注释掉的变量值还原。在改变网址后所有已安装插件都需要更新，输入命令```:PlugClean```和```:PlugInstall```来重新下载安装插件。
 
 ## 配置我的Neovim
 ![Neovim](https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png)  
