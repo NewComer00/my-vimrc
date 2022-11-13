@@ -59,7 +59,6 @@ Plug GITHUB_SITE.'rbong/vim-crystalline', { 'branch': 'vim-7' }
 Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
 Plug GITHUB_SITE.'mileszs/ack.vim'
-Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
 
 " more convenience
 Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
@@ -71,6 +70,10 @@ Plug GITHUB_SITE.'tpope/vim-commentary'
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
 Plug GITHUB_SITE.'tweekmonster/startuptime.vim'
+
+" system clipboard
+Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
+Plug GITHUB_SITE.'christoomey/vim-system-copy'
 
 call plug#end()
 
