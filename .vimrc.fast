@@ -23,15 +23,27 @@ let GITHUB_RAW = 'https://raw.fastgit.org/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " download the plugin manager if not installed
-if empty(glob(DATA_DIR . '/autoload/plug.vim'))
+let AUTOLOAD_DIR =  DATA_DIR.'/autoload'
+let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
+let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
+if empty(glob(PLUGIN_MANAGER_PATH))
     echo 'Downloading plugin manager ...'
     if has('win32')
-        silent execute '!powershell "iwr -useb '.GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim |`'
-                    \ 'ni '.DATA_DIR.'/autoload/plug.vim -Force"'
+        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
+                    \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
     else
-        silent execute '!curl -fLo '.DATA_DIR.'/autoload/plug.vim --create-dirs '
-                    \ . GITHUB_RAW.'junegunn/vim-plug/master/plug.vim '
-                    \ .'&& echo "Download successful." || echo "Download failed." '
+        if executable('wget')
+            silent execute '!mkdir '.AUTOLOAD_DIR.' '
+                        \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
+                        \ .'&& echo "Download successful." || echo "Download failed." '
+        elseif executable('curl')
+            silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
+                        \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
+                        \ .'&& echo "Download successful." || echo "Download failed." '
+        else
+            echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
+                        \ .' and place it in '.PLUGIN_MANAGER_PATH
+        endif
     endif
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -47,6 +59,7 @@ Plug GITHUB_SITE.'rbong/vim-crystalline', { 'branch': 'vim-7' }
 Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
 Plug GITHUB_SITE.'mileszs/ack.vim'
+Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
 
 " more convenience
 Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
@@ -110,6 +123,10 @@ if !isdirectory(yankring_dir)
     call mkdir(yankring_dir, "", 0700)
 endif
 let g:yankring_history_dir = yankring_dir
+
+" ojroques/vim-oscyank
+" copy after any yank operation
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
 
 " *************************************************************************
 " my scripts

@@ -20,10 +20,28 @@ let GITHUB_RAW = 'https://raw.fastgit.org/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " download the plugin manager if not installed
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
+let AUTOLOAD_DIR = stdpath('data').'/site/autoload'
+let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
+let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
+if empty(glob(PLUGIN_MANAGER_PATH))
     echo 'Downloading plugin manager ...'
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs '.GITHUB_RAW.'junegunn/vim-plug/master/plug.vim && echo "Download successful." || echo "Download failed." '
+    if has('win32')
+        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
+                    \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+    else
+        if executable('wget')
+            silent execute '!mkdir '.AUTOLOAD_DIR.' '
+                        \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
+                        \ .'&& echo "Download successful." || echo "Download failed." '
+        elseif executable('curl')
+            silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
+                        \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
+                        \ .'&& echo "Download successful." || echo "Download failed." '
+        else
+            echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
+                        \ .' and place it in '.PLUGIN_MANAGER_PATH
+        endif
+    endif
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
