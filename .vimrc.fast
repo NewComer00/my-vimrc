@@ -33,7 +33,7 @@ if empty(glob(PLUGIN_MANAGER_PATH))
                     \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
     else
         if executable('wget')
-            silent execute '!mkdir '.AUTOLOAD_DIR.' '
+            silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
                         \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
                         \ .'&& echo "Download successful." || echo "Download failed." '
         elseif executable('curl')
