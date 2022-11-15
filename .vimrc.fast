@@ -128,8 +128,12 @@ endif
 let g:yankring_history_dir = yankring_dir
 
 " ojroques/vim-oscyank
+let g:oscyank_silent = 1
 " copy after any yank operation
-autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+" turn this off on windows because of the annoying blink
+if !has('win32')
+    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+endif
 
 " *************************************************************************
 " my scripts
