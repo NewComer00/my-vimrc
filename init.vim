@@ -25,22 +25,20 @@ let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
 let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
 if empty(glob(PLUGIN_MANAGER_PATH))
     echo 'Downloading plugin manager ...'
-    if has('win32')
+    if has('win32') && executable('powershell')
         silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
                     \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+    elseif executable('wget')
+        silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
+                    \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
+    elseif executable('curl')
+        silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
+                    \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
     else
-        if executable('wget')
-            silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
-                        \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
-                        \ .'&& echo "Download successful." || echo "Download failed." '
-        elseif executable('curl')
-            silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
-                        \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
-                        \ .'&& echo "Download successful." || echo "Download failed." '
-        else
-            echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
-                        \ .' and place it in '.PLUGIN_MANAGER_PATH
-        endif
+        echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
+                    \ .' and place it in '.PLUGIN_MANAGER_PATH
     endif
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -70,6 +68,10 @@ Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'preservim/nerdcommenter'
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
+
+" system clipboard
+Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
+Plug GITHUB_SITE.'christoomey/vim-system-copy'
 
 " git related
 Plug GITHUB_SITE.'tpope/vim-fugitive'
@@ -204,6 +206,13 @@ require('fzf-lua').setup {
     fzf_bin = default_fzf_bin,
 }
 EOF
+
+" [christoomey/vim-system-copy]
+let g:system_copy_enable_osc52 = 1
+if has('win32') && executable('powershell')
+    " https://github.com/christoomey/vim-system-copy/pull/35#issue-557371087
+    let g:system_copy#paste_command='powershell "Get-Clipboard"'
+endif
 
 " [neovim/nvim-lspconfig] auto-completion settings
 " https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion

@@ -44,6 +44,10 @@ Bundle GITHUB_SITE.'preservim/nerdcommenter'
 Bundle GITHUB_SITE.'vim-scripts/YankRing.vim'
 Bundle GITHUB_SITE.'farmergreg/vim-lastplace'
 
+" system clipboard
+Bundle GITHUB_SITE.'ojroques/vim-oscyank'
+Bundle GITHUB_SITE.'christoomey/vim-system-copy'
+
 " git related
 Bundle GITHUB_SITE.'tpope/vim-fugitive'
 Bundle GITHUB_SITE.'junegunn/gv.vim'
@@ -82,6 +86,13 @@ let g:vimshell_popup_height=30
 " preservim/tagbar
 let g:tagbar_position = 'vertical leftabove'
 let g:tagbar_width = max([25, winwidth(0) / 5])
+
+" christoomey/vim-system-copy
+let g:system_copy_enable_osc52 = 1
+if has('win32') && executable('powershell')
+    " https://github.com/christoomey/vim-system-copy/pull/35#issue-557371087
+    let g:system_copy#paste_command='powershell "Get-Clipboard"'
+endif
 
 " mileszs/ack.vim
 if executable('ag')

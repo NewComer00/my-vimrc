@@ -28,22 +28,20 @@ let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
 let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
 if empty(glob(PLUGIN_MANAGER_PATH))
     echo 'Downloading plugin manager ...'
-    if has('win32')
+    if has('win32') && executable('powershell')
         silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
                     \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+    elseif executable('wget')
+        silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
+                    \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
+    elseif executable('curl')
+        silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
+                    \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
     else
-        if executable('wget')
-            silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
-                        \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
-                        \ .'&& echo "Download successful." || echo "Download failed." '
-        elseif executable('curl')
-            silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
-                        \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
-                        \ .'&& echo "Download successful." || echo "Download failed." '
-        else
-            echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
-                        \ .' and place it in '.PLUGIN_MANAGER_PATH
-        endif
+        echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
+                    \ .' and place it in '.PLUGIN_MANAGER_PATH
     endif
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -127,12 +125,11 @@ if !isdirectory(yankring_dir)
 endif
 let g:yankring_history_dir = yankring_dir
 
-" ojroques/vim-oscyank
-let g:oscyank_silent = 1
-" copy after any yank operation
-" turn this off on windows because of the annoying blink
-if !has('win32')
-    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif
+" christoomey/vim-system-copy
+let g:system_copy_enable_osc52 = 1
+if has('win32') && executable('powershell')
+    " https://github.com/christoomey/vim-system-copy/pull/35#issue-557371087
+    let g:system_copy#paste_command='powershell "Get-Clipboard"'
 endif
 
 " *************************************************************************
