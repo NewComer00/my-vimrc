@@ -210,6 +210,9 @@ EOF
 " [christoomey/vim-system-copy]
 let g:system_copy_enable_osc52 = 1
 if has('win32') && executable('powershell')
+    " force cmd.exe to use utf-8 encoding
+    " https://stackoverflow.com/questions/57131654/using-utf-8-encoding-chcp-65001-in-command-prompt-windows-powershell-window
+    call system('chcp 65001')
     " https://github.com/christoomey/vim-system-copy/pull/35#issue-557371087
     let g:system_copy#paste_command='powershell "Get-Clipboard"'
 endif
@@ -506,3 +509,11 @@ nnoremap <leader>A :FzfLua live_grep<CR>
 " toggle LSP diagnostics
 inoremap <leader>d <Esc>:ToggleDiag<CR>a
 nnoremap <leader>d :ToggleDiag<CR>
+
+" christoomey/vim-system-copy
+nnoremap cy <Plug>SystemCopy
+xnoremap cy <Plug>SystemCopy
+nnoremap cY <Plug>SystemCopyLine
+nnoremap cp <Plug>SystemPaste
+xnoremap cp <Plug>SystemPaste
+nnoremap cP <Plug>SystemPasteLine
