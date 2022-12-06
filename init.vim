@@ -45,43 +45,58 @@ endif
 
 call plug#begin()
 
+" --------------------
 " color scheme
-Plug GITHUB_SITE.'rafamadriz/neon'
+" --------------------
+Plug GITHUB_SITE.'folke/tokyonight.nvim', { 'branch': 'main' }
 
+" --------------------
 " mostly used
+" --------------------
 Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug GITHUB_SITE.'vim-airline/vim-airline'
+Plug GITHUB_SITE.'nvim-lualine/lualine.nvim'
 Plug GITHUB_SITE.'akinsho/toggleterm.nvim'
 Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
+Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
+" finder
+Plug GITHUB_SITE.'nvim-lua/plenary.nvim'
+Plug GITHUB_SITE.'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+" debugger
+Plug GITHUB_SITE.'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
+" --------------------
 " more convenience
-Plug GITHUB_SITE.'vim-airline/vim-airline-themes'
-Plug GITHUB_SITE.'luochen1990/rainbow'
-Plug GITHUB_SITE.'itchyny/vim-cursorword.git'
+" --------------------
 Plug GITHUB_SITE.'ntpeters/vim-better-whitespace'
-Plug GITHUB_SITE.'lukas-reineke/indent-blankline.nvim'
 Plug GITHUB_SITE.'windwp/nvim-autopairs'
 Plug GITHUB_SITE.'tpope/vim-surround'
 Plug GITHUB_SITE.'airblade/vim-rooter'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'preservim/nerdcommenter'
-Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
-
 " system clipboard
 Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
 Plug GITHUB_SITE.'christoomey/vim-system-copy'
-
 " git related
 Plug GITHUB_SITE.'tpope/vim-fugitive'
 Plug GITHUB_SITE.'junegunn/gv.vim'
+" neovim performance
+Plug GITHUB_SITE.'lewis6991/impatient.nvim'
+Plug GITHUB_SITE.'dstein64/vim-startuptime'
 
-" finder
-Plug GITHUB_SITE.'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug GITHUB_SITE.'ibhagwan/fzf-lua', {'branch': 'main'}
+" --------------------
+" highlight & appearance
+" --------------------
+Plug GITHUB_SITE.'nvim-treesitter/nvim-treesitter'
+Plug GITHUB_SITE.'p00f/nvim-ts-rainbow'
+Plug GITHUB_SITE.'luochen1990/rainbow'
+Plug GITHUB_SITE.'nyngwang/murmur.lua'
+Plug GITHUB_SITE.'lukas-reineke/indent-blankline.nvim'
 
+" --------------------
 " LSP related
+" --------------------
 Plug GITHUB_SITE.'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 Plug GITHUB_SITE.'hrsh7th/nvim-cmp' " Autocompletion plugin
 Plug GITHUB_SITE.'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
@@ -89,9 +104,6 @@ Plug GITHUB_SITE.'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug GITHUB_SITE.'L3MON4D3/LuaSnip' " Snippets plugin
 Plug GITHUB_SITE.'ray-x/lsp_signature.nvim' " Function signature
 Plug GITHUB_SITE.'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim' " Toggle LSP diagnostics
-
-" debugger
-Plug GITHUB_SITE.'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
 call plug#end()
 
@@ -129,12 +141,19 @@ EOF
 " plugin configs
 " *************************************************************************
 
-" [rafamadriz/neon]
-let g:neon_style = "dark"
-let g:neon_italic_keyword = 1
-let g:neon_italic_function = 1
-let g:neon_transparent = 1
-colorscheme neon
+" [lewis6991/impatient.nvim]
+lua require('impatient')
+
+" [folke/tokyonight.nvim]
+lua << EOF
+require("tokyonight").setup({
+    style = "night",
+    light_style = "day",
+    transparent = false,
+    terminal_colors = true,
+})
+EOF
+colorscheme tokyonight
 
 " [preservim/nerdtree]
 let NERDTreeWinPos="right"
@@ -144,29 +163,30 @@ let NERDTreeMouseMode=2
 " [akinsho/toggleterm.nvim]
 " https://github.com/akinsho/toggleterm.nvim
 lua << EOF
-require("toggleterm").setup()
+require("toggleterm").setup{
+    on_open = function()
+        if vim.fn.has 'win32' == 1 then
+            vim.cmd([[startinsert]])
+        end
+    end,
+}
 EOF
 
 " [preservim/tagbar]
 let g:tagbar_position = 'vertical leftabove'
 let g:tagbar_width = max([25, winwidth(0) / 5])
 
-" [vim-airline/vim-airline-themes]
-let g:airline_theme = 'deus'
-
-" [rainbow/luochen1990]
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-\   'separately': {
-\   'nerdtree': 0,
-\   }
-\}
-
-" [lukas-reineke/indent-blankline.nvim]
-" https://github.com/lukas-reineke/indent-blankline.nvim
-lua << EOF
-require("indent_blankline").setup {}
-EOF
+" [nvim-lualine/lualine.nvim]
+lua << END
+require('lualine').setup{
+    options = {
+        theme = 'auto',
+        section_separators = '',
+        component_separators = '|',
+        icons_enabled = false
+    }
+}
+END
 
 " [vim-scripts/YankRing.vim]
 " make it compatible for neovim
@@ -183,6 +203,55 @@ if !isdirectory(yankring_path)
 endif
 let g:yankring_history_dir = yankring_path
 
+" [nvim-telescope/telescope.nvim]
+lua << EOF
+-- https://www.reddit.com/r/neovim/comments/pzxw8h/telescope_quit_on_first_single_esc/
+local actions = require("telescope.actions")
+require('telescope').setup{
+    defaults = {
+        mappings = {
+            n = {
+                ["<F9>"] = actions.close,
+            },
+            i = {
+                ["<F9>"] = actions.close,
+                ["<RightMouse>"] = actions.close,
+                ["<LeftMouse>"] = actions.select_default,
+                ["<ScrollWheelDown>"] = actions.move_selection_next,
+                ["<ScrollWheelUp>"] = actions.move_selection_previous,
+            },
+        },
+    },
+}
+EOF
+
+" [sakhnik/nvim-gdb]
+" https://github.com/sakhnik/nvim-gdb
+" disable default keymaps
+let g:nvimgdb_disable_start_keymaps = 1
+" set debugger keymaps
+function! NvimGdbNoTKeymaps()
+  tnoremap <silent> <buffer> <esc> <c-\><c-n>G
+endfunction
+nnoremap <M-r> :GdbRun<CR>
+let g:nvimgdb_config_override = {
+  \ 'key_next': '<M-n>',
+  \ 'key_step': '<M-s>',
+  \ 'key_finish': '<M-f>',
+  \ 'key_continue': '<M-c>',
+  \ 'key_until': '<M-t>',
+  \ 'key_breakpoint': '<M-b>',
+  \ 'key_quit': '<M-q>',
+  \ 'key_eval': '<M-e>',
+  \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
+  \ }
+
+" [ntpeters/vim-better-whitespace]
+" https://github.com/ntpeters/vim-better-whitespace/issues/158
+augroup vimrc
+  autocmd TermOpen * :DisableWhitespace
+augroup END
+
 " [windwp/nvim-autopairs] with nvim-cmp
 " https://github.com/windwp/nvim-autopairs
 lua << EOF
@@ -196,17 +265,6 @@ cmp_autopairs.on_confirm_done()
 )
 EOF
 
-" [ibhagwan/fzf-lua]
-" https://github.com/ibhagwan/fzf-lua
-lua << EOF
--- by default, using fzf binary downloaded by [junegunn/fzf]
-local default_fzf_bin = vim.api.nvim_exec(
-    [[echo expand(stdpath('data').'/plugged/fzf/bin/fzf')]], true)
-require('fzf-lua').setup {
-    fzf_bin = default_fzf_bin,
-}
-EOF
-
 " [christoomey/vim-system-copy]
 let g:system_copy_enable_osc52 = 1
 if has('win32') && executable('powershell')
@@ -217,12 +275,52 @@ if has('win32') && executable('powershell')
     let g:system_copy#paste_command='powershell "Get-Clipboard"'
 endif
 
+" [nvim-treesitter/nvim-treesitter]
+lua << EOF
+for _, config in pairs(require("nvim-treesitter.parsers").get_parser_configs()) do
+  config.install_info.url = config.install_info.url:gsub("^https://github.com/", vim.api.nvim_get_var('GITHUB_SITE'))
+end
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+    -- [p00f/nvim-ts-rainbow]
+    rainbow = {
+        enable = true,
+        extended_mode = true,
+    },
+}
+EOF
+
+" [nyngwang/murmur.lua]
+lua << EOF
+require('murmur').setup {
+    max_len = 80,
+    min_len = 1,
+}
+EOF
+
+" [rainbow/luochen1990]
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\   'separately': {
+\   'nerdtree': 0,
+\   }
+\}
+
+" [lukas-reineke/indent-blankline.nvim]
+" https://github.com/lukas-reineke/indent-blankline.nvim
+lua << EOF
+require("indent_blankline").setup {}
+EOF
+
 " [neovim/nvim-lspconfig] auto-completion settings
 " https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion
 lua << EOF
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local lspconfig = require('lspconfig')
 
@@ -292,27 +390,6 @@ lua << EOF
 require'toggle_lsp_diagnostics'.init({ start_on = false })
 EOF
 
-" [sakhnik/nvim-gdb]
-" https://github.com/sakhnik/nvim-gdb
-" disable default keymaps
-let g:nvimgdb_disable_start_keymaps = 1
-" set debugger keymaps
-function! NvimGdbNoTKeymaps()
-  tnoremap <silent> <buffer> <esc> <c-\><c-n>G
-endfunction
-nnoremap <M-r> :GdbRun<CR>
-let g:nvimgdb_config_override = {
-  \ 'key_next': '<M-n>',
-  \ 'key_step': '<M-s>',
-  \ 'key_finish': '<M-f>',
-  \ 'key_continue': '<M-c>',
-  \ 'key_until': '<M-t>',
-  \ 'key_breakpoint': '<M-b>',
-  \ 'key_quit': '<M-q>',
-  \ 'key_eval': '<M-e>',
-  \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
-  \ }
-
 " *************************************************************************
 " my scripts
 " *************************************************************************
@@ -328,7 +405,6 @@ set novisualbell
 set t_u7=
 
 set t_Co=256
-syntax on
 
 set hlsearch
 
@@ -445,25 +521,21 @@ augroup END
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
-nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F6> :call GdbStartAuto()<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
-nnoremap <silent> <F9> :FzfLua<CR>
+nnoremap <silent> <F9> :Telescope find_files<CR>
 
 inoremap <silent> <F2> <Esc>:NvimTreeToggle<CR>
 inoremap <silent> <F3> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
 inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
-inoremap <silent> <F5> <Esc>:AirlineToggle<CR>
 inoremap <silent> <F6> <Esc>:call GdbStartAuto()<CR>
 inoremap <silent> <F7> <Esc>:YRShow<CR>
 inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
-inoremap <silent> <F9> <Esc>:FzfLua<CR>
 
 cnoremap <silent> <F6> <C-c>
 
 tnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-tnoremap <silent> <F9> <Esc>
 
 " enable autocomplete in command mode
 cnoremap <C-n> <C-f>a<C-n>
@@ -500,11 +572,11 @@ inoremap <leader>s <Esc>:StripWhitespace<CR>a
 nnoremap <leader>s :StripWhitespace<CR>
 
 " search the word under the cursor
-inoremap <leader>a <Esc>:FzfLua grep_cword<CR>
-nnoremap <leader>a :FzfLua grep_cword<CR>
+inoremap <leader>a <Esc>:Telescope grep_string<CR>
+nnoremap <leader>a :Telescope grep_string<CR>
 " search the given word
-inoremap <leader>A <Esc>:FzfLua live_grep<CR>
-nnoremap <leader>A :FzfLua live_grep<CR>
+inoremap <leader>A <Esc>:Telescope live_grep<CR>
+nnoremap <leader>A :Telescope live_grep<CR>
 
 " toggle LSP diagnostics
 inoremap <leader>d <Esc>:ToggleDiag<CR>a
