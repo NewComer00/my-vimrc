@@ -2,75 +2,116 @@
 " presettings
 " *************************************************************************
 set encoding=utf8
+set nocompatible
+
+if has('win32')
+    let DATA_DIR = '$HOME/vimfiles'
+else
+    let DATA_DIR = '$HOME/.vim'
+endif
 
 " *************************************************************************
-" vundle plugins
+" vim plugins
 " *************************************************************************
 
 let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
 "let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
+let GITHUB_RAW = 'https://raw.fastgit.org/'
+"let GITHUB_RAW = 'https://ghproxy.com/https://raw.githubusercontent.com/'
+"let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" download the plugin manager if not installed
+let AUTOLOAD_DIR =  DATA_DIR.'/autoload'
+let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
+let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
+if empty(glob(PLUGIN_MANAGER_PATH))
+    echo 'Downloading plugin manager ...'
+    if has('win32') && executable('powershell')
+        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
+                    \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+    elseif executable('wget')
+        silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
+                    \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
+    elseif executable('curl')
+        silent execute '!curl -fLo '.PLUGIN_MANAGER_PATH
+                    \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
+                    \ .'&& echo "Download successful." || echo "Download failed." '
+    else
+        echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
+                    \ .' and place it in '.PLUGIN_MANAGER_PATH
+    endif
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" plugin manager
-Bundle GITHUB_SITE.'VundleVim/Vundle.vim'
+call plug#begin()
 
+" --------------------
 " color schemes
-Bundle GITHUB_SITE.'flazz/vim-colorschemes'
+" --------------------
+Plug GITHUB_SITE.'flazz/vim-colorschemes'
 
+" --------------------
 " mostly used
-Bundle GITHUB_SITE.'preservim/nerdtree'
-Bundle GITHUB_SITE.'vim-airline/vim-airline'
-Bundle GITHUB_SITE.'Shougo/vimproc.vim'
-Bundle GITHUB_SITE.'Shougo/vimshell.vim'
-Bundle GITHUB_SITE.'supermomonga/vimshell-inline-history.vim'
-Bundle GITHUB_SITE.'mbbill/undotree'
-Bundle GITHUB_SITE.'preservim/tagbar'
-
-" more convenience
-Bundle GITHUB_SITE.'luochen1990/rainbow'
-Bundle GITHUB_SITE.'itchyny/vim-cursorword.git'
-Bundle GITHUB_SITE.'ntpeters/vim-better-whitespace'
-Bundle GITHUB_SITE.'jiangmiao/auto-pairs'
-Bundle GITHUB_SITE.'tpope/vim-surround'
-Bundle GITHUB_SITE.'airblade/vim-rooter'
-Bundle GITHUB_SITE.'junegunn/vim-peekaboo'
-Bundle GITHUB_SITE.'preservim/nerdcommenter'
-Bundle GITHUB_SITE.'vim-scripts/YankRing.vim'
-Bundle GITHUB_SITE.'farmergreg/vim-lastplace'
-
-" system clipboard
-Bundle GITHUB_SITE.'ojroques/vim-oscyank'
-Bundle GITHUB_SITE.'christoomey/vim-system-copy'
-
-" git related
-Bundle GITHUB_SITE.'tpope/vim-fugitive'
-Bundle GITHUB_SITE.'junegunn/gv.vim'
-
+" --------------------
+Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug GITHUB_SITE.'vim-airline/vim-airline'
+if has('terminal')
+    Plug GITHUB_SITE.'voldikss/vim-floaterm'
+else
+    Plug GITHUB_SITE.'Shougo/vimproc.vim', { 'do': 'make' }
+    Plug GITHUB_SITE.'Shougo/vimshell.vim', { 'on': 'VimShellPop' }
+    Plug GITHUB_SITE.'supermomonga/vimshell-inline-history.vim'
+endif
+Plug GITHUB_SITE.'mbbill/undotree'
+Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 " finders
-Bundle GITHUB_SITE.'ctrlpvim/ctrlp.vim'
-Bundle GITHUB_SITE.'FelikZ/ctrlp-py-matcher'
-Bundle GITHUB_SITE.'mileszs/ack.vim'
+Plug GITHUB_SITE.'ctrlpvim/ctrlp.vim'
+Plug GITHUB_SITE.'mileszs/ack.vim'
 
-" code formatters
-Bundle GITHUB_SITE.'google/vim-maktaba'
-Bundle GITHUB_SITE.'google/vim-codefmt'
-Bundle GITHUB_SITE.'google/vim-glaive'
+" --------------------
+" more convenience
+" --------------------
+Plug GITHUB_SITE.'luochen1990/rainbow'
+Plug GITHUB_SITE.'itchyny/vim-cursorword.git'
+Plug GITHUB_SITE.'ntpeters/vim-better-whitespace'
+Plug GITHUB_SITE.'jiangmiao/auto-pairs'
+Plug GITHUB_SITE.'tpope/vim-surround'
+Plug GITHUB_SITE.'airblade/vim-rooter'
+Plug GITHUB_SITE.'junegunn/vim-peekaboo'
+Plug GITHUB_SITE.'preservim/nerdcommenter'
+Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
+Plug GITHUB_SITE.'farmergreg/vim-lastplace'
+" system clipboard
+Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'branch': 'main' }
+Plug GITHUB_SITE.'christoomey/vim-system-copy'
+" git related
+Plug GITHUB_SITE.'tpope/vim-fugitive'
+Plug GITHUB_SITE.'junegunn/gv.vim'
+" vim performance
+if has('timers') && has ('terminal')
+    Plug GITHUB_SITE.'dstein64/vim-startuptime'
+else
+    Plug GITHUB_SITE.'NewComer00/startuptime.vim', { 'branch': 'patch-1' }
+endif
 
+" --------------------
 " language related
-Bundle GITHUB_SITE.'othree/xml.vim'
+" --------------------
+Plug GITHUB_SITE.'othree/xml.vim'
+" code formatters
+Plug GITHUB_SITE.'google/vim-maktaba'
+Plug GITHUB_SITE.'google/vim-codefmt', { 'on': ['FormatCode', 'FormatLines'] }
+Plug GITHUB_SITE.'google/vim-glaive'
 
-call vundle#end()
-filetype plugin indent on
+call plug#end()
 
 " *************************************************************************
 " plugin configs
 " *************************************************************************
+
 " flazz/vim-colorschemes
 colorscheme molokai
 
@@ -79,9 +120,16 @@ let NERDTreeWinPos="right"
 let NERDTreeShowHidden=1
 let NERDTreeMouseMode=2
 
-" Shougo/vimshell.vim
-let g:vimshell_enable_start_insert=1
-let g:vimshell_popup_height=30
+if has('terminal')
+    " voldikss/vim-floaterm
+    let g:floaterm_wintype='split'
+    let g:floaterm_height=0.3
+    autocmd QuitPre * :FloatermKill!
+else
+    " Shougo/vimshell.vim
+    let g:vimshell_enable_start_insert=1
+    let g:vimshell_popup_height=30
+endif
 
 " preservim/tagbar
 let g:tagbar_position = 'vertical leftabove'
@@ -116,20 +164,20 @@ let g:rainbow_conf = {
 
 " ctrlpvim/ctrlp
 let g:ctrlp_extensions = ['tag']
-
-" FelikZ/ctrlp-py-matcher
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-" Set delay to prevent extra search
-let g:ctrlp_lazy_update = 350
-" Do not clear filenames cache, to improve CtrlP startup
-" You can manualy clear it by <F5>
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_clear_cache_on_exit = 0
-" Set no file limit, we are building a big project
 let g:ctrlp_max_files = 0
-" If ag is available use it as filename list generator instead of 'find'
-if executable("ag")
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+if executable('rg')
+    set grepprg=rg\ --color=never\ --hidden
+    let g:ctrlp_user_command = 'rg %s --files --color=never --hidden --glob=!.git/ --glob ""'
+elseif executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor\ --hidden
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git -g ""'
+else
+    let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ }
 endif
 
 " vim-scripts/YankRing.vim
@@ -152,6 +200,8 @@ call glaive#Install()
 " *************************************************************************
 " my scripts
 " *************************************************************************
+set cursorline
+
 " to enable backspace key
 " https://vi.stackexchange.com/a/2163
 set backspace=indent,eol,start
@@ -216,6 +266,16 @@ set undofile
 " *************************************************************************
 " my functions
 " *************************************************************************
+
+" function to run a shell
+function! OpenShell(shell_id)
+    if has('terminal')
+        execute('FloatermToggle #'.a:shell_id)
+    else
+        execute('VimShellPop')
+    endif
+endfunction
+
 " allow toggling between local and default mode
 " https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
 function! TabToggle()
@@ -226,9 +286,24 @@ function! TabToggle()
   endif
 endfunction
 
+" test the startup time of Vim
+function! TimingVimStartup(sorted)
+    let l:cmd = ''
+    if has('timers') && has ('terminal')
+        let l:cmd = 'StartupTime --tries 10'
+        if a:sorted == 0
+            let l:cmd .= ' --no-sort'
+        endif
+    else
+        let l:cmd = 'StartupTime'
+    endif
+    execute(l:cmd)
+endfunction
+
 "*************************************************************************
 " file types
 " *************************************************************************
+
 " scons
 augroup scons_ft
   au!
@@ -238,27 +313,41 @@ augroup END
 " *************************************************************************
 " hotkeys
 " *************************************************************************
+
+" functional hotkeys for plugins
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
-nnoremap <silent> <F3> :VimShellPop<CR>
+nnoremap <silent> <F3> :<C-U>call OpenShell(v:count1)<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>
 nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :CtrlP<CR>
+nnoremap <C-F9> :CtrlPClearCache<CR>
 
 inoremap <silent> <F2> <Esc>:NERDTreeToggle<CR>
-inoremap <silent> <F3> <Esc>:VimShellPop<CR>
+inoremap <silent> <F3> <Esc>:<C-U>call OpenShell(v:count1)<CR>
 inoremap <silent> <F4> <Esc>:UndotreeToggle<CR>
 inoremap <silent> <F5> <Esc>:AirlineToggle<CR>
 inoremap <silent> <F7> <Esc>:YRShow<CR>
 inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
 inoremap <silent> <F9> <Esc>:CtrlP<CR>
+inoremap <C-F9> <Esc>:CtrlPClearCache<CR>a
+
+if has('terminal')
+    tnoremap <silent> <F3> <C-W>:FloatermHide<CR>
+endif
 
 " quickly edit this config file
-nnoremap <leader>ve :e $MYVIMRC<CR>
+nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 " quickly save and source this config file
-nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
-inoremap <leader>vs <Esc>:wa<Bar>so $MYVIMRC<CR>a
+nmap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+" plugins
+nmap <leader>vi <leader>vs:PlugInstall<CR>
+nmap <leader>vc <leader>vs:PlugClean<CR>
+nmap <leader>vu <leader>vs:PlugUpdate<CR>
+" test vim startup time
+nnoremap <leader>vt :call TimingVimStartup(1)<CR>
+nnoremap <leader>vT :call TimingVimStartup(0)<CR>
 
 " toggle paste mode
 inoremap <leader>p <Esc>:set paste!<CR>a
@@ -290,9 +379,9 @@ inoremap <leader>A :Ack!<Space>
 nnoremap <leader>A :Ack!<Space>
 
 " christoomey/vim-system-copy
-nnoremap cy <Plug>SystemCopy
-xnoremap cy <Plug>SystemCopy
-nnoremap cY <Plug>SystemCopyLine
-nnoremap cp <Plug>SystemPaste
-xnoremap cp <Plug>SystemPaste
-nnoremap cP <Plug>SystemPasteLine
+nmap cy <Plug>SystemCopy
+xmap cy <Plug>SystemCopy
+nmap cY <Plug>SystemCopyLine
+nmap cp <Plug>SystemPaste
+xmap cp <Plug>SystemPaste
+nmap cP <Plug>SystemPasteLine

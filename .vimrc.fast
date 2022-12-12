@@ -11,7 +11,7 @@ else
 endif
 
 " *************************************************************************
-" vundle plugins
+" vim plugins
 " *************************************************************************
 
 let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
@@ -55,11 +55,13 @@ Plug GITHUB_SITE.'flazz/vim-colorschemes'
 Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug GITHUB_SITE.'rbong/vim-crystalline', { 'branch': 'vim-7' }
 Plug GITHUB_SITE.'mbbill/undotree'
-Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
+Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 Plug GITHUB_SITE.'mileszs/ack.vim'
 
 " more convenience
+if has('timers')
 Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
+endif
 Plug GITHUB_SITE.'luochen1990/rainbow'
 Plug GITHUB_SITE.'jiangmiao/auto-pairs'
 Plug GITHUB_SITE.'airblade/vim-rooter'
@@ -67,10 +69,16 @@ Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'tpope/vim-commentary'
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
-Plug GITHUB_SITE.'tweekmonster/startuptime.vim'
+
+" vim performance
+if has('timers') && has ('terminal')
+Plug GITHUB_SITE.'dstein64/vim-startuptime'
+else
+Plug GITHUB_SITE.'NewComer00/startuptime.vim', { 'branch': 'patch-1' }
+endif
 
 " system clipboard
-Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
+Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'branch': 'main' }
 Plug GITHUB_SITE.'christoomey/vim-system-copy'
 
 call plug#end()
@@ -142,7 +150,6 @@ endif
 " https://stackoverflow.com/questions/307148/vim-scrolling-slowly
 set ttyfast
 set lazyredraw
-set cul!
 
 " speed up syntax highlighting & regex performance
 " https://vi.stackexchange.com/a/21641
@@ -250,6 +257,20 @@ function! TabToggle()
   endif
 endfunction
 
+" test the startup time of Vim
+function! TimingVimStartup(sorted)
+    let l:cmd = ''
+    if has('timers') && has ('terminal')
+        let l:cmd = 'StartupTime --tries 10'
+        if a:sorted == 0
+            let l:cmd .= ' --no-sort'
+        endif
+    else
+        let l:cmd = 'StartupTime'
+    endif
+    execute(l:cmd)
+endfunction
+
 " *************************************************************************
 " hotkeys
 " *************************************************************************
@@ -270,10 +291,16 @@ inoremap <F9> <Esc>:AckFile!<Space>
 cnoremap <silent> <F9> <C-c>
 
 " quickly edit this config file
-nnoremap <leader>ve :e $MYVIMRC<CR>
+nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 " quickly save and source this config file
-nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
-inoremap <leader>vs <Esc>:wa<Bar>so $MYVIMRC<CR>a
+nmap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+" plugins
+nmap <leader>vi <leader>vs:PlugInstall<CR>
+nmap <leader>vc <leader>vs:PlugClean<CR>
+nmap <leader>vu <leader>vs:PlugUpdate<CR>
+" test vim startup time
+nnoremap <leader>vt :call TimingVimStartup(1)<CR>
+nnoremap <leader>vT :call TimingVimStartup(0)<CR>
 
 " toggle paste mode
 inoremap <leader>p <Esc>:set paste!<CR>a

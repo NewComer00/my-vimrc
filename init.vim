@@ -57,7 +57,7 @@ Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug GITHUB_SITE.'nvim-lualine/lualine.nvim'
 Plug GITHUB_SITE.'akinsho/toggleterm.nvim'
 Plug GITHUB_SITE.'mbbill/undotree'
-Plug GITHUB_SITE.'preservim/tagbar', {'on': 'TagbarToggle'}
+Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 " finder
 Plug GITHUB_SITE.'nvim-lua/plenary.nvim'
@@ -70,13 +70,13 @@ Plug GITHUB_SITE.'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 " --------------------
 Plug GITHUB_SITE.'ntpeters/vim-better-whitespace'
 Plug GITHUB_SITE.'windwp/nvim-autopairs'
-Plug GITHUB_SITE.'tpope/vim-surround'
-Plug GITHUB_SITE.'airblade/vim-rooter'
+Plug GITHUB_SITE.'kylechui/nvim-surround'
+Plug GITHUB_SITE.'notjedi/nvim-rooter.lua'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
-Plug GITHUB_SITE.'preservim/nerdcommenter'
-Plug GITHUB_SITE.'farmergreg/vim-lastplace'
+Plug GITHUB_SITE.'terrortylor/nvim-comment'
+Plug GITHUB_SITE.'ethanholz/nvim-lastplace'
 " system clipboard
-Plug GITHUB_SITE.'ojroques/vim-oscyank', {'branch': 'main'}
+Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'branch': 'main' }
 Plug GITHUB_SITE.'christoomey/vim-system-copy'
 " git related
 Plug GITHUB_SITE.'tpope/vim-fugitive'
@@ -263,6 +263,32 @@ cmp.event:on(
 'confirm_done',
 cmp_autopairs.on_confirm_done()
 )
+EOF
+
+" [kylechui/nvim-surround]
+lua << EOF
+require("nvim-surround").setup()
+EOF
+
+" [notjedi/nvim-rooter.lua]
+lua << EOF
+require'nvim-rooter'.setup()
+EOF
+
+" [terrortylor/nvim-comment]
+lua << EOF
+require('nvim_comment').setup({
+    comment_empty = false
+})
+EOF
+
+" [ethanholz/nvim-lastplace]
+lua << EOF
+require'nvim-lastplace'.setup {
+    lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+    lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
+    lastplace_open_folds = true
+}
 EOF
 
 " [christoomey/vim-system-copy]
@@ -535,20 +561,22 @@ inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
 
 cnoremap <silent> <F6> <C-c>
 
-tnoremap <silent> <F3> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-
-" enable autocomplete in command mode
-cnoremap <C-n> <C-f>a<C-n>
-cnoremap <C-p> <C-f>a<C-p>
+tnoremap <silent> <F3> <C-\><C-n><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
 " use <Esc> to quit terminal mode
 tnoremap <Esc> <C-\><C-n>
 
-" quickly open this config file
-nnoremap <leader>ve :e $MYVIMRC<CR>
+" quickly edit this config file
+nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 " quickly save and source this config file
-nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
-inoremap <leader>vs <Esc>:wa<Bar>so $MYVIMRC<CR>a
+nmap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+" plugins
+nmap <leader>vi <leader>vs:PlugInstall<CR>
+nmap <leader>vc <leader>vs:PlugClean<CR>
+nmap <leader>vu <leader>vs:PlugUpdate<CR>
+" test vim startup time
+nnoremap <leader>vt :StartupTime --tries 10<CR>
+nnoremap <leader>vT :StartupTime --tries 10 --no-sort<CR>
 
 " toggle list char and indentation mark
 inoremap <leader>l <Esc>:set list!<Bar>IndentBlanklineToggle<CR>a
@@ -582,10 +610,14 @@ nnoremap <leader>A :Telescope live_grep<CR>
 inoremap <leader>d <Esc>:ToggleDiag<CR>a
 nnoremap <leader>d :ToggleDiag<CR>
 
-" christoomey/vim-system-copy
-nnoremap cy <Plug>SystemCopy
-xnoremap cy <Plug>SystemCopy
-nnoremap cY <Plug>SystemCopyLine
-nnoremap cp <Plug>SystemPaste
-xnoremap cp <Plug>SystemPaste
-nnoremap cP <Plug>SystemPasteLine
+" toggle pwd between the repo's root and the dir of current file
+inoremap <leader>r <Esc>:RooterToggle<CR>a
+nnoremap <leader>r :RooterToggle<CR>
+
+" system copy
+nmap cy <Plug>SystemCopy
+xmap cy <Plug>SystemCopy
+nmap cY <Plug>SystemCopyLine
+nmap cp <Plug>SystemPaste
+xmap cp <Plug>SystemPaste
+nmap cP <Plug>SystemPasteLine
