@@ -135,6 +135,9 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 ### ```<F3>``` 系统终端
 在编辑器内部打开一个系统终端。再次按下该快捷键可隐藏或关闭此终端窗口。
 
+<details>
+  <summary>🟨展开配置步骤</summary>
+
 #### Vim完全版配置
 - 若当前Vim原生支持终端功能（`:echo has('terminal')`打印返回值为`1`），则使用`voldikss/vim-floaterm`插件。  
   - 直接按下`<F3>`后，一个系统终端会出现在界面下方。终端内部的操作方式和系统原生终端一致，支持```Tab```命令补全，上下翻阅历史记录等操作。
@@ -162,6 +165,8 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 - 先按下某个`数字键`再按下`<F3>`，会开启一个新的终端，不同编号的终端彼此独立。
 - 不同终端可以同时分屏显示。
 - 按下`<Esc>`，然后按`数字键`再按下`<F3>`，即可隐藏指定的终端窗口。被隐藏的终端里运行的程序不会被打断。
+
+</details>
 
 ---
 
@@ -195,6 +200,9 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 ### ```<F9>``` 模糊检索器
 快速对文件名/文件内容/标签等信息进行**模糊检索**。无须记住整个文件路径，只需输入文件路径和文件名的**几个字母**，即可交互式地进行查找。再按一次快捷键可关闭窗口。
 
+<details>
+  <summary>🟨展开配置步骤</summary>
+
 #### Vim完全版配置
 基于```ctrlpvim/ctrlp```插件。默认状态下为文件名查找模式，输入大致的文件路径和名称即可进行模糊查找。```方向键```选择查询结果，```回车键```打开选择的文件。```<C-f>```和```<C-b>```切换查找的类别（files文件/tags标签等）。  
 若要查询tags标签，需要在当前目录下提供```ctags```生成的标签文件。在项目根目录下执行```ctags -R .```即可生成整个项目的tags文件。
@@ -211,6 +219,8 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 基于```nvim-telescope/telescope.nvim```插件。```<F9>```进入后只需输入文件路径和文件名的几个字母，即可交互式查找文件位置。
 - 🟦默认在当前工作目录下进行查找。如需查询其他目录下的内容，可手动输入命令```:Telescope find_files search_dirs=目录名```。  
 - 🟦额外安装文件内容检索工具[rg](https://github.com/BurntSushi/ripgrep)和文件位置搜索工具[fd](https://github.com/sharkdp/fd)，可提高本插件的检索效率。
+
+</details>
 
 ## 辅助快捷键
 ### ✅描述约定
@@ -246,6 +256,9 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 
 `cY`的用法和效果类似于Vim中的`yy`，用来复制Vim当前行的内容到系统剪贴板。在Vim里复制成功后，我们可以将文字内容粘贴到操作系统的其它程序中（如浏览器等）。
 
+<details>
+  <summary>🟨展开配置步骤</summary>
+
 - 🟨在使用系统剪贴板相关的功能前，需要安装哪些依赖呢？
 
   1. 如果你正在使用**Windows版本的gVim或Neovim**——没问题！请拿好你的`cY`和`cy`快捷键~  
@@ -260,6 +273,8 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
   安装完毕后，在本地使用`ssh -X ...`命令连接Linux机器（`-X`表示本次连接允许X11转发），在Linux终端里打开Vim即可使用`cY`、`cy`、`cP`和`cp`全部四个快捷键~
 
   4. 如果你正在**Linux系统的图形界面终端**里直接使用Vim——以Ubuntu的GNOME Terminal为例，只需要安装[wl-clipboard](https://github.com/bugaevc/wl-clipboard)包即可使用`cY`、`cy`、`cP`和`cp`全部四个快捷键~
+
+</details>
 
 ### ```cy``` 复制指定内容到系统剪贴板
 复制Vim的指定内容到系统剪贴板，用法类似于Vim的“复制”快捷键`y`：
@@ -308,6 +323,9 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 ### ```<Leader>a``` 检索光标处单词
 检索当前光标处单词（应该会用<u>下划线</u>标出）在其它文件中出现的位置。
 
+<details>
+  <summary>🟨展开配置步骤</summary>
+
 #### Vim完全版配置
 基于```mileszs/ack.vim```插件。
 - 🟨需要额外安装文件内容检索工具[rg](https://github.com/BurntSushi/ripgrep)或[ag](https://github.com/ggreer/the_silver_searcher)，才能正常使用此功能。两者之中`rg`的效率略高于`ag`。
@@ -322,6 +340,8 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 #### Neovim
 基于```nvim-telescope/telescope.nvim```插件。
 - 🟦额外安装文件内容检索工具[rg](https://github.com/BurntSushi/ripgrep)，可提高本插件的检索效率。
+
+</details>
 
 ### ```<Leader>A``` 检索给定单词
 检索给定单词在其它文件中出现的位置。按下此快捷键后，输入要查找的内容，会返回该内容在其它文件中出现的位置。相关该功能的依赖需求同上。
