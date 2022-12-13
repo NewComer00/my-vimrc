@@ -48,44 +48,49 @@ endif
 
 call plug#begin()
 
+" --------------------
 " color schemes
+" --------------------
 Plug GITHUB_SITE.'flazz/vim-colorschemes'
 
+" --------------------
 " mostly used
+" --------------------
 Plug GITHUB_SITE.'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug GITHUB_SITE.'rbong/vim-crystalline', { 'branch': 'vim-7' }
 Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 Plug GITHUB_SITE.'mileszs/ack.vim'
+Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 
+" --------------------
 " more convenience
+" --------------------
 if has('timers')
-Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
+    Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
 endif
 Plug GITHUB_SITE.'luochen1990/rainbow'
 Plug GITHUB_SITE.'jiangmiao/auto-pairs'
 Plug GITHUB_SITE.'airblade/vim-rooter'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'tpope/vim-commentary'
-Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
-
-" vim performance
-if has('timers') && has ('terminal')
-Plug GITHUB_SITE.'dstein64/vim-startuptime'
-else
-Plug GITHUB_SITE.'NewComer00/startuptime.vim', { 'branch': 'patch-1' }
-endif
-
 " system clipboard
 Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'branch': 'main' }
 Plug GITHUB_SITE.'christoomey/vim-system-copy'
+" vim performance
+if has('timers') && has ('terminal')
+    Plug GITHUB_SITE.'dstein64/vim-startuptime'
+else
+    Plug GITHUB_SITE.'NewComer00/startuptime.vim', { 'branch': 'patch-1' }
+endif
 
 call plug#end()
 
 " *************************************************************************
 " plugin configs
 " *************************************************************************
+
 " flazz/vim-colorschemes
 syntax on
 colorscheme molokai
@@ -111,7 +116,7 @@ let g:tagbar_width = max([25, winwidth(0) / 5])
 
 " mileszs/ack.vim
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+    let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
 endif
 
 " rainbow/luochen1990
@@ -274,6 +279,8 @@ endfunction
 " *************************************************************************
 " hotkeys
 " *************************************************************************
+
+" functional hotkeys for plugins
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <F3> :call OpenShell()<CR>
 nnoremap <silent> <F4> :UndotreeToggle<CR>

@@ -70,6 +70,7 @@ Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 " finders
 Plug GITHUB_SITE.'ctrlpvim/ctrlp.vim'
 Plug GITHUB_SITE.'mileszs/ack.vim'
+Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 
 " --------------------
 " more convenience
@@ -81,8 +82,7 @@ Plug GITHUB_SITE.'jiangmiao/auto-pairs'
 Plug GITHUB_SITE.'tpope/vim-surround'
 Plug GITHUB_SITE.'airblade/vim-rooter'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
-Plug GITHUB_SITE.'preservim/nerdcommenter'
-Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
+Plug GITHUB_SITE.'tpope/vim-commentary'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
 " system clipboard
 Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'branch': 'main' }
@@ -146,10 +146,11 @@ if has('win32') && executable('powershell')
 endif
 
 " mileszs/ack.vim
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+if executable('rg')
+    let g:ackprg = 'rg --vimgrep --hidden --glob=!.git/'
+elseif executable('ag')
+    let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
 endif
-cnoreabbrev Ack Ack!
 
 " davidhalter/jedi-vim
 let g:jedi#show_call_signatures = "2"
@@ -167,9 +168,11 @@ let g:ctrlp_extensions = ['tag']
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0
+" using F9 to toggle Ctrlp
+let g:ctrlp_prompt_mappings = { 'PrtExit()': ['<F9>','<esc>','<c-c>','<c-g>'] }
 if executable('rg')
     set grepprg=rg\ --color=never\ --hidden
-    let g:ctrlp_user_command = 'rg %s --files --color=never --hidden --glob=!.git/ --glob ""'
+    let g:ctrlp_user_command = 'rg %s --files --color=never --hidden --glob=!.git/'
 elseif executable("ag")
     set grepprg=ag\ --nogroup\ --nocolor\ --hidden
     let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git -g ""'
@@ -322,7 +325,7 @@ nnoremap <silent> <F5> :AirlineToggle<CR>
 nnoremap <silent> <F7> :YRShow<CR>
 nnoremap <silent> <F8> :TagbarToggle<CR>
 nnoremap <silent> <F9> :CtrlP<CR>
-nnoremap <C-F9> :CtrlPClearCache<CR>
+nnoremap <S-F9> :CtrlPClearCache<CR>
 
 inoremap <silent> <F2> <Esc>:NERDTreeToggle<CR>
 inoremap <silent> <F3> <Esc>:<C-U>call OpenShell(v:count1)<CR>
@@ -331,7 +334,7 @@ inoremap <silent> <F5> <Esc>:AirlineToggle<CR>
 inoremap <silent> <F7> <Esc>:YRShow<CR>
 inoremap <silent> <F8> <Esc>:TagbarToggle<CR>
 inoremap <silent> <F9> <Esc>:CtrlP<CR>
-inoremap <C-F9> <Esc>:CtrlPClearCache<CR>a
+inoremap <S-F9> <Esc>:CtrlPClearCache<CR>a
 
 if has('terminal')
     tnoremap <silent> <F3> <C-W>:FloatermHide<CR>
