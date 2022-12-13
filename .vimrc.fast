@@ -334,9 +334,9 @@ inoremap <leader>A :Ack!<Space>
 nnoremap <leader>A :Ack!<Space>
 
 " christoomey/vim-system-copy
-nnoremap cy <Plug>SystemCopy
-xnoremap cy <Plug>SystemCopy
-nnoremap cY <Plug>SystemCopyLine
-nnoremap cp <Plug>SystemPaste
-xnoremap cp <Plug>SystemPaste
-nnoremap cP <Plug>SystemPasteLine
+nmap cy <Plug>SystemCopy
+xmap cy <Plug>SystemCopy
+nmap cY <Plug>SystemCopyLine
+nmap cp <Plug>SystemPaste
+xmap cp <Plug>SystemPaste
+nmap cP <Plug>SystemPasteLine
