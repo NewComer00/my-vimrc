@@ -21,8 +21,13 @@ My Vim &amp; Neovim config
 ---
 
 ## 环境需求
-- 如果你习惯使用Vim，需要保证版本号 `Vim >= 7.3.1058` 
-- 如果你习惯使用Neovim，需要保证版本号 `Neovim >= 0.8`
+### 操作系统
+目前测试了`Windows >= 10`与`Ubuntu >= 18.04`系统，  
+由于没有Mac机器，尚未适配`macOS`。
+
+### 应用程序版本
+如果你习惯使用Vim，需要保证版本号 `Vim >= 7.3.1058`   
+如果你习惯使用Neovim，需要保证版本号 `Neovim >= 0.8`
 
 版本号低于要求时，可能会有部分功能无法正常使用。
 
@@ -62,7 +67,13 @@ cp ./.vimrc.fast ~/.vimrc
 - **可用性**——Neovim修缮了Vim过时的默认配置（Neovim定制了一套自己的新默认配置），并添加了现代编辑器的新功能，如现代GUI、异步加载和终端模拟器等。
 
 ### 安装Neovim
-本仓库的Neovim配置文件需要比较新的Neovim版本（大于等于0.7），大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。对于x86_64架构的Linux系统，执行如下操作来下载Neovim的可执行文件，下载后应当可以直接运行Neovim。
+本仓库的Neovim配置文件需要比较新的Neovim版本，大多数的包管理器软件源尚未更新该版本，因此需要遵循[官方文档](https://github.com/neovim/neovim/wiki/Installing-Neovim)手动安装。
+
+对于x86_64架构的Linux系统，执行如下操作来下载Neovim的可执行文件，下载后应当可以直接运行Neovim。
+
+<details>
+  <summary>🟨展开安装步骤</summary>
+
 ```
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
@@ -96,6 +107,8 @@ mv squashfs-root ~/.local/
 ln -s ~/.local/squashfs-root/AppRun ~/.local/bin/nvim
 nvim
 ```
+
+</details>
 
 ### 配置Neovim
 切换路径至本仓库目录下，复制本仓库的```init.vim```作为用户的Neovim默认配置文件。  
