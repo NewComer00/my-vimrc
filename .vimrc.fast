@@ -300,11 +300,11 @@ cnoremap <silent> <F9> <C-c>
 " quickly edit this config file
 nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 " quickly save and source this config file
-nmap <leader>vs :wa<Bar>so $MYVIMRC<CR>
-" plugins
-nmap <leader>vi <leader>vs:PlugInstall<CR>
-nmap <leader>vc <leader>vs:PlugClean<CR>
-nmap <leader>vu <leader>vs:PlugUpdate<CR>
+nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+" plugin manager shortcuts
+nnoremap <leader>vi :wa<Bar>silent! so $MYVIMRC<CR>:PlugInstall<CR>
+nnoremap <leader>vc :wa<Bar>silent! so $MYVIMRC<CR>:PlugClean<CR>
+nnoremap <leader>vu :wa<Bar>silent! so $MYVIMRC<CR>:PlugUpdate<CR>
 " test vim startup time
 nnoremap <leader>vt :call TimingVimStartup(1)<CR>
 nnoremap <leader>vT :call TimingVimStartup(0)<CR>
