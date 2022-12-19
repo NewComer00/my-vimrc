@@ -68,6 +68,7 @@ Plug GITHUB_SITE.'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 " --------------------
 " more convenience
 " --------------------
+Plug GITHUB_SITE.'ggandor/leap.nvim'
 Plug GITHUB_SITE.'ntpeters/vim-better-whitespace'
 Plug GITHUB_SITE.'windwp/nvim-autopairs'
 Plug GITHUB_SITE.'kylechui/nvim-surround'
@@ -245,6 +246,11 @@ let g:nvimgdb_config_override = {
   \ 'key_eval': '<M-e>',
   \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
   \ }
+
+" [ggandor/leap.nvim]
+lua << EOF
+require('leap').add_default_mappings()
+EOF
 
 " [ntpeters/vim-better-whitespace]
 " https://github.com/ntpeters/vim-better-whitespace/issues/158
