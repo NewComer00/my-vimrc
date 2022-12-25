@@ -70,7 +70,7 @@ if has('timers')
     Plug GITHUB_SITE.'delphinus/vim-auto-cursorline'
 endif
 Plug GITHUB_SITE.'luochen1990/rainbow'
-Plug GITHUB_SITE.'jiangmiao/auto-pairs'
+Plug GITHUB_SITE.'gosukiwi/vim-smartpairs'
 Plug GITHUB_SITE.'airblade/vim-rooter'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'tpope/vim-commentary'
