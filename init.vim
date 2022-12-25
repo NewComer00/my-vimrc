@@ -94,6 +94,7 @@ Plug GITHUB_SITE.'p00f/nvim-ts-rainbow'
 Plug GITHUB_SITE.'luochen1990/rainbow'
 Plug GITHUB_SITE.'nyngwang/murmur.lua'
 Plug GITHUB_SITE.'lukas-reineke/indent-blankline.nvim'
+Plug GITHUB_SITE.'nvim-zh/colorful-winsep.nvim'
 
 " --------------------
 " LSP related
@@ -345,6 +346,14 @@ let g:rainbow_conf = {
 " https://github.com/lukas-reineke/indent-blankline.nvim
 lua << EOF
 require("indent_blankline").setup {}
+EOF
+
+" [nvim-zh/colorful-winsep.nvim]
+" https://github.com/nvim-zh/colorful-winsep.nvim
+lua << EOF
+require("colorful-winsep").setup({
+    symbols = { "─", "│", "┌", "┐", "└", "┘" },
+})
 EOF
 
 " [neovim/nvim-lspconfig] auto-completion settings
