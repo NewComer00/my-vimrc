@@ -94,6 +94,7 @@ Plug GITHUB_SITE.'p00f/nvim-ts-rainbow'
 Plug GITHUB_SITE.'luochen1990/rainbow'
 Plug GITHUB_SITE.'nyngwang/murmur.lua'
 Plug GITHUB_SITE.'lukas-reineke/indent-blankline.nvim'
+Plug GITHUB_SITE.'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 Plug GITHUB_SITE.'nvim-zh/colorful-winsep.nvim'
 
 " --------------------
@@ -161,6 +162,20 @@ colorscheme tokyonight
 let NERDTreeWinPos="right"
 let NERDTreeShowHidden=1
 let NERDTreeMouseMode=2
+" disable the original file explorer
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
+" lazy load nerdtree when open a directory
+" https://github.com/junegunn/vim-plug/issues/424#issuecomment-189343357
+augroup nerd_loader
+  autocmd!
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
+augroup END
 
 " [akinsho/toggleterm.nvim]
 " https://github.com/akinsho/toggleterm.nvim
@@ -348,10 +363,45 @@ lua << EOF
 require("indent_blankline").setup {}
 EOF
 
+" [akinsho/bufferline.nvim]
+" https://github.com/akinsho/bufferline.nvim
+lua << EOF
+require("bufferline").setup{
+    options = {
+        mode = "buffers",
+        show_buffer_icons = false,
+        buffer_close_icon = 'x',
+        close_icon = 'X',
+        left_trunc_marker = '',
+        right_trunc_marker = '',
+        offsets = {
+            {
+                filetype = "nerdtree",
+                text = "File Explorer",
+                highlight = "Directory",
+                separator = true
+            },
+            {
+                filetype = "undotree",
+                text = "Undo History",
+                highlight = "Directory",
+                separator = true
+            },
+            {
+                filetype = "tagbar",
+                text = "Tag List",
+                highlight = "Directory",
+                separator = true
+            },
+        },
+    },
+}
+EOF
+
 " [nvim-zh/colorful-winsep.nvim]
 " https://github.com/nvim-zh/colorful-winsep.nvim
 lua << EOF
-require("colorful-winsep").setup({
+require('colorful-winsep').setup({
     symbols = { "─", "│", "┌", "┐", "└", "┘" },
 })
 EOF
@@ -628,6 +678,13 @@ nnoremap <leader>d :ToggleDiag<CR>
 " toggle pwd between the repo's root and the dir of current file
 inoremap <leader>r <Esc>:RooterToggle<CR>a
 nnoremap <leader>r :RooterToggle<CR>
+
+" switch between buffers
+nnoremap <leader>] :BufferLineCycleNext<CR>
+nnoremap <leader>[ :BufferLineCyclePrev<CR>
+" switch between tabs
+nnoremap <leader>} :tabnext<CR>
+nnoremap <leader>{ :tabprevious<CR>
 
 " system copy
 nmap cy <Plug>SystemCopy

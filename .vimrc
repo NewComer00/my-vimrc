@@ -119,6 +119,20 @@ colorscheme molokai
 let NERDTreeWinPos="right"
 let NERDTreeShowHidden=1
 let NERDTreeMouseMode=2
+" disable the original file explorer
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
+" lazy load nerdtree when open a directory
+" https://github.com/junegunn/vim-plug/issues/424#issuecomment-189343357
+augroup nerd_loader
+  autocmd!
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
+augroup END
 
 if has('terminal')
     " voldikss/vim-floaterm
