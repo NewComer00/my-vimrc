@@ -656,9 +656,11 @@ inoremap <leader>t <Esc>:call TabToggle()<CR>a
 nnoremap <leader>t :call TabToggle()<CR>
 
 " auto formatting
-vnoremap <leader>f :lua vim.lsp.buf.range_formatting()<CR>
-inoremap <leader>F <Esc>:lua vim.lsp.buf.formatting()<CR>a
-nnoremap <leader>F :lua vim.lsp.buf.formatting()<CR>
+inoremap <leader>f <Esc><C-V>gqa
+nnoremap <leader>f <C-V>gq
+vnoremap <leader>f gq
+inoremap <leader>F <Esc>:lua vim.lsp.buf.format()<CR>a
+nnoremap <leader>F :lua vim.lsp.buf.format()<CR>
 
 " strip trailing whitespaces
 inoremap <leader>s <Esc>:StripWhitespace<CR>a
