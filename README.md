@@ -123,7 +123,7 @@ cp ./init.vim ~/.config/nvim/init.vim
 mkdir "~\AppData\Local\nvim\"
 cp .\init.vim "~\AppData\Local\nvim\init.vim"
 ```
-在终端输入```nvim```进入Neovim，此时将自动开始下载插件管理器```plug.vim```。下载完毕后Neovim会报告一系列插件未找到的错误，这是正常现象。按下```<C-c>```忽略这些错误，`:q!`退出Neovim。接着重新打开Neovim，输入命令```:PlugInstall```即可安装所有插件。
+在终端输入```nvim```进入Neovim，此时将自动开始下载插件管理器```plug.vim```。下载完毕后Neovim会报告一系列插件未找到的错误，这是正常现象。按下```大写的G```跳转到信息末尾，即可自动安装所有插件。
 
 主要功能插件的快捷键是```<F2> ~ <F9>```。安装完毕后重新进入Neovim，即可按动快捷键查看插件是否工作正常。
 

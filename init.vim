@@ -20,7 +20,7 @@ let GITHUB_RAW = 'https://raw.fastgit.org/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " download the plugin manager if not installed
-let AUTOLOAD_DIR = stdpath('data').'/site/autoload'
+let AUTOLOAD_DIR = stdpath('config').'/autoload'
 let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
 let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
 if empty(glob(PLUGIN_MANAGER_PATH))
