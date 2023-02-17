@@ -5,17 +5,16 @@ set encoding=utf8
 set nocompatible
 
 if has('win32')
-    let DATA_DIR = '$HOME/vimfiles'
+    let DATA_DIR = $HOME.'/vimfiles'
 else
-    let DATA_DIR = '$HOME/.vim'
+    let DATA_DIR = $HOME.'/.vim'
 endif
 
 " *************************************************************************
 " vim plugins
 " *************************************************************************
 
-let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
-"let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
+let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
 let GITHUB_RAW = 'https://raw.fastgit.org/'
@@ -146,11 +145,11 @@ let g:rainbow_conf = {
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
 " save yankring history in this dir
-let yankring_dir = expand(DATA_DIR."/yankring-dir")
-if !isdirectory(yankring_dir)
-    call mkdir(yankring_dir, "", 0700)
+let s:yankring_dir = DATA_DIR.'/yankring-dir'
+if !isdirectory(s:yankring_dir)
+    call mkdir(s:yankring_dir)
 endif
-let g:yankring_history_dir = yankring_dir
+let g:yankring_history_dir = s:yankring_dir
 
 " christoomey/vim-system-copy
 let g:system_copy_enable_osc52 = 1
@@ -234,11 +233,11 @@ set list
 
 " Let's save undo info!
 " from https://vi.stackexchange.com/a/53
-let undodir_path=expand(DATA_DIR."/undo-dir")
-if !isdirectory(undodir_path)
-    call mkdir(undodir_path, "", 0700)
+let s:undo_dir = DATA_DIR.'/undo-dir'
+if !isdirectory(s:undo_dir)
+    call mkdir(s:undo_dir, "", 0700)
 endif
-let &undodir=undodir_path
+let &undodir = s:undo_dir
 set undofile
 
 " *************************************************************************

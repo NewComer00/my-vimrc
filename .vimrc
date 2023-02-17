@@ -5,17 +5,16 @@ set encoding=utf8
 set nocompatible
 
 if has('win32')
-    let DATA_DIR = '$HOME/vimfiles'
+    let DATA_DIR = $HOME.'/vimfiles'
 else
-    let DATA_DIR = '$HOME/.vim'
+    let DATA_DIR = $HOME.'/.vim'
 endif
 
 " *************************************************************************
 " vim plugins
 " *************************************************************************
 
-let GITHUB_SITE = 'https://github.91chi.fun/https://github.com/'
-"let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
+let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
 let GITHUB_RAW = 'https://raw.fastgit.org/'
@@ -202,10 +201,11 @@ endif
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
 " save yankring history in this dir
-if !isdirectory($HOME."/.vim/yankring-dir")
-    call mkdir($HOME."/.vim/yankring-dir", "", 0700)
+let s:yankring_dir = DATA_DIR.'/yankring-dir'
+if !isdirectory(s:yankring_dir)
+    call mkdir(s:yankring_dir)
 endif
-let g:yankring_history_dir = $HOME.'/.vim/yankring-dir'
+let g:yankring_history_dir = s:yankring_dir
 
 " google/vim-maktaba
 " work-around for windows
@@ -274,10 +274,11 @@ set list
 
 " Let's save undo info!
 " from https://vi.stackexchange.com/a/53
-if !isdirectory($HOME."/.vim/undo-dir")
-    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+let s:undo_dir = DATA_DIR.'/undo-dir'
+if !isdirectory(s:undo_dir)
+    call mkdir(s:undo_dir, "", 0700)
 endif
-set undodir=~/.vim/undo-dir
+let &undodir = s:undo_dir
 set undofile
 
 " *************************************************************************
