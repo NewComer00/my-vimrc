@@ -643,41 +643,31 @@ nnoremap <leader>vt :StartupTime --tries 10<CR>
 nnoremap <leader>vT :StartupTime --tries 10 --no-sort<CR>
 
 " toggle list char and indentation mark
-inoremap <leader>l <Esc>:set list!<Bar>IndentBlanklineToggle<CR>a
 nnoremap <leader>l :set list!<Bar>IndentBlanklineToggle<CR>
 
 " toggle paste mode
-inoremap <leader>p <Esc>:set paste!<CR>a
 nnoremap <leader>p :set paste!<CR>
 
 " toggle tab/spaces
-inoremap <leader>t <Esc>:call TabToggle()<CR>a
 nnoremap <leader>t :call TabToggle()<CR>
 
 " auto formatting
-inoremap <leader>f <Esc><C-V>gqa
 nnoremap <leader>f <C-V>gq
 vnoremap <leader>f gq
-inoremap <leader>F <Esc>:lua vim.lsp.buf.format()<CR>a
 nnoremap <leader>F :lua vim.lsp.buf.format()<CR>
 
 " strip trailing whitespaces
-inoremap <leader>s <Esc>:StripWhitespace<CR>a
 nnoremap <leader>s :StripWhitespace<CR>
 
 " search the word under the cursor
-inoremap <leader>a <Esc>:Telescope grep_string<CR>
 nnoremap <leader>a :Telescope grep_string<CR>
 " search the given word
-inoremap <leader>A <Esc>:Telescope live_grep<CR>
 nnoremap <leader>A :Telescope live_grep<CR>
 
 " toggle LSP diagnostics
-inoremap <leader>d <Esc>:ToggleDiag<CR>a
 nnoremap <leader>d :ToggleDiag<CR>
 
 " toggle pwd between the repo's root and the dir of current file
-inoremap <leader>r <Esc>:RooterToggle<CR>a
 nnoremap <leader>r :RooterToggle<CR>
 
 " switch between buffers

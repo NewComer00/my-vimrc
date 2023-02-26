@@ -368,32 +368,24 @@ nnoremap <leader>vt :call TimingVimStartup(1)<CR>
 nnoremap <leader>vT :call TimingVimStartup(0)<CR>
 
 " toggle paste mode
-inoremap <leader>p <Esc>:set paste!<CR>a
 nnoremap <leader>p :set paste!<CR>
 
 " toggle list char
-inoremap <leader>l <Esc>:set list!<CR>a
 nnoremap <leader>l :set list!<CR>
 
 " toggle tab/spaces
-inoremap <leader>t <Esc>:call TabToggle()<CR>a
 nnoremap <leader>t :call TabToggle()<CR>
 
 " google auto format
-inoremap <leader>f <Esc>:FormatLines<CR>a
 nnoremap <leader>f :FormatLines<CR>
-inoremap <leader>F <Esc>:FormatCode<CR>a
 nnoremap <leader>F :FormatCode<CR>
 
 " strip trailing whitespaces
-inoremap <leader>s <Esc>:StripWhitespace<CR>a
 nnoremap <leader>s :StripWhitespace<CR>
 
 " search the word under the cursor
-inoremap <leader>a :Ack!<CR>
 nnoremap <leader>a :Ack!<CR>
 " search the given word
-inoremap <leader>A :Ack!<Space>
 nnoremap <leader>A :Ack!<Space>
 
 " christoomey/vim-system-copy

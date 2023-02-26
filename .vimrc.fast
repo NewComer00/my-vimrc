@@ -323,27 +323,21 @@ nnoremap <leader>vt :call TimingVimStartup(1)<CR>
 nnoremap <leader>vT :call TimingVimStartup(0)<CR>
 
 " toggle paste mode
-inoremap <leader>p <Esc>:set paste!<CR>a
 nnoremap <leader>p :set paste!<CR>
 
 " toggle list char
-inoremap <leader>l <Esc>:set list!<CR>a
 nnoremap <leader>l :set list!<CR>
 
 " toggle tab/spaces
-inoremap <leader>t <Esc>:call TabToggle()<CR>a
 nnoremap <leader>t :call TabToggle()<CR>
 
 " strip trailing whitespaces
 " https://vi.stackexchange.com/a/2285
-inoremap <leader>s <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>a
 nnoremap <leader>s :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " search the word under the cursor
-inoremap <leader>a :Ack!<CR>
 nnoremap <leader>a :Ack!<CR>
 " search the given word
-inoremap <leader>A :Ack!<Space>
 nnoremap <leader>A :Ack!<Space>
 
 " christoomey/vim-system-copy
