@@ -91,7 +91,7 @@ Plug GITHUB_SITE.'dstein64/vim-startuptime'
 Plug GITHUB_SITE.'nvim-treesitter/nvim-treesitter'
 Plug GITHUB_SITE.'p00f/nvim-ts-rainbow'
 Plug GITHUB_SITE.'luochen1990/rainbow'
-Plug GITHUB_SITE.'nyngwang/murmur.lua'
+Plug GITHUB_SITE.'nyngwang/murmur.lua', { 'commit': 'b7fc2b3' }
 Plug GITHUB_SITE.'lukas-reineke/indent-blankline.nvim'
 Plug GITHUB_SITE.'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 Plug GITHUB_SITE.'nvim-zh/colorful-winsep.nvim'
