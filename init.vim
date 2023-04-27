@@ -1,6 +1,3 @@
-" Neovim Config File
-" Default Location: ~/.config/nvim/init.vim
-
 " *************************************************************************
 " presettings
 " *************************************************************************
@@ -11,7 +8,8 @@ set encoding=utf8
 " nvim plugins
 " *************************************************************************
 
-let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
+let GITHUB_SITE = 'https://gh.con.sh/https://github.com/'
+"let GITHUB_SITE = 'https://ghproxy.com/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
 let GITHUB_RAW = 'https://raw.fastgit.org/'
