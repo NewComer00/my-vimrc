@@ -74,7 +74,7 @@ Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'terrortylor/nvim-comment'
 Plug GITHUB_SITE.'ethanholz/nvim-lastplace'
 " system clipboard
-Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'tag': 'v1.0.0' }
+Plug GITHUB_SITE.'ojroques/vim-oscyank'
 Plug GITHUB_SITE.'christoomey/vim-system-copy'
 " git related
 Plug GITHUB_SITE.'tpope/vim-fugitive'
