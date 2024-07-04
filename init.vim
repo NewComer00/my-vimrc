@@ -495,6 +495,8 @@ set t_u7=
 set t_Co=256
 
 set hlsearch
+set ignorecase
+set smartcase
 
 set number
 set relativenumber
