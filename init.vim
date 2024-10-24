@@ -9,7 +9,7 @@ set encoding=utf8
 " *************************************************************************
 
 let GITHUB_SITE = 'https://gh.con.sh/https://github.com/'
-"let GITHUB_SITE = 'https://mirror.ghproxy.com/https://github.com/'
+"let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
 let GITHUB_RAW = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/'
@@ -43,6 +43,11 @@ endif
 call plug#begin()
 
 " --------------------
+" library for neovim plugins
+" --------------------
+Plug GITHUB_SITE.'nvim-lua/plenary.nvim'
+
+" --------------------
 " color scheme
 " --------------------
 Plug GITHUB_SITE.'folke/tokyonight.nvim', { 'branch': 'main' }
@@ -57,8 +62,7 @@ Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 " finder
-Plug GITHUB_SITE.'nvim-lua/plenary.nvim'
-Plug GITHUB_SITE.'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug GITHUB_SITE.'nvim-telescope/telescope.nvim'
 " debugger
 Plug GITHUB_SITE.'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
@@ -89,9 +93,9 @@ Plug GITHUB_SITE.'dstein64/vim-startuptime'
 Plug GITHUB_SITE.'nvim-treesitter/nvim-treesitter'
 Plug GITHUB_SITE.'p00f/nvim-ts-rainbow'
 Plug GITHUB_SITE.'luochen1990/rainbow'
-Plug GITHUB_SITE.'nyngwang/murmur.lua', { 'commit': 'b7fc2b3' }
+Plug GITHUB_SITE.'nyngwang/murmur.lua'
 Plug GITHUB_SITE.'lukas-reineke/indent-blankline.nvim'
-Plug GITHUB_SITE.'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+Plug GITHUB_SITE.'akinsho/bufferline.nvim'
 Plug GITHUB_SITE.'nvim-zh/colorful-winsep.nvim'
 
 " --------------------
@@ -357,7 +361,7 @@ let g:rainbow_conf = {
 " [lukas-reineke/indent-blankline.nvim]
 " https://github.com/lukas-reineke/indent-blankline.nvim
 lua << EOF
-require("indent_blankline").setup {}
+require("ibl").setup()
 EOF
 
 " [akinsho/bufferline.nvim]
@@ -399,7 +403,7 @@ EOF
 " https://github.com/nvim-zh/colorful-winsep.nvim
 lua << EOF
 require('colorful-winsep').setup({
-    symbols = { "─", "│", "┌", "┐", "└", "┘" },
+    symbols = { "鈹€", "鈹?, "鈹?, "鈹?, "鈹?, "鈹? },
 })
 EOF
 
@@ -519,7 +523,7 @@ set splitbelow
 set dictionary+=/usr/share/dict/words
 set complete+=k
 
-set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+set listchars=eol:鈫?tab:\|\|,trail:~,extends:>,precedes:<,space:路
 set list
 
 " Let's save undo info!

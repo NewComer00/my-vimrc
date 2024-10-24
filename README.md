@@ -27,13 +27,13 @@ My Vim &amp; Neovim config
 
 ### 应用程序版本
 如果你习惯使用Vim，请保证版本号 `Vim >= 7.3.1058`   
-如果你习惯使用Neovim，请保证版本号 `Neovim >= 0.8`
+如果你习惯使用Neovim，请保证版本号 `Neovim >= 0.10`
 
 版本号低于要求时，可能会有部分功能无法正常使用。
 
 ## 主要功能
 - 目录文件树、命令行、文件历史版本管理、底部状态栏、粘贴板历史、代码标签树、文件和内容的模糊检索、代码格式化、代码补全与跳转（Neovim）、代码调试（Neovim）等。
-- 本套配置中，Vim的定位是**增强版的文本编辑器，而非IDE**；Neovim可以**承担IDE的一部分功能，但也不能完全取代IDE**。
+- 本套配置中，Vim的定位是**增强版的文本编辑器而非IDE，追求兼容性与开箱即用**；Neovim**追求文本编辑器的新功能，可以承担IDE的一部分功能，但也不能完全取代IDE**。
 - 如果需要在嵌入式设备上配置Vim，或者发现```.vimrc```配置导致Vim打开文件缓慢、浏览文件时卡顿，可以使用精简版的```.vimrc.fast```配置文件。精简版的配置保留了大部分主要功能，并使用了更加轻量的插件。
 
 ## 配置我的Vim
@@ -184,6 +184,7 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 
 ### ```<F4>``` 文件历史版本
 展示当前文件撤销和重做的历史记录。历史记录可以分叉，并且可以随时将文件内容回退或前进到选定历史版本。再按一次快捷键可关闭窗口。
+- 🟨本插件依赖于[GNU Diffutils](https://www.gnu.org/software/diffutils/)。大部分GNU/Linux发行版都原生安装了该工具，Windows系统可手动安装[DiffUtils for Windows](https://gnuwin32.sourceforge.net/packages/diffutils.htm).
 
 ---
 
@@ -354,7 +355,7 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 
 #### Neovim
 基于```nvim-telescope/telescope.nvim```插件。
-- 🟦额外安装文件内容检索工具[rg](https://github.com/BurntSushi/ripgrep)，可提高本插件的检索效率。
+- 🟨需要额外安装文件内容检索工具[rg](https://github.com/BurntSushi/ripgrep)，才能正常使用此功能。  
 
 </details>
 

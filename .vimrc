@@ -16,7 +16,7 @@ endif
 " *************************************************************************
 
 let GITHUB_SITE = 'https://gh.con.sh/https://github.com/'
-"let GITHUB_SITE = 'https://mirror.ghproxy.com/https://github.com/'
+"let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
 "let GITHUB_SITE = 'https://hub.fastgit.xyz/'
 "let GITHUB_SITE = 'https://github.com/'
 let GITHUB_RAW = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/'
