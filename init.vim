@@ -404,7 +404,7 @@ EOF
 " https://github.com/nvim-zh/colorful-winsep.nvim
 lua << EOF
 require('colorful-winsep').setup({
-    symbols = { "鈹€", "鈹?, "鈹?, "鈹?, "鈹?, "鈹? },
+    symbols = {"─", "│", "┌", "┐", "└", "┘"},
 })
 EOF
 
@@ -527,7 +527,7 @@ set splitbelow
 set dictionary+=/usr/share/dict/words
 set complete+=k
 
-set listchars=eol:鈫?tab:\|\|,trail:~,extends:>,precedes:<,space:路
+set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
 set list
 
 " Let's save undo info!
