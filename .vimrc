@@ -85,6 +85,7 @@ Plug GITHUB_SITE.'airblade/vim-rooter'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
 Plug GITHUB_SITE.'tpope/vim-commentary'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
+Plug GITHUB_SITE.'unblevable/quick-scope'
 " system clipboard
 Plug GITHUB_SITE.'ojroques/vim-oscyank'
 Plug GITHUB_SITE.'christoomey/vim-system-copy'
@@ -208,6 +209,10 @@ if !isdirectory(s:yankring_dir)
     call mkdir(s:yankring_dir)
 endif
 let g:yankring_history_dir = s:yankring_dir
+
+" unblevable/quick-scope
+let g:qs_buftype_blacklist = ['terminal', 'nofile']
+let g:qs_filetype_blacklist = ['dashboard', 'startify']
 
 " google/vim-maktaba
 " work-around for windows
@@ -391,6 +396,10 @@ nnoremap <leader>s :StripWhitespace<CR>
 nnoremap <leader>a :Ack!<CR>
 " search the given word
 nnoremap <leader>A :Ack!<Space>
+
+" toggle highlighting fot unblevable/quick-scope
+nmap <leader>q <plug>(QuickScopeToggle)
+xmap <leader>q <plug>(QuickScopeToggle)
 
 " christoomey/vim-system-copy
 nmap cy <Plug>SystemCopy
