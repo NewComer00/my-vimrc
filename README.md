@@ -4,6 +4,12 @@ My Vim &amp; Neovim config
 
 ---
 
+|.vimrc|.vimrc.fast|init.vim|
+|--|--|--|
+|![image](https://github.com/user-attachments/assets/53dc4bad-9387-4202-9d45-f4d78db67c21)|![image](https://github.com/user-attachments/assets/926633bf-141e-411f-b2a3-bf7f45fcdae7)|![image](https://github.com/user-attachments/assets/9f66be0a-3418-4784-8530-3e5c101e2fc5)
+
+---
+
 * [环境需求](#环境需求)
 * [主要功能](#主要功能)
 * [配置我的Vim](#配置我的vim)
@@ -27,9 +33,14 @@ My Vim &amp; Neovim config
 
 ### 应用程序版本
 如果你习惯使用Vim，请保证版本号 `Vim >= 7.3.1058`   
-如果你习惯使用Neovim，请保证版本号 `Neovim >= 0.10`
+如果你习惯使用Neovim，请保证版本号 `Neovim >= 0.10`，尽量使用最新版本。
 
 版本号低于要求时，可能会有部分功能无法正常使用。
+
+### 其它依赖
+本套配置使用了插件管理器[junegunn/vim-plug](https://github.com/junegunn/vim-plug)，需要**互联网连接**与**`git`命令**方可下载、安装插件。
+
+若您所在的环境无法访问互联网或无法安装`git`，可将配置文件开头`MY_VIMRC_BASIC`变量的值设置为`1`。配置生效后仅保留基本功能，所有涉及到插件的功能将不可用。
 
 ## 主要功能
 - 目录文件树、命令行、文件历史版本管理、底部状态栏、粘贴板历史、代码标签树、文件和内容的模糊检索、代码格式化、代码补全与跳转（Neovim）、代码调试（Neovim）等。
@@ -50,6 +61,7 @@ cp ./.vimrc ~/.vimrc
 ⚠️注意：  
 1. 如果插件下载安装进度过慢或显示某些插件安装失败，请退出Vim，然后尝试重新打开Vim输入命令```:PlugInstall```来下载安装这些插件。
 2. 配置文件默认使用加速网站来加快对github的访问，如需更换回原始的github网址，请更改配置文件中的```GITHUB_RAW```与```GITHUB_SITE```变量值，将被注释掉的变量值还原。在改变网址后所有已安装插件都需要更新，输入命令```:PlugClean```和```:PlugInstall```来重新下载安装插件。
+3. 如果您所在的环境无法访问互联网或无法安装`git`，可将配置文件开头`MY_VIMRC_BASIC`变量的值设置为`1`。配置生效后仅保留基本功能，所有涉及到插件的功能将不可用。
 
 ### 使用精简版配置`.vimrc.fast`
 **精简版的配置目标是——首先保证Vim的启动速度和使用流畅性，其次添加方便用户的功能**。精简版配置删去了一些不必要的插件，并且使用了更加轻量的插件。使用精简版配置后，Vim会拥有飞快的启动速度，用户将获得流畅的编辑体验。  
@@ -130,6 +142,7 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 ⚠️注意：  
 1. 如果插件下载安装进度过慢或显示某些插件安装失败，请退出Neovim，然后尝试重新打开Neovim输入命令```:PlugInstall```来下载安装这些插件。
 2. 配置文件默认使用加速网站来加快对github的访问，如需更换回原始的github网址，请更改配置文件中的```GITHUB_RAW```与```GITHUB_SITE```变量值，将被注释掉的变量值还原。在改变网址后所有已安装插件都需要更新，输入命令```:PlugClean```和```:PlugInstall```来重新下载安装插件。
+3. 如果您所在的环境无法访问互联网或无法安装`git`，可将配置文件开头`MY_VIMRC_BASIC`变量的值设置为`1`。配置生效后仅保留基本功能，所有涉及到插件的功能将不可用。
 
 ## 主要快捷键
 ### ✅按键的描述方式
@@ -264,6 +277,9 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 
 ### ```<Leader>vu``` 更新插件
 先保存并更新配置（若配置文件有错误，忽略报错），然后更新配置文件中**已列举**的插件。
+
+### ```<Leader>vt``` 测量启动时间
+测量Vim/Neovim的启动时间，并列举出各环节的启动耗时。
 
 ---
 

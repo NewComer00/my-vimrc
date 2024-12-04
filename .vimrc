@@ -1,37 +1,236 @@
 " *************************************************************************
 " presettings
 " *************************************************************************
-set encoding=utf8
-set termguicolors
-set nocompatible
 
+" ASCII art -- https://patorjk.com/software/taag/#p=display&f=Small&t=MY-VIMRC
+let MY_VIMRC_WELCOME = "\n"
+            \ .' __  ____   __ __   _____ __  __ ___  ___ '."\n"
+            \ .'|  \/  \ \ / /_\ \ / /_ _|  \/  | _ \/ __|'."\n"
+            \ .'| |\/| |\ V /___\ V / | || |\/| |   / (__ '."\n"
+            \ .'|_|  |_| |_|     \_/ |___|_|  |_|_|_\\___|'."\n"
+
+" vim data directory
 if has('win32')
-    let DATA_DIR = $HOME.'/vimfiles'
+    let DATA_DIR = expand($HOME.'/vimfiles')
 else
-    let DATA_DIR = $HOME.'/.vim'
+    let DATA_DIR = expand($HOME.'/.vim')
 endif
 
-" *************************************************************************
-" vim plugins
-" *************************************************************************
+" only use basic functions of my-vimrc -- 1:true 0:false
+let MY_VIMRC_BASIC = 0
 
-let GITHUB_SITE = 'https://gh.con.sh/https://github.com/'
-"let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
-"let GITHUB_SITE = 'https://hub.fastgit.xyz/'
+" mirrors for github site & github raw
+let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
+"let GITHUB_SITE = 'https://www.ghproxy.cn/https://github.com/'
+"let GITHUB_SITE = 'https://github.site/'
+"let GITHUB_SITE = 'https://github.store/'
 "let GITHUB_SITE = 'https://github.com/'
-let GITHUB_RAW = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/'
-"let GITHUB_RAW = 'https://raw.fastgit.org/'
+let GITHUB_RAW = 'https://ghp.ci/https://raw.githubusercontent.com/'
+"let GITHUB_RAW = 'https://www.ghproxy.cn/https://raw.githubusercontent.com/'
+"let GITHUB_RAW = 'https://raw.github.site/'
+"let GITHUB_RAW = 'https://raw.github.store/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
-" download the plugin manager if not installed
-let AUTOLOAD_DIR =  DATA_DIR.'/autoload'
-let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
+" *************************************************************************
+" basic settings
+" *************************************************************************
+
+set encoding=utf8
+set nocompatible
+
+if has('termguicolors')
+    set termguicolors
+endif
+
+set cursorline
+
+" to enable backspace key
+" https://vi.stackexchange.com/a/2163
+set backspace=indent,eol,start
+
+set novisualbell
+
+" to deal with REPLACE MODE problem on windows cmd or windows terminal
+" https://superuser.com/a/1525060
+set t_u7=
+
+set t_Co=256
+syntax on
+
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+set number
+set relativenumber
+
+set nowrap
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+set autoindent
+
+set wildmode=longest,full
+set wildmenu
+
+set mouse=a
+" mouse will still work beyond the 223rd col if vim supports mouse-sgr
+" https://stackoverflow.com/a/19253251/15283141
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
+
+set splitbelow
+
+set dictionary+=/usr/share/dict/words
+set complete+=k
+
+" to be compatable with older version
+" https://stackoverflow.com/a/36374234/15283141
+if has("patch-7.4.710")
+    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+else
+    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<
+endif
+set list
+
+" Let's save undo info!
+" from https://vi.stackexchange.com/a/53
+let s:undo_dir = expand(DATA_DIR.'/undo-dir')
+if !isdirectory(s:undo_dir)
+    call mkdir(s:undo_dir, "p", 0700)
+endif
+let &undodir = s:undo_dir
+set undofile
+
+" *************************************************************************
+" basic functions
+" *************************************************************************
+
+" a wrapper of input() but without the retval
+function! s:ShowDialog(text)
+    if !has('gui_running')
+        "TODO: a trick only to keep the text shown on win32
+        if has('win32')
+            new | redraw | quit
+            echo "\n"
+        endif
+        call input(a:text)
+    else
+        call inputdialog(a:text)
+    endif
+endfunction
+
+" verify the first maxline of the downloaded file with the pattern
+" retval: 0 -- good;
+"        -1 -- file not readable;
+"        -2 -- pattern not found in the first maxline of file
+function! s:VerifyDownload(filename, pattern, maxline)
+    if !filereadable(a:filename)
+        echo '[my-vimrc] Download failed. "'.a:filename.'" is not found or not readable.'
+        return -1
+    endif
+
+    let lines = readfile(a:filename)
+    let line_count = len(lines)
+    let i = 0
+    while i < line_count && i < a:maxline
+        if lines[i] =~ a:pattern
+            return 0
+        endif
+        let i += 1
+    endwhile
+    echo '[my-vimrc] Verification failed. "'.a:filename.'" might be corrupted.'
+    return -2
+endfunction
+
+" allow toggling between local and default mode
+" https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
+function! TabToggle()
+    if &expandtab
+        set noexpandtab
+    else
+        set expandtab
+    endif
+endfunction
+
+" *************************************************************************
+" basic filetypes
+" *************************************************************************
+
+" scons
+augroup scons_ft
+  au!
+  autocmd bufnewfile,bufread sconstruct set filetype=python
+augroup end
+
+" *************************************************************************
+" basic keymaps
+" *************************************************************************
+
+" quickly edit this config file
+nnoremap <leader>ve :tabnew $MYVIMRC<CR>
+" quickly save and source this config file
+nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+
+" toggle paste mode
+nnoremap <leader>p :set paste!<CR>
+
+" toggle list char
+nnoremap <leader>l :set list!<CR>
+
+" toggle tab/spaces
+nnoremap <leader>t :call TabToggle()<CR>
+
+" switch between tabs
+nnoremap <leader>} :tabnext<CR>
+nnoremap <leader>{ :tabprevious<CR>
+
+" switch between buffers
+nnoremap <leader>] :bnext<CR>
+nnoremap <leader>[ :bprevious<CR>
+
+" *************************************************************************
+" plugin manager
+" *************************************************************************
+
+" only use basic functions of my-vimrc
+if MY_VIMRC_BASIC != 0
+    finish
+endif
+
+" first we check for git; finish execution if no git is found
+if !executable('git')
+    call s:ShowDialog('[my-vimrc] The "git" command is missing. '
+                \ .'Only basic functions are available.'
+                \ ."\nPress ENTER to continue\n")
+    finish
+endif
+
+let AUTOLOAD_DIR = expand(DATA_DIR.'/autoload')
+let PLUGIN_MANAGER_PATH = expand(AUTOLOAD_DIR.'/plug.vim')
 let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
-if empty(glob(PLUGIN_MANAGER_PATH))
-    echo 'Downloading plugin manager ...'
+let PLUGIN_MANAGER_PATTERN = ':PlugInstall'
+
+" download the plugin manager if not installed
+silent if s:VerifyDownload(PLUGIN_MANAGER_PATH, PLUGIN_MANAGER_PATTERN, 1000) != 0
+    " welcome our beloved user
+    call s:ShowDialog(MY_VIMRC_WELCOME."\n[my-vimrc] Thank you for using my-vimrc!\n"
+                \ ."Press ENTER to download the plugin manager\n")
+
+    " try different ways to download the plugin manager
     if has('win32') && executable('powershell')
-        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
-                    \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |` '
+                    \ .'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+    elseif has('win32') && executable('certutil')
+        silent execute '!(if not exist "'.AUTOLOAD_DIR.'" mkdir "'.AUTOLOAD_DIR.'")'
+                    \ .'&& certutil -urlcache -split -f "'.PLUGIN_MANAGER_URL.'"'
+                    \ .' "'.PLUGIN_MANAGER_PATH.'"'
     elseif executable('wget')
         silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
                     \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
@@ -41,10 +240,21 @@ if empty(glob(PLUGIN_MANAGER_PATH))
                     \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
                     \ .'&& echo "Download successful." || echo "Download failed." '
     else
-        echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
-                    \ .' and place it in '.PLUGIN_MANAGER_PATH
+        echo '[my-vimrc] No downloader available.'
     endif
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+
+    " verify the downloaded file; finish the execution if failed
+    if s:VerifyDownload(PLUGIN_MANAGER_PATH, PLUGIN_MANAGER_PATTERN, 1000) != 0
+        call s:ShowDialog('[my-vimrc] Unable to download the plugin manager. '
+                    \ .'Only basic functions are available. '
+                    \ ."\nPlease manually download the plugin manager from "
+                    \ .'"https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+                    \ .' and save it as "'.PLUGIN_MANAGER_PATH.'"'
+                    \ ."\nPress ENTER to continue\n")
+        finish
+    else
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
 endif
 
 call plug#begin()
@@ -70,7 +280,7 @@ Plug GITHUB_SITE.'mbbill/undotree'
 Plug GITHUB_SITE.'preservim/tagbar', { 'on': 'TagbarToggle' }
 " finders
 Plug GITHUB_SITE.'ctrlpvim/ctrlp.vim'
-Plug GITHUB_SITE.'mileszs/ack.vim'
+Plug GITHUB_SITE.'NewComer00/ack.vim', { 'branch': 'patch-1' }
 Plug GITHUB_SITE.'vim-scripts/YankRing.vim'
 
 " --------------------
@@ -87,8 +297,14 @@ Plug GITHUB_SITE.'tpope/vim-commentary'
 Plug GITHUB_SITE.'farmergreg/vim-lastplace'
 Plug GITHUB_SITE.'unblevable/quick-scope'
 " system clipboard
-Plug GITHUB_SITE.'ojroques/vim-oscyank'
-Plug GITHUB_SITE.'christoomey/vim-system-copy'
+if has('patch-8.2.1337')
+    " https://github.com/vim/vim/issues/6591
+    Plug GITHUB_SITE.'ojroques/vim-oscyank'
+    Plug GITHUB_SITE.'christoomey/vim-system-copy'
+else
+    Plug GITHUB_SITE.'ojroques/vim-oscyank', { 'commit': '14685fc' }
+    Plug GITHUB_SITE.'christoomey/vim-system-copy', { 'commit': '1e5afc4' }
+endif
 " git related
 Plug GITHUB_SITE.'tpope/vim-fugitive'
 Plug GITHUB_SITE.'junegunn/gv.vim'
@@ -115,7 +331,10 @@ call plug#end()
 " *************************************************************************
 
 " flazz/vim-colorschemes
-colorscheme molokai
+if exists('plugs') && has_key(plugs, 'vim-colorschemes')
+            \ && filereadable(plugs['vim-colorschemes']['dir'].'/colors/molokai.vim')
+    colorscheme molokai
+endif
 
 " preservim/nerdtree
 let NERDTreeWinPos="right"
@@ -204,9 +423,9 @@ endif
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
 " save yankring history in this dir
-let s:yankring_dir = DATA_DIR.'/yankring-dir'
+let s:yankring_dir = expand(DATA_DIR.'/yankring-dir')
 if !isdirectory(s:yankring_dir)
-    call mkdir(s:yankring_dir)
+    call mkdir(s:yankring_dir, "p", 0700)
 endif
 let g:yankring_history_dir = s:yankring_dir
 
@@ -215,83 +434,18 @@ let g:qs_buftype_blacklist = ['terminal', 'nofile']
 let g:qs_filetype_blacklist = ['dashboard', 'startify']
 
 " google/vim-maktaba
-" work-around for windows
-call maktaba#syscall#SetUsableShellRegex('\v^/bin/sh|cmd|cmd\.exe|command\.com$')
+if exists('*maktaba#syscall#SetUsableShellRegex')
+    " work-around for windows
+    call maktaba#syscall#SetUsableShellRegex('\v^/bin/sh|cmd|cmd\.exe|command\.com$')
+endif
 
 " google/vim-codefmt
-call glaive#Install()
-
-" *************************************************************************
-" my scripts
-" *************************************************************************
-set cursorline
-
-" to enable backspace key
-" https://vi.stackexchange.com/a/2163
-set backspace=indent,eol,start
-
-set novisualbell
-
-" to deal with REPLACE MODE problem on windows cmd or windows terminal
-" https://superuser.com/a/1525060
-set t_u7=
-
-set t_Co=256
-syntax on
-
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-
-set number
-set relativenumber
-
-set nowrap
-
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-set autoindent
-
-set wildmode=longest,full
-set wildmenu
-
-set mouse=a
-" mouse will still work beyond the 223rd col if vim supports mouse-sgr
-" https://stackoverflow.com/a/19253251/15283141
-if has("mouse_sgr")
-    set ttymouse=sgr
-else
-    set ttymouse=xterm2
-end
-
-set splitbelow
-
-set dictionary+=/usr/share/dict/words
-set complete+=k
-
-" to be compatable with older version
-" https://stackoverflow.com/a/36374234/15283141
-if has("patch-7.4.710")
-    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
-else
-    set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<
+if exists('*maktaba#plugin#GetOrInstall') && exists('*glaive#Install')
+    call glaive#Install()
 endif
-set list
-
-" Let's save undo info!
-" from https://vi.stackexchange.com/a/53
-let s:undo_dir = DATA_DIR.'/undo-dir'
-if !isdirectory(s:undo_dir)
-    call mkdir(s:undo_dir, "", 0700)
-endif
-let &undodir = s:undo_dir
-set undofile
 
 " *************************************************************************
-" my functions
+" extra functions
 " *************************************************************************
 
 " function to run a shell
@@ -301,16 +455,6 @@ function! OpenShell(shell_id)
     else
         execute('VimShellPop')
     endif
-endfunction
-
-" allow toggling between local and default mode
-" https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
-function! TabToggle()
-  if &expandtab
-    set noexpandtab
-  else
-    set expandtab
-  endif
 endfunction
 
 " test the startup time of Vim
@@ -327,18 +471,8 @@ function! TimingVimStartup(sorted)
     execute(l:cmd)
 endfunction
 
-"*************************************************************************
-" file types
 " *************************************************************************
-
-" scons
-augroup scons_ft
-  au!
-  autocmd BufNewFile,BufRead SConstruct set filetype=python
-augroup END
-
-" *************************************************************************
-" hotkeys
+" extra keymaps
 " *************************************************************************
 
 " functional hotkeys for plugins
@@ -364,10 +498,6 @@ if has('terminal')
     tnoremap <silent> <F3> <C-W>:FloatermHide<CR>
 endif
 
-" quickly edit this config file
-nnoremap <leader>ve :tabnew $MYVIMRC<CR>
-" quickly save and source this config file
-nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
 " plugin manager shortcuts
 nnoremap <leader>vi :wa<Bar>silent! so $MYVIMRC<CR>:PlugInstall<CR>
 nnoremap <leader>vc :wa<Bar>silent! so $MYVIMRC<CR>:PlugClean<CR>
@@ -375,15 +505,6 @@ nnoremap <leader>vu :wa<Bar>silent! so $MYVIMRC<CR>:PlugUpdate<CR>
 " test vim startup time
 nnoremap <leader>vt :call TimingVimStartup(1)<CR>
 nnoremap <leader>vT :call TimingVimStartup(0)<CR>
-
-" toggle paste mode
-nnoremap <leader>p :set paste!<CR>
-
-" toggle list char
-nnoremap <leader>l :set list!<CR>
-
-" toggle tab/spaces
-nnoremap <leader>t :call TabToggle()<CR>
 
 " google auto format
 nnoremap <leader>f :FormatLines<CR>
@@ -397,7 +518,7 @@ nnoremap <leader>a :Ack!<CR>
 " search the given word
 nnoremap <leader>A :Ack!<Space>
 
-" toggle highlighting fot unblevable/quick-scope
+" toggle highlighting for unblevable/quick-scope
 nmap <leader>q <plug>(QuickScopeToggle)
 xmap <leader>q <plug>(QuickScopeToggle)
 

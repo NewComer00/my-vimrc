@@ -2,29 +2,216 @@
 " presettings
 " *************************************************************************
 
-set encoding=utf8
+" ASCII art -- https://patorjk.com/software/taag/#p=display&f=Small&t=MY-VIMRC
+let MY_VIMRC_WELCOME = "\n"
+            \ .' __  ____   __ __   _____ __  __ ___  ___ '."\n"
+            \ .'|  \/  \ \ / /_\ \ / /_ _|  \/  | _ \/ __|'."\n"
+            \ .'| |\/| |\ V /___\ V / | || |\/| |   / (__ '."\n"
+            \ .'|_|  |_| |_|     \_/ |___|_|  |_|_|_\\___|'."\n"
 
-" *************************************************************************
-" nvim plugins
-" *************************************************************************
+" only use basic functions of my-vimrc -- 1:true 0:false
+let MY_VIMRC_BASIC = 0
 
-let GITHUB_SITE = 'https://gh.con.sh/https://github.com/'
-"let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
-"let GITHUB_SITE = 'https://hub.fastgit.xyz/'
+" mirrors for github site & github raw
+let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
+"let GITHUB_SITE = 'https://www.ghproxy.cn/https://github.com/'
+"let GITHUB_SITE = 'https://github.site/'
+"let GITHUB_SITE = 'https://github.store/'
 "let GITHUB_SITE = 'https://github.com/'
-let GITHUB_RAW = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/'
-"let GITHUB_RAW = 'https://raw.fastgit.org/'
+let GITHUB_RAW = 'https://ghp.ci/https://raw.githubusercontent.com/'
+"let GITHUB_RAW = 'https://www.ghproxy.cn/https://raw.githubusercontent.com/'
+"let GITHUB_RAW = 'https://raw.github.site/'
+"let GITHUB_RAW = 'https://raw.github.store/'
 "let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
-" download the plugin manager if not installed
+" *************************************************************************
+" basic settings
+" *************************************************************************
+
+set encoding=utf8
+
+" to enable backspace key
+" https://vi.stackexchange.com/a/2163
+set backspace=indent,eol,start
+
+set cursorline
+
+set novisualbell
+
+" to deal with REPLACE MODE problem on windows cmd or windows terminal
+" https://superuser.com/a/1525060
+set t_u7=
+
+set t_Co=256
+
+set hlsearch
+set ignorecase
+set smartcase
+
+set number
+set relativenumber
+
+set nowrap
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+set autoindent
+
+set wildmode=longest,full
+set wildmenu
+
+set mouse=a
+
+set splitbelow
+
+set dictionary+=/usr/share/dict/words
+set complete+=k
+
+set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
+set list
+
+" Let's save undo info!
+" from https://vi.stackexchange.com/a/53
+let s:undo_dir = expand(stdpath("data")."/undo-dir")
+if !isdirectory(s:undo_dir)
+    call mkdir(s:undo_dir, "p", 0700)
+endif
+let &undodir = s:undo_dir
+set undofile
+
+" *************************************************************************
+" basic functions
+" *************************************************************************
+
+" a wrapper of input() but without the retval
+function! s:ShowDialog(text)
+    if !has('gui_running')
+        "TODO: a trick only to keep the text shown on win32
+        if has('win32')
+            new | redraw | quit
+            echo "\n"
+        endif
+        call input(a:text)
+    else
+        call inputdialog(a:text)
+    endif
+endfunction
+
+" verify the first maxline of the downloaded file with the pattern
+" retval: 0 -- good;
+"        -1 -- file not readable;
+"        -2 -- pattern not found in the first maxline of file
+function! s:VerifyDownload(filename, pattern, maxline)
+    if !filereadable(a:filename)
+        echo '[my-vimrc] Download failed. "'.a:filename.'" is not found or not readable.'
+        return -1
+    endif
+
+    let lines = readfile(a:filename)
+    let line_count = len(lines)
+    let i = 0
+    while i < line_count && i < a:maxline
+        if lines[i] =~ a:pattern
+            return 0
+        endif
+        let i += 1
+    endwhile
+    echo '[my-vimrc] Verification failed. "'.a:filename.'" might be corrupted.'
+    return -2
+endfunction
+
+" allow toggling between local and default mode
+" https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
+function! TabToggle()
+    if &expandtab
+        set noexpandtab
+    else
+        set expandtab
+    endif
+endfunction
+
+" *************************************************************************
+" basic filetypes
+" *************************************************************************
+
+" scons
+augroup scons_ft
+  au!
+  autocmd bufnewfile,bufread sconstruct set filetype=python
+augroup end
+
+" *************************************************************************
+" basic keymaps
+" *************************************************************************
+
+" use <Esc> to quit terminal mode
+tnoremap <Esc> <C-\><C-n>
+
+" quickly edit this config file
+nnoremap <leader>ve :tabnew $MYVIMRC<CR>
+" quickly save and source this config file
+nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
+
+" toggle list char and indentation mark
+nnoremap <leader>l :set list!<Bar>IndentBlanklineToggle<CR>
+
+" toggle paste mode
+nnoremap <leader>p :set paste!<CR>
+
+" toggle tab/spaces
+nnoremap <leader>t :call TabToggle()<CR>
+
+" auto formatting
+nnoremap <leader>f <C-V>gq
+vnoremap <leader>f gq
+nnoremap <leader>F :lua vim.lsp.buf.format()<CR>
+
+" switch between tabs
+nnoremap <leader>} :tabnext<CR>
+nnoremap <leader>{ :tabprevious<CR>
+
+" switch between buffers
+nnoremap <leader>] :bnext<CR>
+nnoremap <leader>[ :bprevious<CR>
+
+" *************************************************************************
+" plugin manager
+" *************************************************************************
+
+" only use basic functions of my-vimrc
+if MY_VIMRC_BASIC != 0
+    finish
+endif
+
+" first we check for git; finish execution if no git is found
+if !executable('git')
+    call s:ShowDialog('[my-vimrc] The "git" command is missing. '
+                \ .'Only basic functions are available.'
+                \ ."\nPress ENTER to continue\n")
+    finish
+endif
+
 let AUTOLOAD_DIR = stdpath('config').'/autoload'
-let PLUGIN_MANAGER_PATH = AUTOLOAD_DIR.'/plug.vim'
+let PLUGIN_MANAGER_PATH = expand(AUTOLOAD_DIR.'/plug.vim')
 let PLUGIN_MANAGER_URL = GITHUB_RAW.'/junegunn/vim-plug/master/plug.vim'
-if empty(glob(PLUGIN_MANAGER_PATH))
-    echo 'Downloading plugin manager ...'
+let PLUGIN_MANAGER_PATTERN = ':PlugInstall'
+
+" download the plugin manager if not installed
+silent if s:VerifyDownload(PLUGIN_MANAGER_PATH, PLUGIN_MANAGER_PATTERN, 1000) != 0
+    " welcome our beloved user
+    call s:ShowDialog(MY_VIMRC_WELCOME."\n[my-vimrc] Thank you for using my-vimrc!\n"
+                \ ."Press ENTER to download the plugin manager\n")
+
+    " try different ways to download the plugin manager
     if has('win32') && executable('powershell')
-        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |`'
-                    \ 'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+        silent execute '!powershell "iwr -useb '.PLUGIN_MANAGER_URL.' |` '
+                    \ .'ni '.PLUGIN_MANAGER_PATH.' -Force"'
+    elseif has('win32') && executable('certutil')
+        silent execute '!(if not exist "'.AUTOLOAD_DIR.'" mkdir "'.AUTOLOAD_DIR.'")'
+                    \ .'&& certutil -urlcache -split -f "'.PLUGIN_MANAGER_URL.'"'
+                    \ .' "'.PLUGIN_MANAGER_PATH.'"'
     elseif executable('wget')
         silent execute '!mkdir -p '.AUTOLOAD_DIR.' '
                     \ .'&& wget -O '.PLUGIN_MANAGER_PATH.' '.PLUGIN_MANAGER_URL.' '
@@ -34,10 +221,21 @@ if empty(glob(PLUGIN_MANAGER_PATH))
                     \ .' --create-dirs '.PLUGIN_MANAGER_URL.' '
                     \ .'&& echo "Download successful." || echo "Download failed." '
     else
-        echo 'Please download the plugin manager from '.PLUGIN_MANAGER_URL
-                    \ .' and place it in '.PLUGIN_MANAGER_PATH
+        echo '[my-vimrc] No downloader available.'
     endif
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+
+    " verify the downloaded file; finish the execution if failed
+    if s:VerifyDownload(PLUGIN_MANAGER_PATH, PLUGIN_MANAGER_PATTERN, 1000) != 0
+        call s:ShowDialog('[my-vimrc] Unable to download the plugin manager. '
+                    \ .'Only basic functions are available. '
+                    \ ."\nPlease manually download the plugin manager from "
+                    \ .'"https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+                    \ .' and save it as "'.PLUGIN_MANAGER_PATH.'"'
+                    \ ."\nPress ENTER to continue\n")
+        finish
+    else
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
 endif
 
 call plug#begin()
@@ -218,7 +416,7 @@ let g:yankring_replace_n_nkey = '<m-n>'
 " save yankring history in this dir
 let yankring_path=expand(stdpath("data")."/yankring-dir")
 if !isdirectory(yankring_path)
-    call mkdir(yankring_path, "", 0700)
+    call mkdir(yankring_path, "p", 0700)
 endif
 let g:yankring_history_dir = yankring_path
 
@@ -487,71 +685,8 @@ require'toggle_lsp_diagnostics'.init({ start_on = false })
 EOF
 
 " *************************************************************************
-" my scripts
+" extra functions
 " *************************************************************************
-
-" to enable backspace key
-" https://vi.stackexchange.com/a/2163
-set backspace=indent,eol,start
-
-set novisualbell
-
-" to deal with REPLACE MODE problem on windows cmd or windows terminal
-" https://superuser.com/a/1525060
-set t_u7=
-
-set t_Co=256
-
-set hlsearch
-set ignorecase
-set smartcase
-
-set number
-set relativenumber
-
-set nowrap
-
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-set autoindent
-
-set wildmode=longest,full
-set wildmenu
-
-set mouse=a
-
-set splitbelow
-
-set dictionary+=/usr/share/dict/words
-set complete+=k
-
-set listchars=eol:↵,tab:\|\|,trail:~,extends:>,precedes:<,space:·
-set list
-
-" Let's save undo info!
-" from https://vi.stackexchange.com/a/53
-let undodir_path=expand(stdpath("data")."/undo-dir")
-if !isdirectory(undodir_path)
-    call mkdir(undodir_path, "", 0700)
-endif
-let &undodir=undodir_path
-set undofile
-
-" *************************************************************************
-" my functions
-" *************************************************************************
-
-" allow toggling between local and default mode
-" https://vim.fandom.com/wiki/Toggle_between_tabs_and_spaces
-function! TabToggle()
-    if &expandtab
-        set noexpandtab
-    else
-        set expandtab
-    endif
-endfunction
 
 " my wrapper for [sakhnik/nvim-gdb]
 function! GdbStartAuto()
@@ -601,18 +736,8 @@ function! GdbStartAuto()
     endif
 endfunction
 
-"*************************************************************************
-" file types
 " *************************************************************************
-
-" scons
-augroup scons_ft
-    au!
-    autocmd BufNewFile,BufRead SConstruct set filetype=python
-augroup END
-
-" *************************************************************************
-" hotkeys
+" extra keymaps
 " *************************************************************************
 
 " functional hotkeys for plugins
@@ -635,13 +760,6 @@ cnoremap <silent> <F6> <C-c>
 
 tnoremap <silent> <F3> <C-\><C-n><Cmd>exe v:count1 . "ToggleTerm"<CR>
 
-" use <Esc> to quit terminal mode
-tnoremap <Esc> <C-\><C-n>
-
-" quickly edit this config file
-nnoremap <leader>ve :tabnew $MYVIMRC<CR>
-" quickly save and source this config file
-nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
 " plugin manager shortcuts
 nnoremap <leader>vi :wa<Bar>silent! so $MYVIMRC<CR>:PlugInstall<CR>
 nnoremap <leader>vc :wa<Bar>silent! so $MYVIMRC<CR>:PlugClean<CR>
@@ -649,20 +767,6 @@ nnoremap <leader>vu :wa<Bar>silent! so $MYVIMRC<CR>:PlugUpdate<CR>
 " test vim startup time
 nnoremap <leader>vt :StartupTime --tries 10<CR>
 nnoremap <leader>vT :StartupTime --tries 10 --no-sort<CR>
-
-" toggle list char and indentation mark
-nnoremap <leader>l :set list!<Bar>IndentBlanklineToggle<CR>
-
-" toggle paste mode
-nnoremap <leader>p :set paste!<CR>
-
-" toggle tab/spaces
-nnoremap <leader>t :call TabToggle()<CR>
-
-" auto formatting
-nnoremap <leader>f <C-V>gq
-vnoremap <leader>f gq
-nnoremap <leader>F :lua vim.lsp.buf.format()<CR>
 
 " strip trailing whitespaces
 nnoremap <leader>s :StripWhitespace<CR>
@@ -678,14 +782,7 @@ nnoremap <leader>d :ToggleDiag<CR>
 " toggle pwd between the repo's root and the dir of current file
 nnoremap <leader>r :RooterToggle<CR>
 
-" switch between buffers
-nnoremap <leader>] :BufferLineCycleNext<CR>
-nnoremap <leader>[ :BufferLineCyclePrev<CR>
-" switch between tabs
-nnoremap <leader>} :tabnext<CR>
-nnoremap <leader>{ :tabprevious<CR>
-
-" system copy
+" christoomey/vim-system-copy
 nmap cy <Plug>SystemCopy
 xmap cy <Plug>SystemCopy
 nmap cY <Plug>SystemCopyLine
