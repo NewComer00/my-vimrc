@@ -38,7 +38,7 @@ My Vim &amp; Neovim config
 版本号低于要求时，可能会有部分功能无法正常使用。
 
 ### 其它依赖
-本套配置使用了插件管理器[junegunn/vim-plug](https://github.com/junegunn/vim-plug)，需要**互联网连接**与**`git`命令**方可下载、安装插件。
+本套配置使用了插件管理器[junegunn/vim-plug](https://github.com/junegunn/vim-plug)，需要**互联网连接**与`git`**命令**方可下载、安装插件。
 
 若您所在的环境无法访问互联网或无法安装`git`，可将配置文件开头`MY_VIMRC_BASIC`变量的值设置为`1`。配置生效后仅保留基本功能，所有涉及到插件的功能将不可用。
 
