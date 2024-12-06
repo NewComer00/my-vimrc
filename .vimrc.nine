@@ -22,15 +22,15 @@ var MY_VIMRC_BASIC = 0
 
 # mirrors for github site & github raw
 g:GITHUB_SITE = 'https://ghp.ci/https://github.com/'
-# var g:GITHUB_SITE = 'https://www.ghproxy.cn/https://github.com/'
-# var g:GITHUB_SITE = 'https://github.site/'
-# var g:GITHUB_SITE = 'https://github.store/'
-# var g:GITHUB_SITE = 'https://github.com/'
+# g:GITHUB_SITE = 'https://www.ghproxy.cn/https://github.com/'
+# g:GITHUB_SITE = 'https://github.site/'
+# g:GITHUB_SITE = 'https://github.store/'
+# g:GITHUB_SITE = 'https://github.com/'
 g:GITHUB_RAW = 'https://ghp.ci/https://raw.githubusercontent.com/'
-# var g:GITHUB_RAW = 'https://www.ghproxy.cn/https://raw.githubusercontent.com/'
-# var g:GITHUB_RAW = 'https://raw.github.site/'
-# var g:GITHUB_RAW = 'https://raw.github.store/'
-# var g:GITHUB_RAW = 'https://raw.githubusercontent.com/'
+# g:GITHUB_RAW = 'https://www.ghproxy.cn/https://raw.githubusercontent.com/'
+# g:GITHUB_RAW = 'https://raw.github.site/'
+# g:GITHUB_RAW = 'https://raw.github.store/'
+# g:GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 # *************************************************************************
 # basic settings
