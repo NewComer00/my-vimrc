@@ -327,7 +327,7 @@ endif
 Plug GITHUB_SITE.'tpope/vim-fugitive'
 Plug GITHUB_SITE.'junegunn/gv.vim'
 " vim performance
-if has('timers') && has ('terminal')
+if has('timers') && has('terminal')
     Plug GITHUB_SITE.'dstein64/vim-startuptime'
 else
     Plug GITHUB_SITE.'NewComer00/startuptime.vim', { 'branch': 'patch-1' }
@@ -419,7 +419,7 @@ endif
 " test the startup time of Vim
 function! TimingVimStartup(sorted)
     let l:cmd = ''
-    if has('timers') && has ('terminal')
+    if has('timers') && has('terminal')
         let l:cmd = 'StartupTime --tries 10'
         if a:sorted == 0
             let l:cmd .= ' --no-sort'
