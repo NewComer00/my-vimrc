@@ -28,6 +28,9 @@ let GITHUB_RAW = 'https://ghp.ci/https://raw.githubusercontent.com/'
 " basic settings
 " *************************************************************************
 
+" make nvim startup faster
+lua vim.loader.enable()
+
 set encoding=utf8
 
 " to enable backspace key
@@ -282,7 +285,6 @@ Plug GITHUB_SITE.'christoomey/vim-system-copy'
 Plug GITHUB_SITE.'tpope/vim-fugitive'
 Plug GITHUB_SITE.'junegunn/gv.vim'
 " neovim performance
-Plug GITHUB_SITE.'lewis6991/impatient.nvim'
 Plug GITHUB_SITE.'dstein64/vim-startuptime'
 
 " --------------------
@@ -343,9 +345,6 @@ EOF
 " *************************************************************************
 " plugin configs
 " *************************************************************************
-
-" [lewis6991/impatient.nvim]
-lua require('impatient')
 
 " [folke/tokyonight.nvim]
 lua << EOF
