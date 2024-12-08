@@ -325,6 +325,20 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 
 ---
 
+### ```<Leader>[``` 切换到前一个Buffer
+将前一个Buffer的内容展示于当前Window中，继续按可继续切换。已位于首个Buffer时按下该快捷键，会切换至最后一个Buffer。
+
+### ```<Leader>]``` 切换到后一个Buffer
+将后一个Buffer的内容展示于当前Window中，继续按可继续切换。已位于末尾Buffer时按下该快捷键，会切换至首个Buffer。
+
+### ```<Leader>{``` 切换到前一个Tab
+从当前Tab切换至前一个Tab，继续按可继续切换。已位于首个Tab时按下该快捷键，会切换至最后一个Tab。
+
+### ```<Leader>}``` 切换到后一个Tab
+从当前Tab切换至后一个Tab，继续按可继续切换。已位于末尾Tab时按下该快捷键，会切换至首个Tab。
+
+---
+
 ### ```<Leader>l``` 空白字符开关
 展示/隐藏空白字符，按多次可在展示/隐藏间来回切换。
 
@@ -385,7 +399,7 @@ cp .\init.vim "~\AppData\Local\nvim\init.vim"
 
 ---
 
-更多关于快捷键的信息，请见配置文件最后的```hotkeys```部分。
+更多关于快捷键的信息，请见配置文件的```keymaps```部分。其它未提及的快捷键由插件提供，请见配置文件的```plugin manger```部分的插件列表。
 
 ## 【Neovim】代码补全、内容跳转等
 ### 🔍LSP 语言服务器协议

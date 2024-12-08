@@ -121,6 +121,10 @@ endif
 let &undodir = s:undo_dir
 set undofile
 
+" search tags file recursively
+" https://stackoverflow.com/a/5019111/15283141
+set tags=./tags,./TAGS,tags;~,TAGS;~
+
 " *************************************************************************
 " basic functions
 " *************************************************************************
