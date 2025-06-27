@@ -20,16 +20,8 @@ endif
 let MY_VIMRC_BASIC = 0
 
 " mirrors for github site & github raw
-let GITHUB_SITE = 'https://ghp.ci/https://github.com/'
-"let GITHUB_SITE = 'https://www.ghproxy.cn/https://github.com/'
-"let GITHUB_SITE = 'https://github.site/'
-"let GITHUB_SITE = 'https://github.store/'
-"let GITHUB_SITE = 'https://github.com/'
-let GITHUB_RAW = 'https://ghp.ci/https://raw.githubusercontent.com/'
-"let GITHUB_RAW = 'https://www.ghproxy.cn/https://raw.githubusercontent.com/'
-"let GITHUB_RAW = 'https://raw.github.site/'
-"let GITHUB_RAW = 'https://raw.github.store/'
-"let GITHUB_RAW = 'https://raw.githubusercontent.com/'
+let GITHUB_SITE = 'https://github.com/'
+let GITHUB_RAW = 'https://raw.githubusercontent.com/'
 
 " *************************************************************************
 " basic settings
