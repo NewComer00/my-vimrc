@@ -154,7 +154,7 @@ nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 nnoremap <leader>vs :wa<Bar>so $MYVIMRC<CR>
 
 " toggle list char and indentation mark
-nnoremap <leader>l :set list!<Bar>IndentBlanklineToggle<CR>
+nnoremap <leader>l :set list!<Bar>IBLToggle<CR>
 
 " toggle paste mode
 nnoremap <leader>p :set paste!<CR>
@@ -272,7 +272,6 @@ Plug GITHUB_SITE.'windwp/nvim-autopairs'
 Plug GITHUB_SITE.'kylechui/nvim-surround'
 Plug GITHUB_SITE.'notjedi/nvim-rooter.lua'
 Plug GITHUB_SITE.'junegunn/vim-peekaboo'
-Plug GITHUB_SITE.'terrortylor/nvim-comment'
 Plug GITHUB_SITE.'ethanholz/nvim-lastplace'
 " system clipboard
 Plug GITHUB_SITE.'ojroques/vim-oscyank'
@@ -304,7 +303,6 @@ Plug GITHUB_SITE.'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
 Plug GITHUB_SITE.'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug GITHUB_SITE.'L3MON4D3/LuaSnip' " Snippets plugin
 Plug GITHUB_SITE.'ray-x/lsp_signature.nvim' " Function signature
-Plug GITHUB_SITE.'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim' " Toggle LSP diagnostics
 
 call plug#end()
 
@@ -316,25 +314,26 @@ call plug#end()
 " https://github.com/neovim/nvim-lspconfig
 lua << EOF
 -- register your installed LSP server here
+-- find out LSP server for each language :
+-- https://github.com/williamboman/nvim-lsp-installer#available-lsps
 MY_LSP_SERVER_LIST = {
     -- for example:
     -- "pylsp",
     -- "clangd",
 }
--- find out LSP server for each language :
--- https://github.com/williamboman/nvim-lsp-installer#available-lsps
 
 -- my custom config function,
 -- only take effect on buffers with an active language server
-MY_CUSTOM_ON_ATTACH = function(client)
+MY_CUSTOM_ON_ATTACH = function(client, bufnr)
     -- hotkeys for LSP service
-    vim.keymap.set('n','gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
-    vim.keymap.set('n','gd','<cmd>lua vim.lsp.buf.definition()<CR>')
-    vim.keymap.set('n','K','<cmd>lua vim.lsp.buf.hover()<CR>')
-    vim.keymap.set('n','gr','<cmd>lua vim.lsp.buf.references()<CR>')
-    vim.keymap.set('n','gs','<cmd>lua vim.lsp.buf.signature_help()<CR>')
-    vim.keymap.set('n','gi','<cmd>lua vim.lsp.buf.implementation()<CR>')
-    vim.keymap.set('n','gt','<cmd>lua vim.lsp.buf.type_definition()<CR>')
+    local opts = { buffer = bufnr, silent = true }
+    vim.keymap.set('n','gD','<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    vim.keymap.set('n','gd','<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    vim.keymap.set('n','K','<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.keymap.set('n','gr','<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.keymap.set('n','gs','<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    vim.keymap.set('n','gi','<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    vim.keymap.set('n','gt','<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 end
 EOF
 
@@ -403,7 +402,6 @@ END
 " [vim-scripts/YankRing.vim]
 " make it compatible for neovim
 " https://github.com/neovim/neovim/issues/2642#issuecomment-218232937
-let g:clipboard = {} " https://github.com/neovim/neovim/issues/9570
 let g:yankring_clipboard_monitor = 0
 " to avoid <C-p> collision with the ctrlp plugin
 let g:yankring_replace_n_pkey = '<m-p>'
@@ -460,7 +458,37 @@ let g:nvimgdb_config_override = {
 
 " [ggandor/leap.nvim]
 lua << EOF
-require('leap').add_default_mappings()
+vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+vim.keymap.set('n',             'S', '<Plug>(leap-from-window)')
+
+vim.keymap.set({'n', 'o'}, 'gs', function ()
+  require('leap.remote').action {
+    -- Automatically enter Visual mode when coming from Normal.
+    input = vim.fn.mode(true):match('o') and '' or 'v'
+  }
+end)
+
+-- Forced linewise version (`gS{leap}jjy`):
+vim.keymap.set({'n', 'o'}, 'gS', function ()
+  require('leap.remote').action { input = 'V' }
+end)
+
+require('leap').opts.preview = function (ch0, ch1, ch2)
+  return not (
+    ch1:match('%s')
+    or (ch0:match('%a') and ch1:match('%a') and ch2:match('%a'))
+  )
+end
+
+-- Define equivalence classes for brackets and quotes, in addition to
+-- the default whitespace group:
+require('leap').opts.equivalence_classes = {
+  ' \t\r\n', '([{', ')]}', '\'"`'
+}
+
+-- Use the traversal keys to repeat the previous motion without
+-- explicitly invoking Leap:
+require('leap.user').set_repeat_keys('<enter>', '<backspace>')
 EOF
 
 " [ntpeters/vim-better-whitespace]
@@ -490,13 +518,6 @@ EOF
 " [notjedi/nvim-rooter.lua]
 lua << EOF
 require'nvim-rooter'.setup()
-EOF
-
-" [terrortylor/nvim-comment]
-lua << EOF
-require('nvim_comment').setup({
-    comment_empty = false
-})
 EOF
 
 " [ethanholz/nvim-lastplace]
@@ -597,7 +618,19 @@ EOF
 " https://github.com/nvim-zh/colorful-winsep.nvim
 lua << EOF
 require('colorful-winsep').setup({
-    symbols = {"─", "│", "┌", "┐", "└", "┘"},
+    border = "rounded",
+    indicator_for_2wins = {
+        symbols = {
+            start_left  = "→",
+            end_left    = "→",
+            start_down  = "↑",
+            end_down    = "↑",
+            start_up    = "↓",
+            end_up      = "↓",
+            start_right = "←",
+            end_right   = "←",
+        },
+    },
 })
 EOF
 
@@ -608,14 +641,13 @@ lua << EOF
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-local lspconfig = require('lspconfig')
-
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 for _, lsp in ipairs(MY_LSP_SERVER_LIST) do
-    lspconfig[lsp].setup {
+    vim.lsp.config(lsp, {
         on_attach = MY_CUSTOM_ON_ATTACH,
         capabilities = capabilities,
-    }
+    })
+    vim.lsp.enable(lsp)
 end
 
 -- luasnip setup
@@ -672,16 +704,29 @@ lua << EOF
 require "lsp_signature".setup {}
 EOF
 
-" [WhoIsSethDaniel/toggle-lsp-diagnostics.nvim]
-" https://github.com/WhoIsSethDaniel/toggle-lsp-diagnostics.nvim
+" [vim.diagnostics]
+" https://neovim.io/doc/user/diagnostic.html
 lua << EOF
--- turn off lsp diagnostics by default
-require'toggle_lsp_diagnostics'.init({ start_on = false })
+vim.diagnostic.config({virtual_text = false, signs = true, underline = true })
 EOF
 
 " *************************************************************************
 " extra functions
 " *************************************************************************
+
+function! ToggleDiag()
+lua << EOF
+    vim.g._diag_state = (vim.g._diag_state or 0) % 3 + 1
+
+    local cfg = {
+        [1] = { virtual_text = false, signs = false, underline = false },
+        [2] = { virtual_text = false, signs = true,  underline = true  },
+        [3] = { virtual_text = true,  signs = true,  underline = true  },
+    }
+
+    vim.diagnostic.config(cfg[vim.g._diag_state])
+EOF
+endfunction
 
 " my wrapper for [sakhnik/nvim-gdb]
 function! GdbStartAuto()
@@ -772,7 +817,7 @@ nnoremap <leader>a :Telescope grep_string<CR>
 nnoremap <leader>A :Telescope live_grep<CR>
 
 " toggle LSP diagnostics
-nnoremap <leader>d :ToggleDiag<CR>
+nnoremap <leader>d :call ToggleDiag()<CR>
 
 " toggle pwd between the repo's root and the dir of current file
 nnoremap <leader>r :RooterToggle<CR>
