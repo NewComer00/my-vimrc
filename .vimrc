@@ -34,6 +34,9 @@ if has('termguicolors')
     set termguicolors
 endif
 
+" increase max size of registers
+set viminfo='50,<10000,s10000
+
 set cursorline
 
 " to enable backspace key
@@ -415,6 +418,8 @@ else
 endif
 
 " vim-scripts/YankRing.vim
+" unlimited elem length
+let g:yankring_max_element_length = 0
 " to avoid <C-p> collision with the ctrlp plugin
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'

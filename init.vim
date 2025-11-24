@@ -29,6 +29,9 @@ set encoding=utf8
 " https://vi.stackexchange.com/a/2163
 set backspace=indent,eol,start
 
+" increase max size of registers
+set viminfo=!,'50,<10000,s10000
+
 set cursorline
 
 set novisualbell
@@ -403,6 +406,8 @@ END
 " make it compatible for neovim
 " https://github.com/neovim/neovim/issues/2642#issuecomment-218232937
 let g:yankring_clipboard_monitor = 0
+" unlimited elem length
+let g:yankring_max_element_length = 0
 " to avoid <C-p> collision with the ctrlp plugin
 let g:yankring_replace_n_pkey = '<m-p>'
 let g:yankring_replace_n_nkey = '<m-n>'
