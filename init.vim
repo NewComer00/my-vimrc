@@ -535,6 +535,26 @@ require'nvim-lastplace'.setup {
 EOF
 
 " [christoomey/vim-system-copy]
+lua << EOF
+-- disable neovim clipboard and osc52 support, we use plugins to handle them
+-- TODO: we'll wait until neovim clipboard is stable and loaded faster...
+-- https://github.com/neovim/neovim/issues/28776
+local termfeatures = vim.g.termfeatures or {}
+termfeatures.osc52 = false
+vim.g.termfeatures = termfeatures
+-- https://github.com/neovim/neovim/issues/14280
+vim.g.clipboard = {
+  name = "void",
+  copy = {
+    ["+"] = function() return true end,
+    ["*"] = function() return true end,
+  },
+  paste = {
+    ["+"] = function() return {} end,
+    ["*"] = function() return {} end,
+  },
+}
+EOF
 let g:system_copy_enable_osc52 = 1
 if has('win32') && executable('powershell')
     " force cmd.exe to use utf-8 encoding
@@ -621,6 +641,13 @@ EOF
 
 " [nvim-zh/colorful-winsep.nvim]
 " https://github.com/nvim-zh/colorful-winsep.nvim
+augroup ColorfulWinsepLazy
+    autocmd!
+    " a work-around for lazy loading on event WinLeave
+    autocmd WinLeave * ++once nested call s:ColorfulWinsepInit()
+augroup END
+
+function! s:ColorfulWinsepInit() abort
 lua << EOF
 require('colorful-winsep').setup({
     border = "rounded",
@@ -638,6 +665,7 @@ require('colorful-winsep').setup({
     },
 })
 EOF
+endfunction
 
 " [neovim/nvim-lspconfig] auto-completion settings
 " https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion
